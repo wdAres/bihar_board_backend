@@ -36,6 +36,26 @@ const userModel = sequelize.define('User', {
         allowNull: false,
         defaultValue: 'center',
     },
+    school_name: {
+        type: DataTypes.STRING,
+        allowNull: false,
+    },
+    school_level: {
+        type: DataTypes.ENUM('primary', 'secondary','senior secondary','middle'),
+        allowNull: false,
+    },
+    school_district: {
+        type: DataTypes.STRING,
+        allowNull: false,
+    },
+    school_mobile_no: {
+        type: DataTypes.STRING,
+        allowNull: false,
+    },
+    school_pincode: {
+        type: DataTypes.STRING,
+        allowNull: false,
+    },
     createdAt: {
         type: DataTypes.DATE,
         defaultValue: DataTypes.NOW,
