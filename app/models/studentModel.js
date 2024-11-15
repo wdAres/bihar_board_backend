@@ -1,6 +1,6 @@
 const { DataTypes } = require('sequelize');
 const sequelize = require('../connection/db');
-const userModel = require('./userModel'); // Import the Center model
+const userModel = require('./userModel');
 
 const studentModel = sequelize.define('Student', {
     school_category: {
