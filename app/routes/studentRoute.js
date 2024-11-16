@@ -9,8 +9,8 @@ router
     .post(StudentController.createStudent) 
     // .get(protectedRoute, authorizedRoute('admin'), StudentController.getAllStudents); 
     router.get('/students', StudentController.getStudents);
-
-    // Route to get a single student by ID
+    router.get('/students/center/:centerId', StudentController.getStudentsByCenterId);
+   
     router.get('/students/:id', StudentController.getStudents);
     router.put('/students/:id', StudentController.updateStudent);
 module.exports = router;
