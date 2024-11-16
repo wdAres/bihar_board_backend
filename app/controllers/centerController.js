@@ -6,7 +6,10 @@ module.exports  = class CenterController{
         const centers = await userModel.findAll({where:{role:'center'}})
 
         res.status(200).json({
-            data:centers,
+            message:'List of all centers',
+            data:{
+                docs : centers
+            },
             status:'success'
         })
     })

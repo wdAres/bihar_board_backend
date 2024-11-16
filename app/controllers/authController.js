@@ -23,7 +23,7 @@ module.exports = class AuthController {
         res.status(200).json({
             message: 'user created successfully',
             data: newUser,
-            sucess: true
+            status:'success'
         })
 
     })
