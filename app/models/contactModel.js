@@ -1,5 +1,6 @@
 const { DataTypes } = require('sequelize');
 const sequelize = require('../connection/db'); // Make sure to replace with your actual Sequelize connection
+const paginate = require('sequelize-paginate')
 
 const ContactModal = sequelize.define('Contact', {
     name: {
@@ -25,4 +26,6 @@ const ContactModal = sequelize.define('Contact', {
     timestamps: true, // This will add createdAt and updatedAt fields
 });
 
+
+paginate.paginate(ContactModal)
 module.exports = ContactModal;

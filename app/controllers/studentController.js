@@ -80,8 +80,10 @@ module.exports = class StudentController {
                     student_category,
                     school_principal_email,
                     school_principal_mobile,
-                    center_id,
+                    // center_id,
                 } = req.body;
+
+                req.user.id ;
 
                 // File upload validation
                 const files = req.files;
@@ -137,7 +139,7 @@ module.exports = class StudentController {
                     student_category,
                     school_principal_email,
                     school_principal_mobile,
-                    center_id,
+                    center_id:req.user.id,
                     student_photo: files.student_photo ? files.student_photo[0].path : null,
                     student_signature: files.student_signature ? files.student_signature[0].path : null,
                     parent_signature: files.parent_signature ? files.parent_signature[0].path : null,

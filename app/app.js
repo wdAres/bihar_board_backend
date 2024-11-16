@@ -4,6 +4,7 @@ const sequelize = require('./connection/db')
 const ErrorController = require('./controllers/errorController');
 const authRouter = require('./routes/authRoute')
 const contactRouter = require('./routes/contactRoute')
+const centerRouter = require('./routes/centerRoute')
 const studentRouter = require('./routes/studentRoute')
 const cors = require('cors')
 // TO PARSE JSON BODY

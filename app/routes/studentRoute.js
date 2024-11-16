@@ -2,6 +2,8 @@ const StudentController = require('../controllers/studentController');
 const { protectedRoute, authorizedRoute } = require('../utils/handleToken');
 const router = require('express').Router();
 
+router.use(protectedRoute,authorizedRoute('admin','center'))
+
 router
     .route('/students')
     .post(StudentController.createStudent) 
