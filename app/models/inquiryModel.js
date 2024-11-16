@@ -1,5 +1,6 @@
 const { DataTypes } = require('sequelize');
 const sequelize = require('../connection/db'); // Make sure to replace with your actual Sequelize connection
+const paginate = require('sequelize-paginate')
 
 const inquiryModal = sequelize.define('Inquiry', {
     name: {
@@ -21,4 +22,6 @@ const inquiryModal = sequelize.define('Inquiry', {
     timestamps: true, // This will add createdAt and updatedAt fields
 });
 
+paginate.paginate(inquiryModal)
 module.exports = inquiryModal;
+// koi nahi  but please notice wala and baaki apis thoda jaldi kardo time nahi hai

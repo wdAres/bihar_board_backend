@@ -2,7 +2,7 @@ const multer = require('multer');
 const path = require('path');
 const fs = require('fs');
 const studentModel = require('../models/studentModel');
-
+const ResponseClass = require('../utils/ResponseClass')
 const ErrorClass = require('../utils/errorClass');
 const handleAsync = require("../utils/handleAsync");
 
@@ -83,6 +83,8 @@ module.exports = class StudentController {
                     // center_id,
                 } = req.body;
 
+                console.log(req.user)
+
                 req.user.id ;
 
                 // File upload validation
@@ -152,7 +154,7 @@ module.exports = class StudentController {
                 if (!newStudent) {
                     return next(new ErrorClass('Failed to create student record!', 400));
                 }
-
+                // return new ResponseClass('Student record created successfully!', 200, newStudent).send(res)
                 res.status(201).json({
                     message: 'Student record created successfully!',
                     status: 'success',
@@ -181,26 +183,26 @@ module.exports = class StudentController {
                         status: 'error',
                     });
                 }
-
-                return res.status(200).json({
-                    message: 'Student record retrieved successfully!',
-                    status: 'success',
-                    data: {
-                        student,
-                    },
-                });
+                return new ResponseClass('Student record retrieved successfully!', 200, student).send(res)
+                // return res.status(200).json({
+                //     message: 'Student record retrieved successfully!',
+                //     status: 'success',
+                //     data: {
+                //         student,
+                //     },
+                // });
             }
 
             // Fetch all student records
             const students = await studentModel.findAll();
-
-            res.status(200).json({
-                message: 'All student records retrieved successfully!',
-                status: 'success',
-                data: {
-                    students,
-                },
-            });
+            return new ResponseClass('All student records retrieved successfully!', 200, students).send(res)
+            // res.status(200).json({
+            //     message: 'All student records retrieved successfully!',
+            //     status: 'success',
+            //     data: {
+            //         students,
+            //     },
+            // });
         } catch (error) {
             console.error(error);
             res.status(500).json({
@@ -333,13 +335,15 @@ static updateStudent = [
                 return next(new ErrorClass('Failed to update student record!', 400));
             }
 
-            res.status(200).json({
-                message: 'Student record updated successfully!',
-                status: 'success',
-                data: {
-                    student: updatedStudent,
-                },
-            });
+
+            return new ResponseClass('Student record updated successfully!', 200, updatedStudent).send(res)
+            // res.status(200).json({
+            //     message: 'Student record updated successfully!',
+            //     status: 'success',
+            //     data: {
+            //         student: updatedStudent,
+            //     },
+            // });
         } catch (error) {
             next(new ErrorClass(error.message || 'Something went wrong!', 500));
         }
