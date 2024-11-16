@@ -1,7 +1,7 @@
 const { DataTypes } = require('sequelize');
 const sequelize = require('../connection/db');
 const bcrypt = require('bcryptjs');
-
+const paginate = require('sequelize-paginate')
 const userModel = sequelize.define('User', {
     id: {
         type: DataTypes.INTEGER,
@@ -88,5 +88,5 @@ const userModel = sequelize.define('User', {
 userModel.prototype.comparePassword = async function (candidatePassword) {
    return  await bcrypt.compare(candidatePassword, this.password);
 }
-
+paginate.paginate(userModel)
 module.exports = userModel;

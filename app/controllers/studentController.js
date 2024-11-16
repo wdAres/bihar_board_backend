@@ -154,14 +154,14 @@ module.exports = class StudentController {
                 if (!newStudent) {
                     return next(new ErrorClass('Failed to create student record!', 400));
                 }
-                // return new ResponseClass('Student record created successfully!', 200, newStudent).send(res)
-                res.status(201).json({
-                    message: 'Student record created successfully!',
-                    status: 'success',
-                    data: {
-                        student: newStudent,
-                    },
-                });
+                return new ResponseClass('Student record created successfully!', 200, newStudent).send(res)
+                // res.status(201).json({
+                //     message: 'Student record created successfully!',
+                //     status: 'success',
+                //     data: {
+                //         student: newStudent,
+                //     },
+                // });
             } catch (error) {
                 next(new ErrorClass(error.message || 'Something went wrong!', 500));
             }

@@ -12,13 +12,7 @@ module.exports = class InquiryController {
            return next(new ErrorClass('something went wrong!', 400))
         }
 
-        // res.status(200).json({
-        //     message: 'We will rwach soon!',
-        //     status: 'success',
-        //     data: {
-        //         inquiry
-        //     }
-        // })
+       
         return new ResponseClass('Thank you for inquiry', 200, inquiry).send(res)
     })
 
