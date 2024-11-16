@@ -5,17 +5,16 @@ const studentModel = require('../models/studentModel');
 const ResponseClass = require('../utils/ResponseClass')
 const ErrorClass = require('../utils/errorClass');
 const handleAsync = require("../utils/handleAsync");
+const handlePagination = require('../utils/handlePagination')
 
-// Ensure 'uploads/' directory exists
 const uploadDir = path.join(__dirname, '../uploads');
 if (!fs.existsSync(uploadDir)) {
     fs.mkdirSync(uploadDir, { recursive: true });
 }
 
-// Configure Multer for file uploads
 const storage = multer.diskStorage({
     destination: (req, file, cb) => {
-        cb(null, uploadDir); // Folder to store uploaded files
+        cb(null, uploadDir);
     },
     filename: (req, file, cb) => {
         cb(null, `${Date.now()}-${file.originalname}`);
@@ -49,7 +48,7 @@ module.exports = class StudentController {
         ]),
         handleAsync(async (req, res, next) => {
             try {
-                // Destructure request body
+
                 const {
                     school_category,
                     school_name,
@@ -85,7 +84,7 @@ module.exports = class StudentController {
 
                 console.log(req.user)
 
-                req.user.id ;
+                req.user.id;
 
                 // File upload validation
                 const files = req.files;
@@ -100,7 +99,7 @@ module.exports = class StudentController {
                 if (existingStudentByEmail) {
                     return next(new ErrorClass('A student with this email already exists!', 400));
                 }
-                
+
                 const existingStudentBymobile = await studentModel.findOne({ where: { student_mobile_number } });
                 if (existingStudentBymobile) {
                     return next(new ErrorClass('A student with this mobile no already exists!', 400));
@@ -141,7 +140,7 @@ module.exports = class StudentController {
                     student_category,
                     school_principal_email,
                     school_principal_mobile,
-                    center_id:req.user.id,
+                    center_id: req.user.id,
                     student_photo: files.student_photo ? files.student_photo[0].path : null,
                     student_signature: files.student_signature ? files.student_signature[0].path : null,
                     parent_signature: files.parent_signature ? files.parent_signature[0].path : null,
@@ -154,14 +153,14 @@ module.exports = class StudentController {
                 if (!newStudent) {
                     return next(new ErrorClass('Failed to create student record!', 400));
                 }
-                // return new ResponseClass('Student record created successfully!', 200, newStudent).send(res)
-                res.status(201).json({
-                    message: 'Student record created successfully!',
-                    status: 'success',
-                    data: {
-                        student: newStudent,
-                    },
-                });
+                return new ResponseClass('Student record created successfully!', 200, newStudent).send(res)
+                // res.status(201).json({
+                //     message: 'Student record created successfully!',
+                //     status: 'success',
+                //     data: {
+                //         student: newStudent,
+                //     },
+                // });
             } catch (error) {
                 next(new ErrorClass(error.message || 'Something went wrong!', 500));
             }
@@ -171,10 +170,10 @@ module.exports = class StudentController {
     // Get student records
     static getStudents = async (req, res, next) => {
         try {
-            const { id } = req.params; // Get student ID from the route parameters
+            const { id } = req.params;
 
             if (id) {
-                // Fetch a single student record by ID
+
                 const student = await studentModel.findOne({ where: { id } });
 
                 if (!student) {
@@ -184,25 +183,61 @@ module.exports = class StudentController {
                     });
                 }
                 return new ResponseClass('Student record retrieved successfully!', 200, student).send(res)
-                // return res.status(200).json({
-                //     message: 'Student record retrieved successfully!',
-                //     status: 'success',
-                //     data: {
-                //         student,
-                //     },
-                // });
+
             }
 
-            // Fetch all student records
             const students = await studentModel.findAll();
-            return new ResponseClass('All student records retrieved successfully!', 200, students).send(res)
-            // res.status(200).json({
-            //     message: 'All student records retrieved successfully!',
-            //     status: 'success',
-            //     data: {
-            //         students,
-            //     },
-            // });
+            const page = parseInt(req.query.page, 10) || 1;
+            const limit = parseInt(req.query.limit, 10) || 10;
+
+
+            const { docs, pages, total, limit: paginationLimit } = await studentModel.paginate({ page, paginate: limit });
+
+
+            const paginationData = handlePagination({ page, pages, total, limit: paginationLimit });
+            return new ResponseClass('All student records retrieved successfully!', 200, { docs, ...paginationData }).send(res)
+
+        } catch (error) {
+            console.error(error);
+            res.status(500).json({
+                message: error.message || 'Something went wrong!',
+                status: 'error',
+            });
+        }
+    };
+
+    //get student by center id
+
+    static getStudentsByCenterId = async (req, res, next) => {
+        try {
+            const { centerId } = req.params;
+
+            if (centerId) {
+
+                const students = await studentModel.findAll({ where: { center_id: centerId } });
+
+                if (!students || students.length === 0) {
+                    return res.status(404).json({
+                        message: 'No students found for this center!',
+                        status: 'error',
+                    });
+                }
+                const page = parseInt(req.query.page, 10) || 1;
+                const limit = parseInt(req.query.limit, 10) || 10;
+
+
+                const { docs, pages, total, limit: paginationLimit } = await studentModel.paginate({ page, paginate: limit, where: { center_id: centerId } });
+
+
+                const paginationData = handlePagination({ page, pages, total, limit: paginationLimit });
+                return new ResponseClass('All student records retrieved successfully!', 200, { docs, ...paginationData }).send(res)
+
+                // return new ResponseClass('Student records retrieved successfully for this center!', 200, students).send(res);
+            }
+
+            const students = await studentModel.findAll();
+            return new ResponseClass('All student records retrieved successfully!', 200, students).send(res);
+
         } catch (error) {
             console.error(error);
             res.status(500).json({
@@ -213,141 +248,141 @@ module.exports = class StudentController {
     };
 
     // Update an existing student record
-static updateStudent = [
-    upload.fields([
-        { name: 'student_photo', maxCount: 1 },
-        { name: 'student_signature', maxCount: 1 },
-        { name: 'parent_signature', maxCount: 1 },
-        { name: 'center_signature', maxCount: 1 },
-        { name: 'school_principal_signature', maxCount: 1 },
-    ]),
-    handleAsync(async (req, res, next) => {
-        try {
-            const { id } = req.params; // Get student ID from the route parameters
-            if (!id) {
-                return next(new ErrorClass('Student ID is required!', 400));
+    static updateStudent = [
+        upload.fields([
+            { name: 'student_photo', maxCount: 1 },
+            { name: 'student_signature', maxCount: 1 },
+            { name: 'parent_signature', maxCount: 1 },
+            { name: 'center_signature', maxCount: 1 },
+            { name: 'school_principal_signature', maxCount: 1 },
+        ]),
+        handleAsync(async (req, res, next) => {
+            try {
+                const { id } = req.params;
+                if (!id) {
+                    return next(new ErrorClass('Student ID is required!', 400));
+                }
+
+                const {
+                    school_category,
+                    school_name,
+                    school_address,
+                    school_pincode,
+                    center_name,
+                    center_address,
+                    student_name,
+                    student_father_name,
+                    student_mother_name,
+                    dob_in_figures,
+                    dob_in_words,
+                    additional_subject,
+                    gender,
+                    caste_category,
+                    student_address_mohalla,
+                    student_address_po,
+                    student_address_sub_div,
+                    student_address_pin,
+                    student_address_ps,
+                    student_address_dist,
+                    student_email,
+                    student_mobile_number,
+                    student_aadhar_number,
+                    nationality,
+                    religion,
+                    handicapped,
+                    student_category,
+                    school_principal_email,
+                    school_principal_mobile,
+                    center_id,
+                } = req.body;
+
+                // File upload validation
+                const files = req.files;
+
+                // Check if required fields are present
+                if (!student_email || !student_mobile_number || !student_aadhar_number) {
+                    return next(new ErrorClass('Email, Mobile number, and Aadhar number are required!', 400));
+                }
+
+                // Check if student already exists by email or Aadhar number
+                const existingStudentByEmail = await studentModel.findOne({
+                    where: { student_email, id: { [Op.ne]: id } }, // Exclude current student
+                });
+                if (existingStudentByEmail) {
+                    return next(new ErrorClass('A student with this email already exists!', 400));
+                }
+
+                const existingStudentByAadhar = await studentModel.findOne({
+                    where: { student_aadhar_number, id: { [Op.ne]: id } }, // Exclude current student
+                });
+                if (existingStudentByAadhar) {
+                    return next(new ErrorClass('A student with this Aadhar number already exists!', 400));
+                }
+
+                // Fetch the student record to update
+                const student = await studentModel.findOne({ where: { id } });
+                if (!student) {
+                    return next(new ErrorClass('Student not found!', 404));
+                }
+
+                // Update student record with new data
+                const updatedStudent = await student.update({
+                    school_category,
+                    school_name,
+                    school_address,
+                    school_pincode,
+                    center_name,
+                    center_address,
+                    student_name,
+                    student_father_name,
+                    student_mother_name,
+                    dob_in_figures,
+                    dob_in_words,
+                    additional_subject,
+                    gender,
+                    caste_category,
+                    student_address_mohalla,
+                    student_address_po,
+                    student_address_sub_div,
+                    student_address_pin,
+                    student_address_ps,
+                    student_address_dist,
+                    student_email,
+                    student_mobile_number,
+                    student_aadhar_number,
+                    nationality,
+                    religion,
+                    handicapped,
+                    student_category,
+                    school_principal_email,
+                    school_principal_mobile,
+                    center_id,
+                    student_photo: files.student_photo ? files.student_photo[0].path : student.student_photo,
+                    student_signature: files.student_signature ? files.student_signature[0].path : student.student_signature,
+                    parent_signature: files.parent_signature ? files.parent_signature[0].path : student.parent_signature,
+                    center_signature: files.center_signature ? files.center_signature[0].path : student.center_signature,
+                    school_principal_signature: files.school_principal_signature
+                        ? files.school_principal_signature[0].path
+                        : student.school_principal_signature,
+                });
+
+                if (!updatedStudent) {
+                    return next(new ErrorClass('Failed to update student record!', 400));
+                }
+
+
+                return new ResponseClass('Student record updated successfully!', 200, updatedStudent).send(res)
+                // res.status(200).json({
+                //     message: 'Student record updated successfully!',
+                //     status: 'success',
+                //     data: {
+                //         student: updatedStudent,
+                //     },
+                // });
+            } catch (error) {
+                next(new ErrorClass(error.message || 'Something went wrong!', 500));
             }
-
-            const {
-                school_category,
-                school_name,
-                school_address,
-                school_pincode,
-                center_name,
-                center_address,
-                student_name,
-                student_father_name,
-                student_mother_name,
-                dob_in_figures,
-                dob_in_words,
-                additional_subject,
-                gender,
-                caste_category,
-                student_address_mohalla,
-                student_address_po,
-                student_address_sub_div,
-                student_address_pin,
-                student_address_ps,
-                student_address_dist,
-                student_email,
-                student_mobile_number,
-                student_aadhar_number,
-                nationality,
-                religion,
-                handicapped,
-                student_category,
-                school_principal_email,
-                school_principal_mobile,
-                center_id,
-            } = req.body;
-
-            // File upload validation
-            const files = req.files;
-
-            // Check if required fields are present
-            if (!student_email || !student_mobile_number || !student_aadhar_number) {
-                return next(new ErrorClass('Email, Mobile number, and Aadhar number are required!', 400));
-            }
-
-            // Check if student already exists by email or Aadhar number
-            const existingStudentByEmail = await studentModel.findOne({
-                where: { student_email, id: { [Op.ne]: id } }, // Exclude current student
-            });
-            if (existingStudentByEmail) {
-                return next(new ErrorClass('A student with this email already exists!', 400));
-            }
-
-            const existingStudentByAadhar = await studentModel.findOne({
-                where: { student_aadhar_number, id: { [Op.ne]: id } }, // Exclude current student
-            });
-            if (existingStudentByAadhar) {
-                return next(new ErrorClass('A student with this Aadhar number already exists!', 400));
-            }
-
-            // Fetch the student record to update
-            const student = await studentModel.findOne({ where: { id } });
-            if (!student) {
-                return next(new ErrorClass('Student not found!', 404));
-            }
-
-            // Update student record with new data
-            const updatedStudent = await student.update({
-                school_category,
-                school_name,
-                school_address,
-                school_pincode,
-                center_name,
-                center_address,
-                student_name,
-                student_father_name,
-                student_mother_name,
-                dob_in_figures,
-                dob_in_words,
-                additional_subject,
-                gender,
-                caste_category,
-                student_address_mohalla,
-                student_address_po,
-                student_address_sub_div,
-                student_address_pin,
-                student_address_ps,
-                student_address_dist,
-                student_email,
-                student_mobile_number,
-                student_aadhar_number,
-                nationality,
-                religion,
-                handicapped,
-                student_category,
-                school_principal_email,
-                school_principal_mobile,
-                center_id,
-                student_photo: files.student_photo ? files.student_photo[0].path : student.student_photo,
-                student_signature: files.student_signature ? files.student_signature[0].path : student.student_signature,
-                parent_signature: files.parent_signature ? files.parent_signature[0].path : student.parent_signature,
-                center_signature: files.center_signature ? files.center_signature[0].path : student.center_signature,
-                school_principal_signature: files.school_principal_signature
-                    ? files.school_principal_signature[0].path
-                    : student.school_principal_signature,
-            });
-
-            if (!updatedStudent) {
-                return next(new ErrorClass('Failed to update student record!', 400));
-            }
-
-
-            return new ResponseClass('Student record updated successfully!', 200, updatedStudent).send(res)
-            // res.status(200).json({
-            //     message: 'Student record updated successfully!',
-            //     status: 'success',
-            //     data: {
-            //         student: updatedStudent,
-            //     },
-            // });
-        } catch (error) {
-            next(new ErrorClass(error.message || 'Something went wrong!', 500));
-        }
-    }),
-];
+        }),
+    ];
 
 };

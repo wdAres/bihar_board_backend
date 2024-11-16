@@ -1,6 +1,6 @@
 const { DataTypes, Sequelize } = require('sequelize');
 const sequelize = require('../connection/db'); // Replace with your actual Sequelize connection
-
+const paginate = require('sequelize-paginate')
 const noticeModel = sequelize.define('Notice', {
     label: {
         type: DataTypes.STRING,
@@ -21,5 +21,5 @@ const noticeModel = sequelize.define('Notice', {
         }
     }
 });
-
+paginate.paginate(noticeModel)
 module.exports = noticeModel;

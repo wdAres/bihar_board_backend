@@ -1,7 +1,7 @@
 const { DataTypes } = require('sequelize');
 const sequelize = require('../connection/db');
 const userModel = require('./userModel');
-
+const paginate = require('sequelize-paginate')
 const studentModel = sequelize.define('Student', {
     school_category: {
         type: DataTypes.ENUM('429', '223', '3776', '711', '69'),
@@ -163,5 +163,5 @@ const studentModel = sequelize.define('Student', {
 
 userModel.hasMany(studentModel, { foreignKey: 'center_id' });
 studentModel.belongsTo(userModel, { foreignKey: 'center_id' });
-
+paginate.paginate(studentModel)
 module.exports = studentModel;

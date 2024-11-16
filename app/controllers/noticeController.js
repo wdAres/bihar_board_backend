@@ -60,14 +60,18 @@ module.exports = class NoticeController {
 
     // Get all notices
     static getAllNotices = handleAsync(async (req, res, next) => {
-        const notices = await noticeModel.findAll();
-        res.status(200).json({
-            message: 'All notices retrieved successfully!',
-            status: 'success',
-            data: {
-                notices,
-            },
-        });
+        // const notices = await noticeModel.findAll();
+        const page = parseInt(req.query.page, 10) || 1;
+        const limit = parseInt(req.query.limit, 10) || 10;
+
+        const { docs, pages, total, limit: paginationLimit } = await noticeModel.paginate({ page, paginate:limit });
+
+
+        const paginationData = handlePagination({ page, pages, total, limit: paginationLimit });
+
+
+        return new ResponseClass('All notice data', 200, { docs, ...paginationData }).send(res)
+        
     });
 
     // Get a single notice by ID
