@@ -89,14 +89,18 @@ const studentModel = sequelize.define('Student', {
         validate: {
             isEmail: true,
         },
+       
+        unique: true,
     },
     student_mobile_number: {
         type: DataTypes.STRING,
         allowNull: false,
+        unique: true,
     },
     student_aadhar_number: {
         type: DataTypes.STRING,
         allowNull: false,
+        unique: true,
     },
     nationality: {
         type: DataTypes.ENUM('indian', 'others'),
@@ -107,7 +111,7 @@ const studentModel = sequelize.define('Student', {
         allowNull: false,
     },
     handicapped: {
-        type: DataTypes.ENUM('blind', 'deaf', 'physically handicapped', 'dystixc', 'spastic'),
+        type: DataTypes.ENUM('blind', 'deaf', 'physically handicapped', 'dystixc', 'spastic','none'),
         allowNull: false,
     },
     student_category: {
@@ -157,7 +161,7 @@ const studentModel = sequelize.define('Student', {
     timestamps: true,
 });
 
-Center.hasMany(studentModel, { foreignKey: 'center_id' });
-studentModel.belongsTo(Center, { foreignKey: 'center_id' });
+userModel.hasMany(studentModel, { foreignKey: 'center_id' });
+studentModel.belongsTo(userModel, { foreignKey: 'center_id' });
 
 module.exports = studentModel;
