@@ -41,7 +41,7 @@ const studentModel = sequelize.define('Student', {
     },
     dob_in_figures: {
         type: DataTypes.DATE,
-        // allowNull: false,
+        allowNull: true,
     },
     dob_in_words: {
         type: DataTypes.STRING,
