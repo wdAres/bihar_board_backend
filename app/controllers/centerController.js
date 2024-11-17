@@ -8,21 +8,14 @@ module.exports  = class CenterController{
         const page = parseInt(req.query.page, 10) || 1;
         const limit = parseInt(req.query.limit, 10) || 10;
 
-        // Paginate the users
-        const { docs, pages, total, limit: paginationLimit } = await userModel.paginate({ page, paginate:limit,where: { role: 'center' }, });
+        const { docs, pages, total, limit: paginationLimit } = await userModel.paginate({ page, paginate:limit,where: { role: 'center' },order: [['createdAt', 'DESC']],  });
 
 
         const paginationData = handlePagination({ page, pages, total, limit: paginationLimit });
 
 
         return new ResponseClass('All inquiry data', 200, { docs, ...paginationData }).send(res)
-        // res.status(200).json({
-        //     message:'List of all centers',
-        //     data:{
-        //         docs : centers
-        //     },
-        //     status:'success'
-        // })
+        
     })
 
 

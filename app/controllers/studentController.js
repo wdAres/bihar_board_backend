@@ -68,100 +68,79 @@ module.exports = class StudentController {
         ]),
         handleAsync(async (req, res, next) => {
             try {
-                const {
-                    school_category,
-                    school_name,
-                    school_address,
-                    school_pincode,
-                    center_name,
-                    center_address,
-                    student_name,
-                    student_father_name,
-                    student_mother_name,
-                    dob_in_figures,
-                    dob_in_words,
-                    additional_subject,
-                    gender,
-                    caste_category,
-                    student_address_mohalla,
-                    student_address_po,
-                    student_address_sub_div,
-                    student_address_pin,
-                    student_address_ps,
-                    student_address_dist,
-                    student_email,
-                    student_mobile_number,
-                    student_aadhar_number,
-                    nationality,
-                    religion,
-                    handicapped,
-                    student_category,
-                    school_principal_email,
-                    school_principal_mobile,
-                } = req.body;
-    
-                const files = req.files;
+                const requiredFields = [
+                    'school_category', 'school_name', 'school_address', 'school_pincode',
+                    'center_name', 'center_address', 'student_name', 'student_father_name',
+                    'student_mother_name', 'dob_in_figures', 'dob_in_words', 'additional_subject',
+                    'gender', 'caste_category', 'student_address_mohalla', 'student_address_po',
+                    'student_address_sub_div', 'student_address_pin', 'student_address_ps',
+                    'student_address_dist', 'student_email', 'student_mobile_number',
+                    'student_aadhar_number', 'nationality', 'religion', 'handicapped',
+                    'student_category', 'school_principal_email', 'school_principal_mobile',
+                ];
+                const { body, files } = req;
     
                 const missingFields = [];
-                if (!files.student_photo) missingFields.push('student_photo');
-                if (!files.student_signature) missingFields.push('student_signature');
-                if (!files.parent_signature) missingFields.push('parent_signature');
-                if (!files.center_signature) missingFields.push('center_signature');
-                if (!files.school_principal_signature) missingFields.push('school_principal_signature');
+                const spaceInvalidFields = [];
+    
+                requiredFields.forEach((field) => {
+                    if (!body[field]) {
+                        missingFields.push(field);
+                    } else if (body[field].trim() !== body[field]) {
+                        spaceInvalidFields.push(field);
+                    }
+                });
     
                 if (missingFields.length > 0) {
                     return next(new ErrorClass(`Missing required fields: ${missingFields.join(', ')}`, 400));
                 }
     
-                if (!student_email || !student_mobile_number || !student_aadhar_number) {
-                    return next(new ErrorClass('Email, Mobile number, and Aadhar number are required!', 400));
+                if (spaceInvalidFields.length > 0) {
+                    return next(
+                        new ErrorClass(
+                            `Spaces not allowed at the beginning or end of the following fields: ${spaceInvalidFields.join(
+                                ', '
+                            )}`,
+                            400
+                        )
+                    );
                 }
+   
+                const requiredFiles = [
+                    'student_photo', 'student_signature', 'parent_signature',
+                    'center_signature', 'school_principal_signature',
+                ];
+                const missingFiles = requiredFiles.filter((file) => !files[file]);
     
-                const existingStudentByEmail = await studentModel.findOne({ where: { student_email } });
-                if (existingStudentByEmail) {
-                    return next(new ErrorClass('A student with this email already exists!', 400));
+                if (missingFiles.length > 0) {
+                    return next(new ErrorClass(`Missing required files: ${missingFiles.join(', ')}`, 400));
                 }
-    
-                const existingStudentByMobile = await studentModel.findOne({ where: { student_mobile_number } });
-                if (existingStudentByMobile) {
-                    return next(new ErrorClass('A student with this mobile number already exists!', 400));
+
+                if (!/^\d{10}$/.test(body.student_mobile_number)) {
+                    return next(new ErrorClass('Student mobile number must be exactly 10 digits and contain only numbers.', 400));
                 }
+                if (!/^\d{12}$/.test(body.student_aadhar_number)) {
+                    return next(new ErrorClass('Student aadhar number must be exactly 12 digits and contain only numbers.', 400));
+                }
+                const duplicateChecks = [
+                    { field: 'student_email', value: body.student_email },
+                    { field: 'student_mobile_number', value: body.student_mobile_number },
+                    { field: 'student_aadhar_number', value: body.student_aadhar_number },
+                ];
     
-                const existingStudentByAadhar = await studentModel.findOne({ where: { student_aadhar_number } });
-                if (existingStudentByAadhar) {
-                    return next(new ErrorClass('A student with this Aadhar number already exists!', 400));
+                for (const check of duplicateChecks) {
+                    const existing = await studentModel.findOne({ where: { [check.field]: check.value } });
+                    if (existing) {
+                        return next(
+                            new ErrorClass(`A student with this ${check.field.replace('_', ' ')} already exists!`, 400)
+                        );
+                    }
                 }
     
                 const newStudent = await studentModel.create({
-                    school_category,
-                    school_name,
-                    school_address,
-                    school_pincode,
-                    center_name,
-                    center_address,
-                    student_name,
-                    student_father_name,
-                    student_mother_name,
-                    dob_in_figures,
-                    dob_in_words,
-                    additional_subject,
-                    gender,
-                    caste_category,
-                    student_address_mohalla,
-                    student_address_po,
-                    student_address_sub_div,
-                    student_address_pin,
-                    student_address_ps,
-                    student_address_dist,
-                    student_email,
-                    student_mobile_number,
-                    student_aadhar_number,
-                    nationality,
-                    religion,
-                    handicapped,
-                    student_category,
-                    school_principal_email,
-                    school_principal_mobile,
+                    ...Object.fromEntries(
+                        Object.entries(body).map(([key, value]) => [key, value.trim()])
+                    ), 
                     center_id: req.user.id,
                     student_photo: files.student_photo[0].path,
                     student_signature: files.student_signature[0].path,
@@ -182,44 +161,43 @@ module.exports = class StudentController {
     ];
     
 
-    // Get student records
     static getStudents = async (req, res, next) => {
-        try {
-            const { id } = req.params;
+    try {
+        const { id } = req.params;
 
-            if (id) {
+        if (id) {
+            const student = await studentModel.findOne({ where: { id } });
 
-                const student = await studentModel.findOne({ where: { id } });
-
-                if (!student) {
-                    return res.status(404).json({
-                        message: 'Student not found!',
-                        status: 'error',
-                    });
-                }
-                return new ResponseClass('Student record retrieved successfully!', 200, student).send(res)
-
+            if (!student) {
+                return res.status(404).json({
+                    message: 'Student not found!',
+                    status: 'error',
+                });
             }
-
-            const students = await studentModel.findAll();
-            const page = parseInt(req.query.page, 10) || 1;
-            const limit = parseInt(req.query.limit, 10) || 10;
-
-
-            const { docs, pages, total, limit: paginationLimit } = await studentModel.paginate({ page, paginate: limit });
-
-
-            const paginationData = handlePagination({ page, pages, total, limit: paginationLimit });
-            return new ResponseClass('All student records retrieved successfully!', 200, { docs, ...paginationData }).send(res)
-
-        } catch (error) {
-            console.error(error);
-            res.status(500).json({
-                message: error.message || 'Something went wrong!',
-                status: 'error',
-            });
+            return new ResponseClass('Student record retrieved successfully!', 200, student).send(res);
         }
-    };
+
+        const page = parseInt(req.query.page, 10) || 1;
+        const limit = parseInt(req.query.limit, 10) || 10;
+
+        // Fetch students with pagination and descending order
+        const { docs, pages, total, limit: paginationLimit } = await studentModel.paginate({
+            page,
+            paginate: limit,
+            order: [['createdAt', 'DESC']], 
+        });
+
+        const paginationData = handlePagination({ page, pages, total, limit: paginationLimit });
+        return new ResponseClass('All student records retrieved successfully!', 200, { docs, ...paginationData }).send(res);
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({
+            message: error.message || 'Something went wrong!',
+            status: 'error',
+        });
+    }
+};
+
 
     //get student by center id
 
@@ -241,7 +219,7 @@ module.exports = class StudentController {
                 const limit = parseInt(req.query.limit, 10) || 10;
 
 
-                const { docs, pages, total, limit: paginationLimit } = await studentModel.paginate({ page, paginate: limit, where: { center_id: centerId } });
+                const { docs, pages, total, limit: paginationLimit } = await studentModel.paginate({ page, paginate: limit, where: { center_id: centerId },order: [['createdAt', 'DESC']],  });
 
 
                 const paginationData = handlePagination({ page, pages, total, limit: paginationLimit });
@@ -262,7 +240,7 @@ module.exports = class StudentController {
         }
     };
 
-    // Update an existing student record
+   
     static updateStudent = [
         upload.fields([
             { name: 'student_photo', maxCount: 1 },

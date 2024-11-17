@@ -1,5 +1,5 @@
 const { DataTypes } = require('sequelize');
-const sequelize = require('../connection/db'); // Make sure to replace with your actual Sequelize connection
+const sequelize = require('../connection/db'); 
 const paginate = require('sequelize-paginate')
 
 const inquiryModal = sequelize.define('Inquiry', {
@@ -11,17 +11,25 @@ const inquiryModal = sequelize.define('Inquiry', {
         type: DataTypes.STRING,
         allowNull: false,
         validate: {
-            isEmail: true, // Ensures the email is valid
+            isEmail: true, 
         },
+    },
+    phone: {
+        type: DataTypes.STRING,
+        allowNull: false,
+    },
+    subject: {
+        type: DataTypes.STRING,
+        allowNull: false,
     },
     message: {
         type: DataTypes.TEXT,
         allowNull: false,
     },
 }, {
-    timestamps: true, // This will add createdAt and updatedAt fields
+    timestamps: true, 
 });
 
 paginate.paginate(inquiryModal)
 module.exports = inquiryModal;
-// koi nahi  but please notice wala and baaki apis thoda jaldi kardo time nahi hai
+
