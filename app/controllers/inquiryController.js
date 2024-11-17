@@ -1,5 +1,5 @@
 const inquiryModel = require('../models/inquiryModel')
-const ErrorClass = require('../utils/errorClass')
+const ErrorClass = require('../utils/ErrorClass')
 const handleAsync = require("../utils/handleAsync")
 const ResponseClass = require('../utils/ResponseClass')
 const handlePagination = require('../utils/handlePagination')

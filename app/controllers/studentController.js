@@ -3,7 +3,7 @@ const path = require('path');
 const fs = require('fs');
 const studentModel = require('../models/studentModel');
 const ResponseClass = require('../utils/ResponseClass')
-const ErrorClass = require('../utils/errorClass');
+const ErrorClass = require('../utils/ErrorClass');
 const handleAsync = require("../utils/handleAsync");
 const handlePagination = require('../utils/handlePagination')
 
