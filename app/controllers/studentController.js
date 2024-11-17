@@ -21,23 +21,43 @@ const storage = multer.diskStorage({
     },
 });
 
+// const upload = multer({
+//     storage,
+//     fileFilter: (req, file, cb) => {
+//         const fileTypes = /jpeg|jpg|png|pdf/;
+//         const extname = fileTypes.test(path.extname(file.originalname).toLowerCase());
+//         const mimetype = fileTypes.test(file.mimetype);
+
+//         if (extname && mimetype) {
+//             cb(null, true);
+//         } else {
+//             cb(new ErrorClass('Only images and PDFs are allowed!', 400));
+//         }
+//     },
+// });
+
 const upload = multer({
     storage,
+    limits: {
+        fileSize: 1 * 1024 * 1024, // 1 MB size limit
+    },
     fileFilter: (req, file, cb) => {
-        const fileTypes = /jpeg|jpg|png|pdf/;
+        const fileTypes = /jpeg|jpg|png/;
         const extname = fileTypes.test(path.extname(file.originalname).toLowerCase());
         const mimetype = fileTypes.test(file.mimetype);
 
         if (extname && mimetype) {
             cb(null, true);
         } else {
-            cb(new ErrorClass('Only images and PDFs are allowed!', 400));
+            cb(new ErrorClass('Only JPEG, JPG, and PNG and 1 mb files are allowed!', 400));
         }
     },
 });
 
+
+
 module.exports = class StudentController {
-    // Create a new student record
+ 
     static createStudent = [
         upload.fields([
             { name: 'student_photo', maxCount: 1 },
@@ -48,7 +68,6 @@ module.exports = class StudentController {
         ]),
         handleAsync(async (req, res, next) => {
             try {
-
                 const {
                     school_category,
                     school_name,
@@ -79,37 +98,40 @@ module.exports = class StudentController {
                     student_category,
                     school_principal_email,
                     school_principal_mobile,
-                    // center_id,
                 } = req.body;
-
-                console.log(req.user)
-
-                req.user.id;
-
-                // File upload validation
+    
                 const files = req.files;
-
-                // Check if required fields are present
+    
+                const missingFields = [];
+                if (!files.student_photo) missingFields.push('student_photo');
+                if (!files.student_signature) missingFields.push('student_signature');
+                if (!files.parent_signature) missingFields.push('parent_signature');
+                if (!files.center_signature) missingFields.push('center_signature');
+                if (!files.school_principal_signature) missingFields.push('school_principal_signature');
+    
+                if (missingFields.length > 0) {
+                    return next(new ErrorClass(`Missing required fields: ${missingFields.join(', ')}`, 400));
+                }
+    
                 if (!student_email || !student_mobile_number || !student_aadhar_number) {
                     return next(new ErrorClass('Email, Mobile number, and Aadhar number are required!', 400));
                 }
-
-                // Check if student already exists by email or Aadhar number
+    
                 const existingStudentByEmail = await studentModel.findOne({ where: { student_email } });
                 if (existingStudentByEmail) {
                     return next(new ErrorClass('A student with this email already exists!', 400));
                 }
-
-                const existingStudentBymobile = await studentModel.findOne({ where: { student_mobile_number } });
-                if (existingStudentBymobile) {
-                    return next(new ErrorClass('A student with this mobile no already exists!', 400));
+    
+                const existingStudentByMobile = await studentModel.findOne({ where: { student_mobile_number } });
+                if (existingStudentByMobile) {
+                    return next(new ErrorClass('A student with this mobile number already exists!', 400));
                 }
+    
                 const existingStudentByAadhar = await studentModel.findOne({ where: { student_aadhar_number } });
                 if (existingStudentByAadhar) {
                     return next(new ErrorClass('A student with this Aadhar number already exists!', 400));
                 }
-
-                // Create a new student record
+    
                 const newStudent = await studentModel.create({
                     school_category,
                     school_name,
@@ -141,31 +163,24 @@ module.exports = class StudentController {
                     school_principal_email,
                     school_principal_mobile,
                     center_id: req.user.id,
-                    student_photo: files.student_photo ? files.student_photo[0].path : null,
-                    student_signature: files.student_signature ? files.student_signature[0].path : null,
-                    parent_signature: files.parent_signature ? files.parent_signature[0].path : null,
-                    center_signature: files.center_signature ? files.center_signature[0].path : null,
-                    school_principal_signature: files.school_principal_signature
-                        ? files.school_principal_signature[0].path
-                        : null,
+                    student_photo: files.student_photo[0].path,
+                    student_signature: files.student_signature[0].path,
+                    parent_signature: files.parent_signature[0].path,
+                    center_signature: files.center_signature[0].path,
+                    school_principal_signature: files.school_principal_signature[0].path,
                 });
-
+    
                 if (!newStudent) {
                     return next(new ErrorClass('Failed to create student record!', 400));
                 }
-                return new ResponseClass('Student record created successfully!', 200, newStudent).send(res)
-                // res.status(201).json({
-                //     message: 'Student record created successfully!',
-                //     status: 'success',
-                //     data: {
-                //         student: newStudent,
-                //     },
-                // });
+    
+                return new ResponseClass('Student record created successfully!', 200, newStudent).send(res);
             } catch (error) {
                 next(new ErrorClass(error.message || 'Something went wrong!', 500));
             }
         }),
     ];
+    
 
     // Get student records
     static getStudents = async (req, res, next) => {
