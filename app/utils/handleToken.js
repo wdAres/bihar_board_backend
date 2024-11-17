@@ -3,6 +3,7 @@ const ErrorClass = require('./errorClass');
 const userModel = require('../models/userModel');
 const handleAsync = require('./handleAsync');
 const { promisify } = require("util");
+const ResponseClass = require('./ResponseClass');
 
 exports.createSendToken = (user, statusCode, res) => {
     const token = jwt.sign({ email: user.email , role:user.role , id : user.id }, process.env.JWT_SECRET, {
@@ -20,13 +21,8 @@ exports.createSendToken = (user, statusCode, res) => {
     // UNSEND PASSWORD IN THE USER OBJECT
     user.password = undefined
 
-    res.status(statusCode).json({
-        status: "success",
-        token,
-        data: {
-            user,
-        },
-    });
+    return new ResponseClass('Welcome',200,{user,token}).send(res);
+    
 };
 
 //  Protected Route ( Middleware which requires token )

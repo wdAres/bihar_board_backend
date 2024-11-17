@@ -4,6 +4,7 @@ const handleAsync = require("../utils/handleAsync")
 const bcrypt = require('bcryptjs')
 const jwt = require('jsonwebtoken')
 const { createSendToken } = require("../utils/handleToken")
+const ResponseClass = require("../utils/ResponseClass")
 
 
 module.exports = class AuthController {
@@ -20,11 +21,7 @@ module.exports = class AuthController {
             throw new Error("something went wrong!")
         }
 
-        res.status(200).json({
-            message: 'user created successfully',
-            data: newUser,
-            status:'success'
-        })
+        return new ResponseClass('User created succcessfully', 200, { user: newUser }).send(res)
 
     })
 
