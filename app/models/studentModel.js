@@ -2,6 +2,7 @@ const { DataTypes } = require('sequelize');
 const sequelize = require('../connection/db');
 const userModel = require('./userModel');
 const paginate = require('sequelize-paginate')
+
 const studentModel = sequelize.define('Student', {
     school_category: {
         type: DataTypes.ENUM('429', '223', '3776', '711', '69'),
@@ -16,14 +17,6 @@ const studentModel = sequelize.define('Student', {
         allowNull: false,
     },
     school_pincode: {
-        type: DataTypes.STRING,
-        allowNull: false,
-    },
-    center_name: {
-        type: DataTypes.STRING,
-        allowNull: false,
-    },
-    center_address: {
         type: DataTypes.STRING,
         allowNull: false,
     },
@@ -89,7 +82,6 @@ const studentModel = sequelize.define('Student', {
         validate: {
             isEmail: true,
         },
-       
         unique: true,
     },
     student_mobile_number: {
@@ -156,12 +148,51 @@ const studentModel = sequelize.define('Student', {
             model: userModel,
             key: 'id',
         }
+    },
+    center_name: {
+        type: DataTypes.STRING, 
+        allowNull: true,
+    },
+    center_address:{
+        type: DataTypes.STRING, 
+        allowNull: true,
     }
 }, {
     timestamps: true,
+    hooks: {
+        beforeSave: (student, options) => {
+            const fieldsToUppercase = [
+                'school_name', 
+                'school_address', 
+                'school_pincode', 
+                'student_name', 
+                'student_father_name', 
+                'student_mother_name', 
+                'dob_in_words', 
+                'student_address_mohalla', 
+                'student_address_po', 
+                'student_address_sub_div', 
+                'student_address_pin', 
+                'student_address_ps', 
+                'student_address_dist', 
+                'student_email', 
+                'student_mobile_number', 
+                'student_aadhar_number', 
+                'school_principal_email', 
+                'school_principal_mobile'
+            ];
+
+            fieldsToUppercase.forEach(field => {
+                if (student.dataValues[field]) {
+                    student.dataValues[field] = student.dataValues[field].toUpperCase();
+                }
+            });
+        }
+    }
 });
 
 userModel.hasMany(studentModel, { foreignKey: 'center_id' });
 studentModel.belongsTo(userModel, { foreignKey: 'center_id' });
 paginate.paginate(studentModel)
+
 module.exports = studentModel;
