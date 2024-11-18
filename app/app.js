@@ -21,6 +21,7 @@ app.use(cors({
     credentials: true // Adjust if credentials are needed
 }));
 
+app.options('*', cors());
 
 // app.use(cors())
 app.use('/api/v1/auth', authRouter)
