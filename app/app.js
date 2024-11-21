@@ -6,16 +6,11 @@ const authRouter = require('./routes/authRoute')
 const contactRouter = require('./routes/contactRoute')
 const centerRouter = require('./routes/centerRoute')
 const studentRouter = require('./routes/studentRoute')
-<<<<<<< HEAD
 const noticeRouter=require('./routes/noticeRoute')
 const adminRoutes = require('./routes/adminRoute');
-<<<<<<< Updated upstream
-=======
-const noticeRouter = require('./routes/noticeRoute')
->>>>>>> c335bf222945596d19333b0eb2fc2e2c74947a6c
-=======
+// const noticeRouter = require('./routes/noticeRoute')
 const supportRoutes = require('./routes/supportRoute');
->>>>>>> Stashed changes
+
 const cors = require('cors')
 // TO PARSE JSON BODY
 app.use(express.json());
@@ -34,24 +29,13 @@ app.use(express.urlencoded({ extended: true }));
 
 
 app.use(cors())
-<<<<<<< HEAD
+app.use('/api/v1/supports', supportRoutes);
 app.use('/api/v1/admin',adminRoutes)
 app.use('/api/v1/auth',authRouter)
 app.use('/api/v1/center',centerRouter)
 app.use('/api/v1/',contactRouter)
 app.use('/api/v1/',studentRouter)
 app.use('/api/v1/',noticeRouter)
-<<<<<<< Updated upstream
-=======
-app.use('/api/v1/auth', authRouter)
-app.use('/api/v1/center', centerRouter)
-app.use('/api/v1/', contactRouter)
-app.use('/api/v1/', studentRouter)
-app.use('/api/v1/', noticeRouter)
->>>>>>> c335bf222945596d19333b0eb2fc2e2c74947a6c
-=======
-app.use('/api/v1/supports', supportRoutes);
->>>>>>> Stashed changes
 
 sequelize.sync().then(() => { console.log('Database & tables created!'); });
 

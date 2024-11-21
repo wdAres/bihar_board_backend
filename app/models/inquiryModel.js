@@ -1,5 +1,5 @@
 const { DataTypes } = require('sequelize');
-const sequelize = require('../connection/db'); 
+const sequelize = require('../connection/db');
 const paginate = require('sequelize-paginate');
 
 const inquiryModel = sequelize.define('Inquiry', {
@@ -7,16 +7,11 @@ const inquiryModel = sequelize.define('Inquiry', {
         type: DataTypes.STRING,
         allowNull: false,
         validate: {
-<<<<<<< Updated upstream
             notEmpty: true,
             trim(value) {
                 if (typeof value === 'string') {
                     this.setDataValue('name', value.trim().replace(/\s\s+/g, ' '));
                 }
-=======
-            notEmpty: {
-                msg: 'Name is required',
->>>>>>> Stashed changes
             },
         },
     },
@@ -36,12 +31,6 @@ const inquiryModel = sequelize.define('Inquiry', {
         type: DataTypes.STRING,
         allowNull: false,
         validate: {
-<<<<<<< Updated upstream
-            isNumeric: { msg: 'Phone number must be digits only'},
-            len: {
-                args: [10, 10],
-                msg: 'Mobile number must be exactly 10 digits long',
-=======
             notEmpty: {
                 msg: 'Phone number is required',
             },
@@ -51,7 +40,6 @@ const inquiryModel = sequelize.define('Inquiry', {
             len: {
                 args: [10, 10],
                 msg: 'Phone number must be exactly 10 digits',
->>>>>>> Stashed changes
             },
         },
     },
@@ -77,11 +65,6 @@ const inquiryModel = sequelize.define('Inquiry', {
     timestamps: true,
 });
 
-<<<<<<< Updated upstream
-paginate.paginate(inquiryModal);
-module.exports = inquiryModal;
-=======
 paginate.paginate(inquiryModel);
 
 module.exports = inquiryModel;
->>>>>>> Stashed changes

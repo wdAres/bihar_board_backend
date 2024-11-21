@@ -203,50 +203,50 @@ const userModel = require('./userModel');
 const paginate = require('sequelize-paginate');
 
 const studentModel = sequelize.define('Student', {
-    school_category: {
-        type: DataTypes.ENUM('429', '223', '3776', '711', '69'),
-        allowNull: false,
-        validate: {
-            notEmpty: { msg: 'School category cannot be empty.' },
-        }
-    },
-    school_name: {
-        type: DataTypes.STRING,
-        allowNull: false,
-        validate: {
-            notEmpty: { msg: 'School name is required.' },
-            trim(value) {
-                if (value.trim() !== value) {
-                    throw new Error('School name cannot have leading or trailing spaces.');
-                }
-            }
-        }
-    },
-    school_address: {
-        type: DataTypes.STRING,
-        allowNull: false,
-        validate: {
-            notEmpty: { msg: 'School address is required.' },
-            trim(value) {
-                if (value.trim() !== value) {
-                    throw new Error('School address cannot have leading or trailing spaces.');
-                }
-            }
-        }
-    },
-    school_pincode: {
-        type: DataTypes.STRING,
-        allowNull: false,
-        validate: {
-            isNumeric: { msg: 'Pincode must be numeric.' },
-            len: { args: [6, 6], msg: 'Pincode must be 6 digits long.' },
-            trim(value) {
-                if (value.trim() !== value) {
-                    throw new Error('Pincode cannot have leading or trailing spaces.');
-                }
-            }
-        }
-    },
+    // school_category: {
+    //     type: DataTypes.ENUM('429', '223', '3776', '711', '69'),
+    //     allowNull: false,
+    //     validate: {
+    //         notEmpty: { msg: 'School category cannot be empty.' },
+    //     }
+    // },
+    // school_name: {
+    //     type: DataTypes.STRING,
+    //     allowNull: false,
+    //     validate: {
+    //         notEmpty: { msg: 'School name is required.' },
+    //         trim(value) {
+    //             if (value.trim() !== value) {
+    //                 throw new Error('School name cannot have leading or trailing spaces.');
+    //             }
+    //         }
+    //     }
+    // },
+    // school_address: {
+    //     type: DataTypes.STRING,
+    //     allowNull: false,
+    //     validate: {
+    //         notEmpty: { msg: 'School address is required.' },
+    //         trim(value) {
+    //             if (value.trim() !== value) {
+    //                 throw new Error('School address cannot have leading or trailing spaces.');
+    //             }
+    //         }
+    //     }
+    // },
+    // school_pincode: {
+    //     type: DataTypes.STRING,
+    //     allowNull: false,
+    //     validate: {
+    //         isNumeric: { msg: 'Pincode must be numeric.' },
+    //         len: { args: [6, 6], msg: 'Pincode must be 6 digits long.' },
+    //         trim(value) {
+    //             if (value.trim() !== value) {
+    //                 throw new Error('Pincode cannot have leading or trailing spaces.');
+    //             }
+    //         }
+    //     }
+    // },
     student_name: {
         type: DataTypes.STRING,
         allowNull: false,

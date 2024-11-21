@@ -1,13 +1,13 @@
 const supportModel = require('../models/supportModel');
 const ResponseClass = require('../utils/ResponseClass');
-const ErrorClass = require('../utils/errorClass');
+const ErrorClass = require('../utils/ErrorClass');
 const handleAsync = require('../utils/handleAsync');
 const handlePagination = require('../utils/handlePagination');
 
 module.exports = class SupportController {
     static postSupport = handleAsync(async (req, res, next) => {
         try {
-            const support = await supportModel.create(req.body);
+            const support = await supportModel.create({...req.body , center_id:req.user.id});
     
             if (!support) {
                 throw new Error('Something went wrong!');

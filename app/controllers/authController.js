@@ -46,14 +46,13 @@ module.exports = class AuthController {
 
     static createSchool = [
         upload.fields([
-            { name: 'center_signature', maxCount: 1 },
+            // { name: 'center_signature', maxCount: 1 },
             { name: 'school_principal_signature', maxCount: 1 },
         ]),
         
         handleAsync(async (req, res, next) => {
-            try {
                 const { body, files } = req;
-                const requiredFiles = ['center_signature', 'school_principal_signature'];
+                const requiredFiles = ['school_principal_signature'];
                 const missingFiles = requiredFiles.filter(file => !files[file]);
 
                 if (missingFiles.length > 0) {
@@ -62,7 +61,7 @@ module.exports = class AuthController {
 
                 const newSchool = await userModel.create({
                     ...Object.fromEntries(Object.entries(body).map(([key, value]) => [key, value.trim()])), 
-                    center_signature: files.center_signature[0].path,
+                    // center_signature: files.center_signature[0].path,
                     school_principal_signature: files.school_principal_signature[0].path,
                 });
 
@@ -71,9 +70,6 @@ module.exports = class AuthController {
                 }
 
                 return new ResponseClass('School created successfully!', 200, newSchool).send(res);
-            } catch (error) {
-                next(new ErrorClass(error.message || 'Something went wrong!', 500));
-            }
         })
     ];
 

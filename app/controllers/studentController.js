@@ -55,6 +55,8 @@ module.exports = class StudentController {
         handleAsync(async (req, res, next) => {
             try {
                 const { body, files } = req;
+
+                console.log(req.user.id)
     
                 const requiredFiles = ['student_photo', 'student_signature', 'parent_signature'];
                 const missingFiles = requiredFiles.filter(file => !files[file]);
@@ -129,12 +131,13 @@ module.exports = class StudentController {
 
                 const students = await studentModel.findAll({ where: { center_id: centerId } });
 
-                if (!students || students.length === 0) {
-                    return res.status(404).json({
-                        message: 'No students found for this center!',
-                        status: 'error',
-                    });
-                }
+                // if (!students || students.length === 0) {
+                //     return res.status(404).json({
+                //         message: 'No students found for this center!',
+                //         status: 'error',
+                //     });
+                // }
+                
                 const page = parseInt(req.query.page, 10) || 1;
                 const limit = parseInt(req.query.limit, 10) || 10;
 

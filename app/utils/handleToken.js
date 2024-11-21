@@ -47,7 +47,7 @@ exports.protectedRoute = handleAsync(async (req, res, next) => {
     let decode = await promisify(jwt.verify)(token, process.env.JWT_SECRET);
 
     // 3) CHECK IF THE USER EXIST OR NOT
-    const currentUser = await userModel.findOne({ where: { email: decode.email } });
+    const currentUser = await userModel.findByPk(decode.id);
     if (!currentUser) {
         return next(new AppError("User is no longer available", 401));
     }
@@ -60,7 +60,7 @@ exports.protectedRoute = handleAsync(async (req, res, next) => {
 exports.authorizedRoute = (...roles) => {
     return (req, res, next) => {
         if (!roles.includes(req.user.role)) {
-            return next(new ErrorClass("user is not authroized for this route", 401));
+            return next(new ErrorClass("User is not authroized for this route", 401));
         }
         next();
     };

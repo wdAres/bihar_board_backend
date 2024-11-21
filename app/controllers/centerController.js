@@ -18,6 +18,8 @@ module.exports  = class CenterController{
         
     })
 
+    // check kaeo sb kaam ho rakha hai  ye erro
+
 
     static getCenterById = handleAsync(async (req, res, next) => {
         const { id } = req.params; 

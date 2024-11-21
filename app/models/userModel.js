@@ -9,6 +9,13 @@ const userModel = sequelize.define('User', {
         autoIncrement: true,
         primaryKey: true,
     },
+     school_category: {
+        type: DataTypes.ENUM('429', '223', '3776', '711', '69'),
+        allowNull: false,
+        validate: {
+            notEmpty: { msg: 'School category cannot be empty.' },
+        }
+    },
     email: {
         type: DataTypes.STRING,
         allowNull: false,
@@ -64,11 +71,6 @@ const userModel = sequelize.define('User', {
             noMultipleSpaces(value) {
                 if (/\s{2,}/.test(value)) {
                     throw new Error('School name cannot have multiple consecutive spaces.');
-                }
-            },
-            noSpaces(value) {
-                if (/\s/.test(value)) {
-                    throw new Error('School name cannot contain spaces.');
                 }
             }
         },
@@ -137,25 +139,13 @@ const userModel = sequelize.define('User', {
         type: DataTypes.STRING,
         allowNull: true,
     },
-    center_signature: {
-        type: DataTypes.STRING,
-        allowNull: true,
-    },
+    // center_signature: { //
+    //     type: DataTypes.STRING,
+    //     allowNull: true,
+    // },
     school_principal_signature: {
         type: DataTypes.STRING,
         allowNull: true,
-    },
-    school_principal_email: {
-        type: DataTypes.STRING,
-        allowNull: false,
-        unique: {
-            msg: 'Principal email already exists.', 
-        },
-        validate: {
-            isEmail: {
-                msg: 'Invalid email format for the principal.',
-            },
-        },
     },
    
 }, {
@@ -176,3 +166,4 @@ userModel.prototype.comparePassword = async function (candidatePassword) {
 paginate.paginate(userModel);
 
 module.exports = userModel;
+// sequelize.sync().then(async () => { await sequelize.query(`ALTER SEQUENCE "Users_id_seq" RESTART WITH 10000`); });
