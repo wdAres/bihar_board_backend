@@ -4,6 +4,7 @@ const userModel = require('../models/userModel');
 const handleAsync = require('./handleAsync');
 const { promisify } = require("util");
 const ResponseClass = require('./ResponseClass');
+const AppError = require('./AppError');
 
 exports.createSendToken = (user, statusCode, res) => {
     const token = jwt.sign({ email: user.email , role:user.role , id : user.id }, process.env.JWT_SECRET, {

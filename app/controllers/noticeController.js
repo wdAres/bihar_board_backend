@@ -6,13 +6,10 @@ const ErrorClass = require('../utils/errorClass');
 const handleAsync = require('../utils/handleAsync');
 const handlePagination = require('../utils/handlePagination')
 const ResponseClass = require('../utils/ResponseClass')
-// Ensure the uploads directory exists
 const uploadDir = path.join(__dirname, '../uploads/notices');
 if (!fs.existsSync(uploadDir)) {
     fs.mkdirSync(uploadDir, { recursive: true });
 }
-
-// Multer configuration for file uploads
 const storage = multer.diskStorage({
     destination: (req, file, cb) => {
         cb(null, uploadDir);

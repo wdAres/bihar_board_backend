@@ -7,23 +7,23 @@ const contactRouter = require('./routes/contactRoute')
 const centerRouter = require('./routes/centerRoute')
 const studentRouter = require('./routes/studentRoute')
 const noticeRouter=require('./routes/noticeRoute')
+const adminRoutes = require('./routes/adminRoute');
 const cors = require('cors')
 // TO PARSE JSON BODY
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-// path join nahi kiya ? hum krte hai fir dikhate hai rukiye
+
 
 app.use(cors())
+app.use('/api/v1/admin',adminRoutes)
 app.use('/api/v1/auth',authRouter)
 app.use('/api/v1/center',centerRouter)
 app.use('/api/v1/',contactRouter)
 app.use('/api/v1/',studentRouter)
 app.use('/api/v1/',noticeRouter)
 
-// db checking
 sequelize.sync().then(() => { console.log('Database & tables created!'); });
 
-// Universal Error Catcher
 app.use(ErrorController.showError)
 
 module.exports = app 
