@@ -14,16 +14,17 @@ app.use(express.urlencoded({ extended: true }));
 // path join nahi kiya ? hum krte hai fir dikhate hai rukiye
 
 
-app.use(cors({
-    origin: '*', // Allows all origins 
-    methods: ['GET', 'POST', 'PUT', 'DELETE'],
-    allowedHeaders: ['Content-Type'],
-    credentials: true // Adjust if credentials are needed
-}));
+// app.use(cors({
+//     origin: '*', // Allows all origins 
+//     methods: ['GET', 'POST', 'PUT', 'DELETE'],
+//     allowedHeaders: ['Content-Type'],
+//     credentials: true // Adjust if credentials are needed
+// }));
 
-app.options('*', cors());
+// app.options('*', cors()); // Handle preflight requests for all routes
 
-// app.use(cors())
+
+app.use(cors())
 app.use('/api/v1/auth', authRouter)
 app.use('/api/v1/center', centerRouter)
 app.use('/api/v1/', contactRouter)
