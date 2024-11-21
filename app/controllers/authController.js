@@ -1,5 +1,5 @@
 const userModel = require("../models/userModel")
-const ErrorClass = require("../utils/errorClass")
+const ErrorClass = require("../utils/ErrorClass")
 const handleAsync = require("../utils/handleAsync")
 const bcrypt = require('bcryptjs')
 const jwt = require('jsonwebtoken')

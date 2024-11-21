@@ -1,11 +1,19 @@
 const { DataTypes } = require('sequelize');
 const sequelize = require('../connection/db'); 
-const paginate = require('sequelize-paginate')
+const paginate = require('sequelize-paginate');
 
 const inquiryModal = sequelize.define('Inquiry', {
     name: {
         type: DataTypes.STRING,
         allowNull: false,
+        validate: {
+            notEmpty: true,
+            trim(value) {
+                if (typeof value === 'string') {
+                    this.setDataValue('name', value.trim().replace(/\s\s+/g, ' '));
+                }
+            },
+        },
     },
     email: {
         type: DataTypes.STRING,
@@ -17,6 +25,13 @@ const inquiryModal = sequelize.define('Inquiry', {
     phone: {
         type: DataTypes.STRING,
         allowNull: false,
+        validate: {
+            isNumeric: { msg: 'Phone number must be digits only'},
+            len: {
+                args: [10, 10],
+                msg: 'Mobile number must be exactly 10 digits long',
+            },
+        },
     },
     subject: {
         type: DataTypes.STRING,
@@ -30,6 +45,5 @@ const inquiryModal = sequelize.define('Inquiry', {
     timestamps: true, 
 });
 
-paginate.paginate(inquiryModal)
+paginate.paginate(inquiryModal);
 module.exports = inquiryModal;
-

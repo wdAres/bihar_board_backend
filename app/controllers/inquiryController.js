@@ -1,5 +1,5 @@
 const inquiryModel = require('../models/inquiryModel')
-const ErrorClass = require('../utils/errorClass')
+const ErrorClass = require('../utils/ErrorClass')
 const handleAsync = require("../utils/handleAsync")
 const ResponseClass = require('../utils/ResponseClass')
 const handlePagination = require('../utils/handlePagination')
@@ -16,7 +16,6 @@ module.exports = class InquiryController {
     //     return new ResponseClass('Thank you for inquiry', 200, inquiry).send(res)
     // })
     static postInquiry = handleAsync(async (req, res, next) => {
-        try {
             const requiredFields = ['name', 'email', 'phone', 'subject', 'message'];
             const { body } = req;
     
@@ -44,13 +43,10 @@ module.exports = class InquiryController {
             });
     
             if (!inquiry) {
-                throw new Error('Something went wrong!');
+                return  new ErrorClass(res.message  || 'Something went wrong!' , 400);
             }
     
-            return new ResponseClass('Thank you for your inquiry', 200, inquiry).send(res);
-        } catch (error) {
-            next(new ErrorClass(error.message || 'Something went wrong!', 500));
-        }
+            return new ResponseClass('Thank you for your inquiry', 200, {inquiry}).send(res);
     });
     
 
