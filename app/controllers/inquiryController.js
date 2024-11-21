@@ -1,21 +1,20 @@
+<<<<<<< Updated upstream
 const inquiryModel = require('../models/inquiryModel')
 const ErrorClass = require('../utils/ErrorClass')
 const handleAsync = require("../utils/handleAsync")
 const ResponseClass = require('../utils/ResponseClass')
 const handlePagination = require('../utils/handlePagination')
+=======
+const inquiryModel = require('../models/inquiryModel');
+const ResponseClass = require('../utils/ResponseClass');
+const ErrorClass = require('../utils/errorClass');
+const handleAsync = require('../utils/handleAsync');
+const handlePagination = require('../utils/handlePagination');
+
+>>>>>>> Stashed changes
 module.exports = class InquiryController {
-    // static postInquiry = handleAsync(async (req, res, next) => {
-    //     const inquiry = await inquiryModel.create(req.body)
-
-
-    //     if (!inquiry) {
-    //        return next(new ErrorClass('something went wrong!', 400))
-    //     }
-
-       
-    //     return new ResponseClass('Thank you for inquiry', 200, inquiry).send(res)
-    // })
     static postInquiry = handleAsync(async (req, res, next) => {
+<<<<<<< Updated upstream
             const requiredFields = ['name', 'email', 'phone', 'subject', 'message'];
             const { body } = req;
     
@@ -41,6 +40,10 @@ module.exports = class InquiryController {
                     Object.entries(body).map(([key, value]) => [key, value.trim()])
                 ), 
             });
+=======
+        try {
+            const inquiry = await inquiryModel.create(req.body);
+>>>>>>> Stashed changes
     
             if (!inquiry) {
                 return  new ErrorClass(res.message  || 'Something went wrong!' , 400);
@@ -48,22 +51,15 @@ module.exports = class InquiryController {
     
             return new ResponseClass('Thank you for your inquiry', 200, {inquiry}).send(res);
     });
-    
 
     static getAllInquiries = handleAsync(async (req, res, next) => {
-
-
         const page = parseInt(req.query.page, 10) || 1;
         const limit = parseInt(req.query.limit, 10) || 10;
 
-        // Paginate the users
-        const { docs, pages, total, limit: paginationLimit } = await inquiryModel.paginate({ page, paginate:limit });
-
+        const { docs, pages, total, limit: paginationLimit } = await inquiryModel.paginate({ page, paginate: limit });
 
         const paginationData = handlePagination({ page, pages, total, limit: paginationLimit });
 
-
-        return new ResponseClass('All inquiry data', 200, { docs, ...paginationData }).send(res)
-        
-    })
+        return new ResponseClass('All inquiry data', 200, { docs, ...paginationData }).send(res);
+    });
 }
