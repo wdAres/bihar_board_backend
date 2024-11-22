@@ -6,17 +6,13 @@ const handlePagination = require('../utils/handlePagination');
 
 module.exports = class SupportController {
     static postSupport = handleAsync(async (req, res, next) => {
-        try {
-            const support = await supportModel.create({...req.body , center_id:req.user.id});
-    
-            if (!support) {
-                throw new Error('Something went wrong!');
-            }
-    
-            return new ResponseClass('Support ticket created successfully', 200, support).send(res);
-        } catch (error) {
-            next(new ErrorClass(error.message || 'Something went wrong!', 500));
+        const support = await supportModel.create({ ...req.body, center_id: req.user.id });
+
+        if (!support) {
+            throw new Error('Something went wrong!');
         }
+
+        return new ResponseClass('Support ticket created successfully', 200, support).send(res);
     });
 
     static getAllSupports = handleAsync(async (req, res, next) => {
@@ -28,6 +24,19 @@ module.exports = class SupportController {
         const paginationData = handlePagination({ page, pages, total, limit: paginationLimit });
 
         return new ResponseClass('All support tickets fetched successfully', 200, { docs, ...paginationData }).send(res);
+    });
+
+    static particularCenterTickets = handleAsync(async (req, res, next) => {
+        const page = parseInt(req.query.page, 10) || 1;
+        const limit = parseInt(req.query.limit, 10) || 10;
+
+        const center_id = req.user.id
+
+        const { docs, pages, total, limit: paginationLimit } = await supportModel.paginate({ where: { center_id } , page, paginate: limit });
+
+        const paginationData = handlePagination({ page, pages, total, limit: paginationLimit });
+
+        return new ResponseClass('Support tickets fetched successfully', 200, { docs, ...paginationData }).send(res);
     });
 
     static updateSupport = handleAsync(async (req, res, next) => {

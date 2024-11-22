@@ -201,52 +201,15 @@ const { DataTypes } = require('sequelize');
 const sequelize = require('../connection/db');
 const userModel = require('./userModel');
 const paginate = require('sequelize-paginate');
+const moment = require('moment');
+const {toWords} = require('number-to-words')
 
 const studentModel = sequelize.define('Student', {
-    // school_category: {
-    //     type: DataTypes.ENUM('429', '223', '3776', '711', '69'),
-    //     allowNull: false,
-    //     validate: {
-    //         notEmpty: { msg: 'School category cannot be empty.' },
-    //     }
-    // },
-    // school_name: {
-    //     type: DataTypes.STRING,
-    //     allowNull: false,
-    //     validate: {
-    //         notEmpty: { msg: 'School name is required.' },
-    //         trim(value) {
-    //             if (value.trim() !== value) {
-    //                 throw new Error('School name cannot have leading or trailing spaces.');
-    //             }
-    //         }
-    //     }
-    // },
-    // school_address: {
-    //     type: DataTypes.STRING,
-    //     allowNull: false,
-    //     validate: {
-    //         notEmpty: { msg: 'School address is required.' },
-    //         trim(value) {
-    //             if (value.trim() !== value) {
-    //                 throw new Error('School address cannot have leading or trailing spaces.');
-    //             }
-    //         }
-    //     }
-    // },
-    // school_pincode: {
-    //     type: DataTypes.STRING,
-    //     allowNull: false,
-    //     validate: {
-    //         isNumeric: { msg: 'Pincode must be numeric.' },
-    //         len: { args: [6, 6], msg: 'Pincode must be 6 digits long.' },
-    //         trim(value) {
-    //             if (value.trim() !== value) {
-    //                 throw new Error('Pincode cannot have leading or trailing spaces.');
-    //             }
-    //         }
-    //     }
-    // },
+    id: {
+        type: DataTypes.INTEGER,
+        autoIncrement: true,
+        primaryKey: true,
+    },
     student_name: {
         type: DataTypes.STRING,
         allowNull: false,
@@ -289,15 +252,15 @@ const studentModel = sequelize.define('Student', {
     },
     dob_in_words: {
         type: DataTypes.STRING,
-        allowNull: false,
-        validate: {
-            notEmpty: { msg: 'Date of birth in words is required.' },
-            trim(value) {
-                if (value.trim() !== value) {
-                    throw new Error('Date of birth in words cannot have leading or trailing spaces.');
-                }
-            }
-        }
+        allowNull: true,
+        // validate: {
+        //     notEmpty: { msg: 'Date of birth in words is required.' },
+        //     trim(value) {
+        //         if (value.trim() !== value) {
+        //             throw new Error('Date of birth in words cannot have leading or trailing spaces.');
+        //         }
+        //     }
+        // }
     },
     additional_subject: {
         type: DataTypes.ENUM('maths', 'home science', 'maithili', 'music', 'economics', 'porohitya', 'bhojpuri'),
@@ -476,29 +439,42 @@ const studentModel = sequelize.define('Student', {
             model: userModel,
             key: 'id',
         }
-    }
+    },
 }, {
     timestamps: true,
     hooks: {
         beforeSave: (student, options) => {
+
+            if (student.dob_in_figures) {
+                const dobInFigures = moment(student.dob_in_figures);
+                const day = dobInFigures.date();
+                const month = dobInFigures.format('MMMM');
+                const year = dobInFigures.year();
+                const dayInWords = toWords(day);
+
+                const yearInWords = toWords(year).split(' ').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ');
+
+                student.dob_in_words = `${dayInWords.charAt(0).toUpperCase() + dayInWords.slice(1)} ${month} ${yearInWords}`;
+            }
+
             const fieldsToUppercase = [
-                'school_name', 
-                'school_address', 
-                'school_pincode', 
-                'student_name', 
-                'student_father_name', 
-                'student_mother_name', 
-                'dob_in_words', 
-                'student_address_mohalla', 
-                'student_address_po', 
-                'student_address_sub_div', 
-                'student_address_pin', 
-                'student_address_ps', 
-                'student_address_dist', 
-                'student_email', 
-                'student_mobile_number', 
-                'student_aadhar_number', 
-                
+                'school_name',
+                'school_address',
+                'school_pincode',
+                'student_name',
+                'student_father_name',
+                'student_mother_name',
+                'dob_in_words',
+                'student_address_mohalla',
+                'student_address_po',
+                'student_address_sub_div',
+                'student_address_pin',
+                'student_address_ps',
+                'student_address_dist',
+                'student_email',
+                'student_mobile_number',
+                'student_aadhar_number',
+
             ];
             fieldsToUppercase.forEach(field => {
                 if (student[field]) {
@@ -508,7 +484,6 @@ const studentModel = sequelize.define('Student', {
         }
     }
 });
-
 
 userModel.hasMany(studentModel, { foreignKey: 'center_id' });
 studentModel.belongsTo(userModel, { foreignKey: 'center_id' });

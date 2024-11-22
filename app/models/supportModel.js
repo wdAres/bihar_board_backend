@@ -1,6 +1,7 @@
 const { DataTypes } = require('sequelize');
 const sequelize = require('../connection/db');
 const userModel = require('./userModel');
+const paginate = require('sequelize-paginate');
 
 const supportModel = sequelize.define('Support', {
     id: {
@@ -47,4 +48,5 @@ const supportModel = sequelize.define('Support', {
 userModel.hasMany(supportModel, { foreignKey: 'center_id' });
 supportModel.belongsTo(userModel, { foreignKey: 'center_id' });
 
+paginate.paginate(supportModel)
 module.exports = supportModel;
