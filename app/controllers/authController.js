@@ -1,5 +1,5 @@
 const userModel = require("../models/userModel")
-const ErrorClass = require("../utils/ErrorClass")
+const ErrorClass = require("../utils/errorClass")
 const handleAsync = require("../utils/handleAsync")
 const bcrypt = require('bcryptjs')
 const jwt = require('jsonwebtoken')
@@ -9,7 +9,7 @@ const path = require('path');
 const multer = require('multer');
 const fs = require('fs');
 
-
+const baseUrl = 'http://127.0.0.1:8001/uploads';
 const uploadDir = path.join(__dirname, '../uploads/school');
 if (!fs.existsSync(uploadDir)) {
     fs.mkdirSync(uploadDir, { recursive: true });
@@ -61,8 +61,8 @@ module.exports = class AuthController {
 
                 const newSchool = await userModel.create({
                     ...Object.fromEntries(Object.entries(body).map(([key, value]) => [key, value.trim()])), 
-                    // center_signature: files.center_signature[0].path,
-                    school_principal_signature: files.school_principal_signature[0].path,
+                    
+                    school_principal_signature: `${baseUrl}/${files.school_principal_signature[0].filename}`,
                 });
 
                 if (!newSchool) {

@@ -458,9 +458,6 @@ const studentModel = sequelize.define('Student', {
             }
 
             const fieldsToUppercase = [
-                'school_name',
-                'school_address',
-                'school_pincode',
                 'student_name',
                 'student_father_name',
                 'student_mother_name',
@@ -485,8 +482,8 @@ const studentModel = sequelize.define('Student', {
     }
 });
 
-userModel.hasMany(studentModel, { foreignKey: 'center_id' });
-studentModel.belongsTo(userModel, { foreignKey: 'center_id' });
+userModel.hasMany(studentModel, { foreignKey: 'center_id' ,as: 'students' });
+studentModel.belongsTo(userModel, { foreignKey: 'center_id',as: 'center' });
 paginate.paginate(studentModel);
 
 module.exports = studentModel;

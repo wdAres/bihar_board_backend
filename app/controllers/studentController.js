@@ -1,13 +1,14 @@
 const multer = require('multer');
 const path = require('path');
 const fs = require('fs');
+const userModel = require('../models/userModel');
 const studentModel = require('../models/studentModel');
 const ResponseClass = require('../utils/ResponseClass')
-const ErrorClass = require('../utils/ErrorClass');
+const ErrorClass = require('../utils/errorClass');
 const handleAsync = require("../utils/handleAsync");
 const handlePagination = require('../utils/handlePagination')
 const { Op } = require('sequelize');
-
+const baseUrl = 'http://127.0.0.1:8001/uploads';
 const uploadDir = path.join(__dirname, '../uploads');
 if (!fs.existsSync(uploadDir)) {
     fs.mkdirSync(uploadDir, { recursive: true });
@@ -67,9 +68,9 @@ module.exports = class StudentController {
                 const newStudent = await studentModel.create({
                     ...Object.fromEntries(Object.entries(body).map(([key, value]) => [key, value.trim()])),
                     center_id: req.user.id,
-                    student_photo: files.student_photo[0].path,
-                    student_signature: files.student_signature[0].path,
-                    parent_signature: files.parent_signature[0].path,
+                    student_photo: `${baseUrl}/${files.student_photo[0].filename}`,
+                    student_signature: `${baseUrl}/${files.student_signature[0].filename}`, 
+                    parent_signature: `${baseUrl}/${files.parent_signature[0].filename}`,
 
                 });
 
@@ -84,45 +85,38 @@ module.exports = class StudentController {
         })
     ];
 
-    static getStudents = async (req, res, next) => {
-        try {
-            const { id } = req.params;
-
-            if (id) {
-                const student = await studentModel.findOne({ where: { id } });
-
-                if (!student) {
-                    return res.status(404).json({
-                        message: 'Student not found!',
-                        status: 'error',
-                    });
-                }
-                return new ResponseClass('Student record retrieved successfully!', 200, student).send(res);
+    static getStudents = handleAsync(async (req, res, next) => {
+        const { id } = req.params;
+    
+        if (id) {
+            const student = await studentModel.findOne({
+                where: { id },
+                include: [{ model: userModel, as: 'center',attributes: { exclude: ['password'] } }]
+            });
+    
+            if (!student) {
+                return res.status(404).json({
+                    message: 'Student not found!',
+                    status: 'error',
+                });
             }
-
-            const page = parseInt(req.query.page, 10) || 1;
-            const limit = parseInt(req.query.limit, 10) || 10;
-
-            const { docs, pages, total, limit: paginationLimit } = await studentModel.paginate({
-                page,
-                paginate: limit,
-                order: [['createdAt', 'DESC']],
-            });
-
-            const paginationData = handlePagination({ page, pages, total, limit: paginationLimit });
-            return new ResponseClass('All student records retrieved successfully!', 200, { docs, ...paginationData }).send(res);
-        } catch (error) {
-            console.error(error);
-            res.status(500).json({
-                message: error.message || 'Something went wrong!',
-                status: 'error',
-            });
+            return new ResponseClass('Student record retrieved successfully!', 200, student).send(res);
         }
-    };
-
-
-    //get student by center id
-
+    
+        const page = parseInt(req.query.page, 10) || 1;
+        const limit = parseInt(req.query.limit, 10) || 10;
+    
+        const { docs, pages, total, limit: paginationLimit } = await studentModel.paginate({
+            page,
+            paginate: limit,
+            order: [['createdAt', 'DESC']],
+            include: [{ model: userModel, as: 'center',attributes: { exclude: ['password'] } }]
+        });
+    
+        const paginationData = handlePagination({ page, pages, total, limit: paginationLimit });
+        return new ResponseClass('All student records retrieved successfully!', 200, { docs, ...paginationData }).send(res);
+    });
+    
 
     static deleteStudent = async (req, res, next) => {
 
@@ -130,7 +124,7 @@ module.exports = class StudentController {
         const { id } = req.params
 
 
-        const doc = await studentModel.destroy({ where: { id : id} });
+        const doc = await studentModel.destroy({ where: { id: id } });
 
         if (!doc) {
             return next(new ErrorClass('Student not found!', 404));
@@ -154,13 +148,18 @@ module.exports = class StudentController {
                 const limit = parseInt(req.query.limit, 10) || 10;
 
 
-                const { docs, pages, total, limit: paginationLimit } = await studentModel.paginate({ page, paginate: limit, where: { center_id: centerId }, order: [['createdAt', 'DESC']], });
+                const { docs, pages, total, limit: paginationLimit } = await studentModel.paginate({ 
+                    page, 
+                    paginate: limit,
+                    where: { center_id: centerId }, 
+                    order: [['createdAt', 'DESC']],
+                    include: [{ model: userModel, as: 'center' ,attributes: { exclude: ['password'] }}]
+                 });
 
 
                 const paginationData = handlePagination({ page, pages, total, limit: paginationLimit });
                 return new ResponseClass('All student records retrieved successfully!', 200, { docs, ...paginationData }).send(res)
 
-                // return new ResponseClass('Student records retrieved successfully for this center!', 200, students).send(res);
             }
 
             const students = await studentModel.findAll();
