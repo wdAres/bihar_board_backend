@@ -7,12 +7,14 @@ const ResponseClass = require('../utils/ResponseClass')
 const ErrorClass = require('../utils/errorClass');
 const handleAsync = require("../utils/handleAsync");
 const handlePagination = require('../utils/handlePagination')
-const { Op } = require('sequelize');
+const { Op, Sequelize } = require('sequelize');
+const sequelize = require('../connection/db');
 const baseUrl = 'http://127.0.0.1:8001/uploads';
 const uploadDir = path.join(__dirname, '../uploads');
 if (!fs.existsSync(uploadDir)) {
     fs.mkdirSync(uploadDir, { recursive: true });
 }
+
 
 const storage = multer.diskStorage({
     destination: (req, file, cb) => {
@@ -69,7 +71,7 @@ module.exports = class StudentController {
                     ...Object.fromEntries(Object.entries(body).map(([key, value]) => [key, value.trim()])),
                     center_id: req.user.id,
                     student_photo: `${baseUrl}/${files.student_photo[0].filename}`,
-                    student_signature: `${baseUrl}/${files.student_signature[0].filename}`, 
+                    student_signature: `${baseUrl}/${files.student_signature[0].filename}`,
                     parent_signature: `${baseUrl}/${files.parent_signature[0].filename}`,
 
                 });
@@ -87,13 +89,13 @@ module.exports = class StudentController {
 
     static getStudents = handleAsync(async (req, res, next) => {
         const { id } = req.params;
-    
+
         if (id) {
             const student = await studentModel.findOne({
                 where: { id },
-                include: [{ model: userModel, as: 'center',attributes: { exclude: ['password'] } }]
+                include: [{ model: userModel, as: 'center', attributes: { exclude: ['password'] } }]
             });
-    
+
             if (!student) {
                 return res.status(404).json({
                     message: 'Student not found!',
@@ -102,21 +104,21 @@ module.exports = class StudentController {
             }
             return new ResponseClass('Student record retrieved successfully!', 200, student).send(res);
         }
-    
+
         const page = parseInt(req.query.page, 10) || 1;
         const limit = parseInt(req.query.limit, 10) || 10;
-    
+
         const { docs, pages, total, limit: paginationLimit } = await studentModel.paginate({
             page,
             paginate: limit,
             order: [['createdAt', 'DESC']],
-            include: [{ model: userModel, as: 'center',attributes: { exclude: ['password'] } }]
+            include: [{ model: userModel, as: 'center', attributes: { exclude: ['password'] } }]
         });
-    
+
         const paginationData = handlePagination({ page, pages, total, limit: paginationLimit });
         return new ResponseClass('All student records retrieved successfully!', 200, { docs, ...paginationData }).send(res);
     });
-    
+
 
     static deleteStudent = async (req, res, next) => {
 
@@ -136,30 +138,86 @@ module.exports = class StudentController {
         // return new ResponseClass('Student records retrieved successfully for this center!', 200, students).send(res);
     }
 
+    // static getStudentsByCenterId = async (req, res, next) => {
+    //     try {
+    //         const { centerId } = req.params;
+
+    //         if (centerId) {
+
+    //             const students = await studentModel.findAll({ where: { center_id: centerId } });
+
+    //             const page = parseInt(req.query.page, 10) || 1;
+    //             const limit = parseInt(req.query.limit, 10) || 10;
+
+
+    //             const { docs, pages, total, limit: paginationLimit } = await studentModel.paginate({ 
+    //                 page, 
+    //                 paginate: limit,
+    //                 where: { center_id: centerId }, 
+    //                 order: [['createdAt', 'DESC']],
+    //                 include: [{ model: userModel, as: 'center' ,attributes: { exclude: ['password'] }}]
+    //              });
+
+
+    //             const paginationData = handlePagination({ page, pages, total, limit: paginationLimit });
+    //             return new ResponseClass('All student records retrieved successfully!', 200, { docs, ...paginationData }).send(res)
+
+    //         }
+
+    //         const students = await studentModel.findAll();
+    //         return new ResponseClass('All student records retrieved successfully!', 200, students).send(res);
+
+    //     } catch (error) {
+    //         console.error(error);
+    //         res.status(500).json({
+    //             message: error.message || 'Something went wrong!',
+    //             status: 'error',
+    //         });
+    //     }
+    // };
+
     static getStudentsByCenterId = async (req, res, next) => {
         try {
             const { centerId } = req.params;
 
             if (centerId) {
-
-                const students = await studentModel.findAll({ where: { center_id: centerId } });
-
                 const page = parseInt(req.query.page, 10) || 1;
                 const limit = parseInt(req.query.limit, 10) || 10;
+                const searchQuery = req.query.search || '';
+                const dateFilter = req.query.date; // Get the date filter from the query parameters
 
+                // Build the where clause
+                const whereClause = { center_id: centerId };
 
-                const { docs, pages, total, limit: paginationLimit } = await studentModel.paginate({ 
-                    page, 
+                if (searchQuery) {
+                    whereClause[Sequelize.Op.or] = [{ student_name: { [Sequelize.Op.iLike]: `%${searchQuery}%` } }
+                        , { student_father_name: { [Sequelize.Op.iLike]: `%${searchQuery}%` } }
+                        , { student_mother_name: { [Sequelize.Op.iLike]: `%${searchQuery}%` } }];
+                }
+
+                if (!!dateFilter) {
+                    // Convert the date filter to a date object
+                    const filterDate = new Date(dateFilter);
+                    const nextDay = new Date(filterDate);
+                    nextDay.setDate(nextDay.getDate() + 1);
+
+                    // Use the start of the day and the start of the next day to filter for a single date
+                    whereClause.createdAt = {
+                        [Sequelize.Op.gte]: filterDate,
+                        [Sequelize.Op.lt]: nextDay
+                    };
+                }
+
+                const { docs, pages, total, limit: paginationLimit } = await studentModel.paginate({
+                    page,
                     paginate: limit,
-                    where: { center_id: centerId }, 
+                    where: whereClause,
                     order: [['createdAt', 'DESC']],
-                    include: [{ model: userModel, as: 'center' ,attributes: { exclude: ['password'] }}]
-                 });
-
+                    include: [{ model: userModel, as: 'center', attributes: { exclude: ['password'] } }]
+                });
 
                 const paginationData = handlePagination({ page, pages, total, limit: paginationLimit });
-                return new ResponseClass('All student records retrieved successfully!', 200, { docs, ...paginationData }).send(res)
-
+                return new ResponseClass('All student records retrieved successfully!', 200, { docs, ...paginationData }).send(res);
             }
 
             const students = await studentModel.findAll();
