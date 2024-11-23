@@ -42,15 +42,26 @@ module.exports = class SupportController {
     static updateSupport = handleAsync(async (req, res, next) => {
         const { id } = req.params;
         const { status } = req.body;
-
+    
+        console.log(`Updating support ticket with ID: ${id}, Status: ${status}`); // Debugging log
+    
         const support = await supportModel.findByPk(id);
         if (!support) {
+            console.error(`Support ticket not found for ID: ${id}`); // Debugging log
             return next(new ErrorClass('Support ticket not found', 404));
         }
-
-        support.status = status || support.status;
-        await support.save();
-
-        return new ResponseClass('Support ticket updated successfully', 200, support).send(res);
+    
+        try {
+            support.status = status || support.status;
+            await support.save();
+    
+            console.log(`Support ticket updated successfully: ${JSON.stringify(support)}`); // Debugging log
+    
+            return new ResponseClass('Support ticket updated successfully', 200, support).send(res);
+        } catch (error) {
+            console.error(`Error updating support ticket: ${error}`); // Debugging log
+            return next(new ErrorClass('Failed to update support ticket', 500));
+        }
     });
+    
 };
