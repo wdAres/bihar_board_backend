@@ -34,4 +34,5 @@ router.get('/', CenterController.getAllCenters)
 router.get('/details', protectedRoute, authorizedRoute('center'), CenterController.getDetails)
 router.patch('/details', protectedRoute, authorizedRoute('center'), upload.single('school_principal_signature'), CenterController.updateDetails)
 router.get('/:id', CenterController.getCenterById);
+router.delete('/:id', CenterController.deleteCenterById);
 module.exports = router

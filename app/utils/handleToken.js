@@ -52,6 +52,8 @@ exports.protectedRoute = handleAsync(async (req, res, next) => {
         return next(new AppError("User is no longer available", 401));
     }
 
+    console.log(currentUser)
+
     req.user = currentUser;
     next();
 });

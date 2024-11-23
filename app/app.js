@@ -11,7 +11,7 @@ const filterData = require('./routes/filterRoute');
 const tenderRoutes = require('./routes/tenderRoute');
 const path= require('path')
 // const contactRouter = require('./routes/contactRoute')
-// const noticeRouter=require('./routes/noticeRoute')
+const noticeRouter=require('./routes/noticeRoute')
 // // const noticeRouter = require('./routes/noticeRoute')
 
 
@@ -39,7 +39,7 @@ app.use('/api/v1/center',centerRouter)
 app.use('/api/v1/',studentRouter)
 // app.use('/api/v1/',contactRouter)
 app.use('/api/v1/supports', supportRoutes);
-// app.use('/api/v1/',noticeRouter)
+app.use('/api/v1/',noticeRouter)
 app.use('/api/v1', filterData);
 app.use('/api/v1', tenderRoutes);   
 sequelize.sync().then(() => { console.log('Database & tables created!'); });

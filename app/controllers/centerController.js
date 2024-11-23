@@ -35,6 +35,21 @@ module.exports = class CenterController {
 
     });
 
+    static deleteCenterById = handleAsync(async (req, res, next) => {
+        
+        const { id } = req.params;
+        const center = await userModel.findByPk(id);
+
+        if (!center) {
+            return next(new ErrorClass('Center not found!', 404));
+        }
+
+        await center.destroy()
+
+        return new ResponseClass(`center Removed`, 200, null).send(res)
+
+    });
+
     static getDetails = handleAsync(async (req, res, next) => {
         const id = req.user.id;
         const center = await userModel.findByPk(id);
