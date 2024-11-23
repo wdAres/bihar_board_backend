@@ -13,7 +13,7 @@ const path= require('path')
 // const contactRouter = require('./routes/contactRoute')
 const noticeRouter=require('./routes/noticeRoute')
 // // const noticeRouter = require('./routes/noticeRoute')
-
+const importantLinksRoutes = require('./routes/linksRoute')
 
 const cors = require('cors')
 // TO PARSE JSON BODY
@@ -42,6 +42,7 @@ app.use('/api/v1/supports', supportRoutes);
 app.use('/api/v1/',noticeRouter)
 app.use('/api/v1', filterData);
 app.use('/api/v1', tenderRoutes);   
+app.use('/api/v1', importantLinksRoutes);   
 sequelize.sync().then(() => { console.log('Database & tables created!'); });
 
 app.use(ErrorController.showError)
