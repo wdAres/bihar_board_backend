@@ -5,6 +5,7 @@ const ErrorController = require('./controllers/errorController');
 
 const adminRouter = require('./routes/_adminRoutes')
 const centerRouter = require('./routes/_centerRoutes')
+const websiteRouter = require('./routes/_websiteRoutes')
 
 const path= require('path')
 
@@ -18,6 +19,7 @@ app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 app.use(cors())
 app.use('/api/v1/admin',adminRouter)
 app.use('/api/v1/school',centerRouter)
+app.use('/api/v1/website',websiteRouter)
 
 
 sequelize.sync().then(() => { console.log('Database & tables created!'); });

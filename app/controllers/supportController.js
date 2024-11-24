@@ -1,4 +1,5 @@
 const supportModel = require('../models/supportModel');
+const handleAsync = require('../utils/handleAsync');
 const UniversalController = require('./universalController');
 
 const keyMiddleware = (req,res,next)=>{
@@ -22,4 +23,8 @@ module.exports = class SupportController  extends UniversalController {
     static getDocument = UniversalController.getDocument(supportModel)
     static deleteDocument = UniversalController.deleteDocument(supportModel)
     static updateDocument = [markResolveMiddleware , UniversalController.updateDocument(supportModel)]
+    static getDocumentsByCenter = [
+        handleAsync(async (req, res, next) => { req.params.id = req.user.id ;  await UniversalController.getDocuments(supportModel, { center_id: req.params.id })(req, res, next); })
+    ]
+
 };

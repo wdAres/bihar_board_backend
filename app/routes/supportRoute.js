@@ -22,4 +22,8 @@ router
     .patch(SupportController.updateDocument)
     .delete(SupportController.deleteDocument);
 
+    router
+    .route('/center/true')
+    .get(SupportController.getDocumentsByCenter)
+
 module.exports = router;
