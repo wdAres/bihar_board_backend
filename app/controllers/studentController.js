@@ -49,13 +49,19 @@ const uploadFields = upload.fields([
 
 const fileSaveMiddleware = (req, res, next) => {
 
+
     const files = req.files
+
 
     const requiredFiles = ['student_photo', 'student_signature', 'parent_signature'];
 
     const missingFiles = requiredFiles.filter(file => !files[file]);
     if (missingFiles.length > 0) {
         return next(new ErrorClass(`Missing required files: ${missingFiles.join(', ')}`, 400));
+    }
+
+    if (req.user.role === 'admin') {
+        return next(new ErrorClass('Admin dosnt have this authority',401))
     }
 
     req.body.center_id = req.user.id
@@ -68,6 +74,8 @@ const fileSaveMiddleware = (req, res, next) => {
 
 const fileupdateMiddleware = (req, res, next) => {
     const files = req.files;
+
+    console.log(files)
 
     // Only include keys that exist
     if (files.student_photo) {
@@ -91,7 +99,7 @@ module.exports = class StudentController extends UniversalController {
     static addDocument = [uploadFields, fileSaveMiddleware, UniversalController.addDocument(studentModel)];
     static getDocuments  = [handleAsync(async (req, res, next) => {
         const includeArr = [{ model: userModel, as: 'center', attributes: { exclude: ['password'] } }]; 
-        await UniversalController.getDocuments(studentModel,{}, includeArr)(req, res, next);
+        UniversalController.getDocuments(studentModel,{}, includeArr)(req, res, next);
     })];
     static getDocument = [handleAsync(async (req, res, next) => {
         const includeArr = [{ model: userModel, as: 'center', attributes: { exclude: ['password'] } }]; 
