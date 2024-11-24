@@ -15,7 +15,7 @@ const adminRouter = require('./routes/_adminRoutes');
 const path= require('path')
 // const contactRouter = require('./routes/contactRoute')
 // // const noticeRouter = require('./routes/noticeRoute')
-
+const importantLinksRoutes = require('./routes/linksRoute')
 
 const cors = require('cors')
 // TO PARSE JSON BODY
