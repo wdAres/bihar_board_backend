@@ -1,7 +1,7 @@
 const { DataTypes, Sequelize } = require('sequelize');
 const sequelize = require('../connection/db'); // Replace with your actual Sequelize connection
 const paginate = require('sequelize-paginate')
-const linksModel = sequelize.define('Notice', {
+const linksModel = sequelize.define('Links', {
     label: {
         type: DataTypes.STRING,
         allowNull: false,

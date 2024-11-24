@@ -1,10 +1,10 @@
-const linkModel = require('../models/linksModel');
+const linksModel = require('../models/linksModel');
 const UniversalController = require('./universalController');
 
 module.exports = class LinkController extends UniversalController {
-    static addDocument = UniversalController.addDocument;
-    static getDocuments = UniversalController.getDocuments(linkModel)
-    static getDocument = UniversalController.getDocument(linkModel)
-    static deleteDocument = UniversalController.deleteDocument(linkModel)
-    static updateDocument = UniversalController.updateDocument
+    static addDocument = UniversalController.addDocument(linksModel);
+    static getDocuments = UniversalController.getDocuments(linksModel)
+    static getDocument = UniversalController.getDocument(linksModel)
+    static deleteDocument = UniversalController.deleteDocument(linksModel)
+    static updateDocument = UniversalController.updateDocument(linksModel)
 };
