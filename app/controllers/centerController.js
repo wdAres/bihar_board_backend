@@ -2,81 +2,113 @@ const userModel = require("../models/userModel")
 const handleAsync = require("../utils/handleAsync")
 const ResponseClass = require('../utils/ResponseClass')
 const handlePagination = require('../utils/handlePagination');
+const UniversalController = require("./universalController");
+const path = require('path')
+const fs = require('fs');
+const multer = require("multer");
 
-module.exports = class CenterController {
-    static getAllCenters = handleAsync(async (req, res, next) => {
-        const centers = await userModel.findAll({ where: { role: 'center' } })
-        const page = parseInt(req.query.page, 10) || 1;
-        const limit = parseInt(req.query.limit, 10) || 10;
+const baseUrl = 'http://127.0.0.1:8001/uploads';
+const uploadDir = path.join(__dirname, '../uploads/school');
 
-        const { docs, pages, total, limit: paginationLimit } = await userModel.paginate({ page, paginate: limit, where: { role: 'center' }, order: [['createdAt', 'DESC']], });
+if (!fs.existsSync(uploadDir)) {
+    fs.mkdirSync(uploadDir, { recursive: true });
+}
+const storage = multer.diskStorage({
+    destination: (req, file, cb) => {
+        cb(null, uploadDir);
+    },
+    filename: (req, file, cb) => {
+        cb(null, `${Date.now()}-${file.originalname}`);
+    },
+});
 
+const upload = multer({
+    storage,
+    fileFilter: (req, file, cb) => {
+        const allowedTypes = /jpeg|jpg|png/;
+        const extname = allowedTypes.test(path.extname(file.originalname).toLowerCase());
+        const mimetype = allowedTypes.test(file.mimetype);
 
-        const paginationData = handlePagination({ page, pages, total, limit: paginationLimit });
-
-
-        return new ResponseClass('All inquiry data', 200, { docs, ...paginationData }).send(res)
-
-    })
-
-    static getCenterById = handleAsync(async (req, res, next) => {
-        const { id } = req.params;
-        const center = await userModel.findOne({
-            where: {
-                role: 'center',
-                id: id
-            }
-        });
-
-        if (!center) {
-            return next(new ErrorClass('Center not found!', 404));
+        if (extname && mimetype) {
+            cb(null, true);
+        } else {
+            cb(new ErrorClass('Only images files are allowed!', 400));
         }
-        return new ResponseClass(`Details of center with ID ${id}`, 200, center).send(res)
+    },
+}).single('file');
 
-    });
+const fileSaveMiddleware = (req, res, next) => {
+    if (req.file) {
+        console.log(req.file)
+        req.body.school_principal_signature = `uploads/school/${req.file.filename}`;
+    }
+    next()
+}
 
-    static deleteCenterById = handleAsync(async (req, res, next) => {
-        
-        const { id } = req.params;
-        const center = await userModel.findByPk(id);
+module.exports = class CenterController extends UniversalController {
 
-        if (!center) {
-            return next(new ErrorClass('Center not found!', 404));
-        }
+    // static getAllCenters = handleAsync(async (req, res, next) => {
+    //     const centers = await userModel.findAll({ where: { role: 'center' } })
+    //     const page = parseInt(req.query.page, 10) || 1;
+    //     const limit = parseInt(req.query.limit, 10) || 10;
 
-        await center.destroy()
+    //     const { docs, pages, total, limit: paginationLimit } = await userModel.paginate({ page, paginate: limit, where: { role: 'center' }, order: [['createdAt', 'DESC']], });
 
-        return new ResponseClass(`center Removed`, 200, null).send(res)
 
-    });
+    //     const paginationData = handlePagination({ page, pages, total, limit: paginationLimit });
 
-    static getDetails = handleAsync(async (req, res, next) => {
-        const id = req.user.id;
-        const center = await userModel.findByPk(id);
 
-        if (!center) {
-            return next(new ErrorClass('Center not found!', 404));
-        }
+    //     return new ResponseClass('All inquiry data', 200, { docs, ...paginationData }).send(res)
 
-        return new ResponseClass(`Here is your center details`, 200, center).send(res)
+    // })
+    static addDocument = [upload, fileSaveMiddleware, UniversalController.addDocument(userModel)]
+    static getDocuments = UniversalController.getDocuments(userModel)
+    static getDocument = UniversalController.getDocument(userModel)
+    static deleteDocument = UniversalController.deleteDocument(userModel)
+    static updateDocument = [upload, fileSaveMiddleware, UniversalController.updateDocument(userModel)]
 
-    });
+    // static deleteCenterById = handleAsync(async (req, res, next) => {
 
-    static updateDetails = handleAsync(async (req, res, next) => {
+    //     const { id } = req.params;
+    //     const center = await userModel.findByPk(id);
 
-        const { id } = req.user;
+    //     if (!center) {
+    //         return next(new ErrorClass('Center not found!', 404));
+    //     }
 
-        const center = await userModel.findByPk(id);
+    //     await center.destroy()
 
-        if (!center) {
-            return next(new ErrorClass('Center not found!', 404));
-        }
+    //     return new ResponseClass(`center Removed`, 200, null).send(res)
 
-        if (req.file) { req.body.school_principal_signature = req.file.path; }
+    // });
 
-        await center.update(req.body, { fields: Object.keys(req.body) })
+    // static getDetails = handleAsync(async (req, res, next) => {
+    //     const id = req.user.id;
+    //     const center = await userModel.findByPk(id);
 
-        return new ResponseClass(`Details Updated`, 200, center).send(res)
-    });
+    //     if (!center) {
+    //         return next(new ErrorClass('Center not found!', 404));
+    //     }
+
+    //     return new ResponseClass(`Here is your center details`, 200, center).send(res)
+
+    // });
+
+    // static updateDetails = handleAsync(async (req, res, next) => {
+
+    //     const { id } = req.user;
+
+    //     const center = await userModel.findByPk(id);
+
+    //     if (!center) {
+    //         return next(new ErrorClass('Center not found!', 404));
+    //     }
+
+    //     if (req.file) { req.body.school_principal_signature = req.file.path; }
+
+    //     await center.update(req.body, { fields: Object.keys(req.body) })
+
+    //     return new ResponseClass(`Details Updated`, 200, center).send(res)
+    // });
 
 }

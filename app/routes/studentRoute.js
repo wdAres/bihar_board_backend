@@ -1,18 +1,31 @@
 const StudentController = require('../controllers/studentController');
-const { protectedRoute, authorizedRoute } = require('../utils/handleToken');
 const router = require('express').Router();
 
-router.use(protectedRoute, authorizedRoute('center'))
+router
+    .route('/')
+    .get(StudentController.getDocuments)
+    .post(StudentController.addDocument)
+
 
 router
-    .route('/students')
-    .post(StudentController.createStudent)
-// .get(protectedRoute, authorizedRoute('admin'), StudentController.getAllStudents); 
-router.get('/students', StudentController.getStudents);
-router.get('/students/center/:centerId', StudentController.getStudentsByCenterId);
+    .route('/:id')
+    .get(StudentController.getDocument)
+    .patch(StudentController.updateDocument)
+    .delete(StudentController.deleteDocument);
 
-router.get('/students/:id', StudentController.getStudents);
-router.put('/students/:id', StudentController.updateStudent);
-router.delete('/students/:id', StudentController.deleteStudent);
+router
+    .route('/center/:id')
+    .get(StudentController.getDocumentsByCenter)
+
+// router
+//     .route('/students')
+//     .post(StudentController.createStudent)
+// // .get(protectedRoute, authorizedRoute('admin'), StudentController.getAllStudents); 
+// router.get('/students', StudentController.getStudents);
+// router.get('/students/center/:centerId', StudentController.getStudentsByCenterId);
+
+// router.get('/students/:id', StudentController.getStudents);
+// router.put('/students/:id', StudentController.updateStudent);
+// router.delete('/students/:id', StudentController.deleteStudent);
 
 module.exports = router;

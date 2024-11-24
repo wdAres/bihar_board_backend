@@ -2,17 +2,17 @@ const NoticeController = require('../controllers/noticeController');
 const { protectedRoute, authorizedRoute } = require('../utils/handleToken');
 const router = require('express').Router();
 
-router.use(protectedRoute , authorizedRoute('admin','center'))
 
 router
-    .route('/notices')
-    .post(NoticeController.createNotice)
-    .get(NoticeController.getAllNotices);
+    .route('/')
+    .get(NoticeController.getDocuments)
+    .post(NoticeController.addDocument)
+
 
 router
-    .route('/notices/:id')
-    .get(NoticeController.getNoticeById)
-    .patch(NoticeController.updateNotice)
-    .delete(NoticeController.deleteNotice);
+    .route('/:id')
+    .get(NoticeController.getDocument)
+    .patch(NoticeController.updateDocument)
+    .delete(NoticeController.deleteDocument);
 
 module.exports = router;

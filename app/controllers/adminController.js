@@ -21,8 +21,6 @@ exports.loginAdmin = handleAsync(async (req, res, next) => {
 
     const admin = await adminModel.findOne({ where: { email } });
 
-    console.log('this is admin',admin)
-
     const passwordMatch = await admin.comparePassword(password)
 
     if (!admin || !passwordMatch) {

@@ -2,16 +2,18 @@ const express = require('express');
 const app = express();
 const sequelize = require('./connection/db')
 const ErrorController = require('./controllers/errorController');
-const adminRouter = require('./routes/adminRoute');
-const authRouter = require('./routes/authRoute')
-const centerRouter = require('./routes/centerRoute')
-const studentRouter = require('./routes/studentRoute')
-const supportRoutes = require('./routes/supportRoute');
-const filterData = require('./routes/filterRoute');
-const tenderRoutes = require('./routes/tenderRoute');
+
+const adminRouter = require('./routes/_adminRoutes');
+// const authRouter = require('./routes/authRoute')
+// const centerRouter = require('./routes/centerRoute')
+// const studentRouter = require('./routes/studentRoute')
+// const supportRoutes = require('./routes/supportRoute');
+// const filterData = require('./routes/filterRoute');
+// const tenderRoutes = require('./routes/tenderRoute');
+// const noticeRouter=require('./routes/noticeRoute')
+
 const path= require('path')
 // const contactRouter = require('./routes/contactRoute')
-const noticeRouter=require('./routes/noticeRoute')
 // // const noticeRouter = require('./routes/noticeRoute')
 
 
@@ -34,14 +36,14 @@ app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
 app.use(cors())
 app.use('/api/v1/admin',adminRouter)
-app.use('/api/v1/auth',authRouter)
-app.use('/api/v1/center',centerRouter)
-app.use('/api/v1/',studentRouter)
-// app.use('/api/v1/',contactRouter)
-app.use('/api/v1/supports', supportRoutes);
-app.use('/api/v1/',noticeRouter)
-app.use('/api/v1', filterData);
-app.use('/api/v1', tenderRoutes);   
+// app.use('/api/v1/auth',authRouter)
+// app.use('/api/v1/center',centerRouter)
+// app.use('/api/v1/',studentRouter)
+// // app.use('/api/v1/',contactRouter)
+// app.use('/api/v1/supports', supportRoutes);
+// app.use('/api/v1/',noticeRouter)
+// app.use('/api/v1', filterData);
+// app.use('/api/v1', tenderRoutes);   
 sequelize.sync().then(() => { console.log('Database & tables created!'); });
 
 app.use(ErrorController.showError)

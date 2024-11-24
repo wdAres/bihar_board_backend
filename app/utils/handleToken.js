@@ -5,9 +5,10 @@ const handleAsync = require('./handleAsync');
 const { promisify } = require("util");
 const ResponseClass = require('./ResponseClass');
 const AppError = require('./AppError');
+const adminModel = require('../models/adminModel');
 
 exports.createSendToken = (user, statusCode, res) => {
-    const token = jwt.sign({ email: user.email , role:user.role , id : user.id }, process.env.JWT_SECRET, {
+    const token = jwt.sign({ email: user.email, role: user.role, id: user.id }, process.env.JWT_SECRET, {
         expiresIn: process.env.JWT_EXPIRES_IN,
     });;
 
@@ -22,8 +23,8 @@ exports.createSendToken = (user, statusCode, res) => {
     // UNSEND PASSWORD IN THE USER OBJECT
     user.password = undefined
 
-    return new ResponseClass('Welcome',200,{user,token}).send(res);
-    
+    return new ResponseClass('Welcome', 200, { user, token }).send(res);
+
 };
 
 //  Protected Route ( Middleware which requires token )
@@ -47,9 +48,12 @@ exports.protectedRoute = handleAsync(async (req, res, next) => {
     let decode = await promisify(jwt.verify)(token, process.env.JWT_SECRET);
 
     // 3) CHECK IF THE USER EXIST OR NOT
-    const currentUser = await userModel.findByPk(decode.id);
+    let currentUser = await userModel.findByPk(decode.id);
     if (!currentUser) {
-        return next(new AppError("User is no longer available", 401));
+        currentUser = await adminModel.findByPk(decode.id);
+        if (!currentUser) {
+            return next(new AppError("User is no longer available", 401));
+        }
     }
 
     console.log(currentUser)
@@ -60,6 +64,7 @@ exports.protectedRoute = handleAsync(async (req, res, next) => {
 
 // MIDDLEWARE FOR UNAUTHORIZED ACCESS (ROUTES ONLY FOR ADMIN)
 exports.authorizedRoute = (...roles) => {
+    // console.log(req.user)
     return (req, res, next) => {
         if (!roles.includes(req.user.role)) {
             return next(new ErrorClass("User is not authroized for this route", 401));

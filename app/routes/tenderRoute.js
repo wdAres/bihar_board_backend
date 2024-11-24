@@ -2,9 +2,16 @@ const express = require('express');
 const router = express.Router();
 const TenderController = require('../controllers/tenderController');
 
-router.post('/tenders', TenderController.createTender);
-router.get('/tenders', TenderController.getAllTenders);
-router.get('/tenders/:id', TenderController.getTenderById);
-router.put('/tenders/:id', TenderController.updateTender);
-router.delete('/tenders/:id', TenderController.deleteTender);
+router
+    .route('/')
+    .get(TenderController.getDocuments)
+    .post(TenderController.addDocument)
+
+
+router
+    .route('/:id')
+    .get(TenderController.getDocument)
+    .patch(TenderController.updateDocument)
+    .delete(TenderController.deleteDocument);
+
 module.exports = router;
