@@ -58,7 +58,7 @@ const fileSaveMiddleware = (req, res, next) => {
         return next(new ErrorClass(`Missing required files: ${missingFiles.join(', ')}`, 400));
     }
 
-    req.body.center_id = 4
+    req.body.center_id = req.user.id
     req.body.student_photo = `${baseUrl}/${files.student_photo[0].filename}`
     req.body.student_signature = `${baseUrl}/${files.student_signature[0].filename}`
     req.body.parent_signature = `${baseUrl}/${files.parent_signature[0].filename}`
@@ -80,7 +80,7 @@ const fileupdateMiddleware = (req, res, next) => {
         req.body.parent_signature = `${baseUrl}/${files.parent_signature[0].filename}`;
     }
 
-    req.body.center_id = 4;
+    req.body.center_id = req.user.id;
 
     next();
 };

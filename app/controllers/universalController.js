@@ -45,8 +45,11 @@ module.exports = class UniversalController {
         return handleAsync(async (req, res, next) => {
 
             const { id } = req.params;
+
+            console.log(req.params)
+
             const whereObj = whereClause ? whereClause : {};
-            const doc = await Model.findOne({ where: { ...whereObj, id }, include: includeArr });
+            const doc = await Model.findOne({ where: { ...whereObj, id : parseInt(id,10) }, include: includeArr });
 
 
             if (!doc) {
