@@ -38,7 +38,6 @@ const upload = multer({
 }).single('school_principal_signature');
 
 const fileSaveMiddleware = (req, res, next) => {
-    console.log(req.file )
     if (req.file) {
         req.body.school_principal_signature = `uploads/school/${req.file.filename}`;
     }

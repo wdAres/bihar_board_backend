@@ -40,7 +40,7 @@ const upload = multer({
 
 const fileSaveMiddleware = (req, res, next) => {
     if (req.file) {
-        req.body.file = `uploads/notices/${req.file.filename}`;
+        req.body.file = `uploads/tenders/${req.file.filename}`;
     }
     next()
 }

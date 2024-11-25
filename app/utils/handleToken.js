@@ -62,8 +62,8 @@ exports.protectedRoute = handleAsync(async (req, res, next) => {
 
 // MIDDLEWARE FOR UNAUTHORIZED ACCESS (ROUTES ONLY FOR ADMIN)
 exports.authorizedRoute = (...roles) => {
-    // console.log(req.user)
     return (req, res, next) => {
+        console.log(req.user)
         if (!roles.includes(req.user.role)) {
             return next(new ErrorClass("User is not authroized for this route", 401));
         }
