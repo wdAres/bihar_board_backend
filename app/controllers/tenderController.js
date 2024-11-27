@@ -47,7 +47,10 @@ const fileSaveMiddleware = (req, res, next) => {
 
 module.exports = class TenderController  extends UniversalController {
     static addDocument = [upload, fileSaveMiddleware, UniversalController.addDocument(tenderModel)];
-    static getDocuments = UniversalController.getDocuments(tenderModel)
+    static getDocuments = [handleAsync(async (req, res, next) => {
+        const searchParams = ['label'];
+        UniversalController.getDocuments(tenderModel, {}, [], searchParams)(req, res, next);
+    })];
     static getDocument = UniversalController.getDocument(tenderModel)
     static deleteDocument = UniversalController.deleteDocument(tenderModel)
     static updateDocument = [upload, fileSaveMiddleware, UniversalController.updateDocument(tenderModel)]

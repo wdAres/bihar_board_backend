@@ -49,9 +49,13 @@ const fileSaveMiddleware = (req, res, next) => {
 module.exports = class CenterController extends UniversalController {
 
     static addDocument = [upload, fileSaveMiddleware, UniversalController.addDocument(userModel)]
-    static getDocuments = UniversalController.getDocuments(userModel)
     static getDocument = UniversalController.getDocument(userModel)
     static deleteDocument = UniversalController.deleteDocument(userModel)
     static updateDocument = [upload, fileSaveMiddleware, UniversalController.updateDocument(userModel)]
-    
+
+    static getDocuments = [handleAsync(async (req, res, next) => {
+        const searchParams = ['school_name','school_pincode','center_address','school_mobile_no','email'];
+
+        UniversalController.getDocuments(userModel, {}, [], searchParams)(req, res, next);
+    })];
 }
