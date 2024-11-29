@@ -1,5 +1,5 @@
 const { where, Op } = require("sequelize");
-const ErrorClass = require("../utils/errorClass");
+const ErrorClass = require("../utils/ErrorClass");
 const handleAsync = require("../utils/handleAsync");
 const handlePagination = require("../utils/handlePagination");
 const ResponseClass = require("../utils/ResponseClass");

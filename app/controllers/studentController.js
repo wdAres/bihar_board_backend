@@ -3,7 +3,7 @@ const path = require('path');
 const fs = require('fs');
 const userModel = require('../models/userModel');
 const studentModel = require('../models/studentModel');
-const ErrorClass = require('../utils/errorClass');
+const ErrorClass = require('../utils/ErrorClass');
 const UniversalController = require('./universalController');
 const handleAsync = require('../utils/handleAsync');
 
