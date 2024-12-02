@@ -1,7 +1,7 @@
 const adminModel = require('../models/adminModel');
 const handleAsync = require('../utils/handleAsync');
 const ResponseClass = require('../utils/ResponseClass');
-const ErrorClass = require('../utils/errorClass');
+const ErrorClass = require('../utils/ErrorClass');
 const { createSendToken } = require('../utils/handleToken');
 
 

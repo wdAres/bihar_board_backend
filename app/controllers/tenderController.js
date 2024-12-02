@@ -2,7 +2,7 @@ const tenderModel = require('../models/tenderModel');
 const path = require('path');
 const fs = require('fs');
 const multer = require('multer');
-const ErrorClass = require('../utils/errorClass');
+const ErrorClass = require('../utils/ErrorClass');
 const handleAsync = require('../utils/handleAsync');
 const handlePagination = require('../utils/handlePagination');
 const ResponseClass = require('../utils/ResponseClass');
@@ -47,7 +47,10 @@ const fileSaveMiddleware = (req, res, next) => {
 
 module.exports = class TenderController  extends UniversalController {
     static addDocument = [upload, fileSaveMiddleware, UniversalController.addDocument(tenderModel)];
-    static getDocuments = UniversalController.getDocuments(tenderModel)
+    static getDocuments = [handleAsync(async (req, res, next) => {
+        const searchParams = ['label'];
+        UniversalController.getDocuments(tenderModel, {}, [], searchParams)(req, res, next);
+    })];
     static getDocument = UniversalController.getDocument(tenderModel)
     static deleteDocument = UniversalController.deleteDocument(tenderModel)
     static updateDocument = [upload, fileSaveMiddleware, UniversalController.updateDocument(tenderModel)]

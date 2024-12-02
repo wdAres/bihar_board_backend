@@ -5,6 +5,7 @@ const multer = require('multer');
 const ErrorClass = require('../utils/ErrorClass');
 const ResponseClass = require('../utils/ResponseClass');
 const UniversalController = require('./universalController');
+const handleAsync = require('../utils/handleAsync');
 
 const uploadDir = path.join(__dirname, '../uploads/notices');
 if (!fs.existsSync(uploadDir)) {
@@ -43,8 +44,11 @@ const fileSaveMiddleware = (req, res, next) => {
 
 module.exports = class NoticeController extends UniversalController {
     static addDocument = [upload, fileSaveMiddleware, UniversalController.addDocument(noticeModel)];
-    static getDocuments = UniversalController.getDocuments(noticeModel)
     static getDocument = UniversalController.getDocument(noticeModel)
     static deleteDocument = UniversalController.deleteDocument(noticeModel)
     static updateDocument = [upload, fileSaveMiddleware, UniversalController.updateDocument(noticeModel)]
+    static getDocuments = [handleAsync(async (req, res, next) => {
+        const searchParams = ['label'];
+        UniversalController.getDocuments(noticeModel, {}, [], searchParams)(req, res, next);
+    })];
 };
