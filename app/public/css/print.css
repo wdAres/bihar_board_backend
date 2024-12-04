@@ -1,0 +1,169 @@
+@media print {
+    @page {
+        size: A4;
+        margin: 0;
+    }
+
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: "Lato", sans-serif;
+    }
+    
+    
+    .admit_card_section {
+        background: #fdf1d9;
+    }
+    
+    .top{
+        border-bottom: 2px dashed #8f8f8f;
+    }
+    
+    .admit_card_section > div{ 
+        padding: 10px 30px;
+    }
+    
+    /* Admit Cart Section Header */
+    
+    .ac_section_header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-bottom: 10px;
+    }
+    
+    .ac_section_header h6 {
+        font-weight: 600;
+        color: #565656;
+        font-size: 12px;
+    }
+    
+    .ac_header_logo {
+        width: 60px;
+    }
+    
+    .ac_header_div {
+        text-align: center;
+        row-gap: 5px;
+        display: flex;
+        flex-direction: column;
+    }
+    
+    .ac_header_div h1 {
+        color: #3b77ea;
+        font-size: 20px;
+        font-weight: 600;
+    }
+    
+    .ac_header_div h4 {
+        color: #b992d4;
+        font-weight: 600;
+    }
+    
+    /* Admit Card Body */
+    
+    .ac_information_div {
+        text-align: center;
+        display: flex;
+        justify-content: space-between;
+        row-gap: 20px;
+        margin-top: 30px;
+        align-items: flex-start;
+    }
+    
+    .ac_info_right {
+        width: calc(100% - 107px);
+
+    }
+    .ac_info_left {
+        width: 100px;
+        display: flex;
+        align-items: center;
+        justify-content: end;
+        background: red;
+    }
+    
+    .label {
+        width: 150px;
+        text-align: start;
+        color: #ff8790;
+        font-weight: 400;
+        position: relative;
+        font-size: 14px;
+        margin-right: 20px;
+    }
+    
+    .label::after {
+        content: ':';
+        position: absolute;
+        right: 0;
+    
+    }
+    
+    .value {
+        color: #181818;
+        font-size: 14px;
+    }
+    
+    .bold {
+        font-weight: 600;
+    }
+    
+    .ac_info_right {}
+    
+    
+    .row_container {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        row-gap: 20px;
+    }
+    
+    .row {
+        display: flex;
+        align-items: center;
+        grid-column: span 2;
+    }
+    
+    .row.span {
+        grid-column: span 1;
+    }
+    
+    .student_profile {
+        width: 100px;
+        height: 100px;
+    }
+    
+    .student_profile img {
+        height: 100%;
+        width: 100%;
+    }
+    
+    .ac_sign {
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        justify-content: end;
+        width: 100px;
+    }
+    
+    .ac_sign img{
+        width: 100%;
+        position: absolute;
+        top: -43px;
+        transform: rotate(-11deg);
+    }
+    
+    .ac_sign p{
+        font-weight: 600;
+        font-size: 13px;
+    }
+    
+    .ac_info_right_footer {
+        margin-top: 80px;
+        margin-bottom: 22px;
+        display: flex;
+        column-gap: 100px;
+        justify-content: flex-start;
+    }
+}

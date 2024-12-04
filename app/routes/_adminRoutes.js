@@ -1,4 +1,3 @@
-const { protectedRoute, authorizedRoute } = require('../utils/handleToken')
 const centerRouter = require('./centerRoute')
 const inquiryRouter = require('./contactRoute')
 const authRouter = require('./adminRoute')
@@ -7,8 +6,8 @@ const tenderRouter = require('./tenderRoute')
 const linkRouter = require('./linkRoute')
 const supportRouter = require('./supportRoute')
 const studentRouter = require('./studentRoute')
+const { protectedRoute, authorizedRoute } = require('../utils/handleToken')
 const router = require('express').Router()
-
 
 router.use('/auth',authRouter)
 

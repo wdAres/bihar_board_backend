@@ -119,4 +119,35 @@ module.exports = class StudentController extends UniversalController {
         UniversalController.getDocuments(studentModel, {center_id:req.params.id}, [], searchParams)(req, res, next);
     })];
 
+    static getAdmitCardByStudentId = handleAsync(async (req, res, next) => {
+
+        console.log(req.params.id);
+    
+        const doc = await studentModel.findOne({
+            where: { id: parseInt(req.params.id) },
+            include: [{ model: userModel, as: 'center', attributes: { exclude: ['password'] } }]
+        });
+    
+        if (!doc) {
+            return next(new ErrorClass('No document found!', 404));
+        }
+    
+        res.render('admit_card', {
+            student_name: doc.student_name,
+            student_father_name: doc.student_father_name,
+            student_mother_name: doc.student_mother_name,
+            dob_in_figures: doc.dob_in_figures,
+            dob_in_words: doc.dob_in_words,
+            student_cast: doc.student_cast,
+            student_category: doc.student_category,
+            student_sex: doc.student_sex,
+            student_aadhar_no: doc.student_aadhar_no,
+            school_name: doc.school_name,
+            student_required_subject: doc.student_required_subject,
+            student_additional_subject: doc.student_additional_subject
+        });
+    });
+    
+    
+
 };

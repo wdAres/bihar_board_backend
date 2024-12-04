@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+    <link rel="stylesheet" href="/public/css/print.css">
+    <link rel="stylesheet" href="/public/css/style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&display=swap"
+        rel="stylesheet">
+</head>
+
+<body>
+    <section class="admit_card_section">
+        <div class="top">
+            <div class="ac_section_header">
+                <img class="ac_header_logo" src="/public/files/newLogo.png" alt="logo">
+                <div class="ac_header_div">
+                    <h1>Bihar Sanskrit Education Board, Patna</h1>
+                    <h4>Secondary School Admit Card - 2025</h4>
+                </div>
+                <h6>SL No. 1224</h6>
+            </div>
+            <div class='ac_information_div'>
+                <div class="ac_info_right">
+                    <div class="row_container">
+                        <div class="row">
+                            <p class="label">Student Name</p>
+                            <p class="value bold">
+                                <%= student_name %>
+                            </p>
+                        </div>
+                        <div class="row">
+                            <p class="label">Student Father Name</p>
+                            <p class="value">
+                                <%= student_father_name %>
+                            </p>
+                        </div>
+                        <div class="row">
+                            <p class="label">Student Mother Name</p>
+                            <p class="value">
+                                <%= student_mother_name %>
+                            </p>
+                        </div>
+                        <div class="row span">
+                            <p class="label">Date of Birth</p>
+                            <p class="value">
+                                <%= dob_in_figures %>
+                            </p>
+                        </div>
+                        <div class="row span">
+                            <p class="value">
+                                <%= dob_in_words %>
+                            </p>
+                        </div>
+                        <div class="row span">
+                            <p class="label">Cast</p>
+                            <p class="value">
+                                <%= student_cast %>
+                            </p>
+                        </div>
+                        <div class="row span">
+                            <p class="label">Category</p>
+                            <p class="value">
+                                <%= student_category %>
+                            </p>
+                        </div>
+                        <div class="row span">
+                            <p class="label">Sex</p>
+                            <p class="value">
+                                <%= student_sex %>
+                            </p>
+                        </div>
+                        <div class="row span">
+                            <p class="label">Aadhar No.</p>
+                            <p class="value">
+                                <%= student_aadhar_no %>
+                            </p>
+                        </div>
+                        <div class="row">
+                            <p class="label">School Name</p>
+                            <p class="value">
+                                <%= school_name %>
+                            </p>
+                        </div>
+                    </div>
+                    <div class="ac_info_right_footer">
+                        <div class="ac_sign">
+                            <img src="/public/files/sign.png" alt="">
+                            <p>Assistant</p>
+                        </div>
+                        <div class="ac_sign">
+                            <img src="/public/files/sign.png" alt="">
+                            <p>Secretary</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="ac_info_left">
+                    <div class="student_profile">
+                        <img src="/public/files/pp.jpeg" alt="profile">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div>
+            <div class="ac_section_header">
+                <img class="ac_header_logo" src="/public/files/newLogo.png" alt="logo">
+                <div class="ac_header_div">
+                    <h1>Bihar Sanskrit Education Board, Patna</h1>
+                    <h4>Secondary School Admit Card - 2025</h4>
+                </div>
+                <h6>SL No. 1224</h6>
+            </div>
+            <div class='ac_information_div'>
+                <div class="ac_info_right">
+                    <div class="row_container">
+                        <div class="row">
+                            <p class="label">Student Name</p>
+                            <p class="value bold">
+                                <%= student_name %>
+                            </p>
+                        </div>
+                        <div class="row">
+                            <p class="label">Student Father Name</p>
+                            <p class="value">
+                                <%= student_father_name %>
+                            </p>
+                        </div>
+                        <div class="row">
+                            <p class="label">Student Mother Name</p>
+                            <p class="value">
+                                <%= student_mother_name %>
+                            </p>
+                        </div>
+                        <div class="row span">
+                            <p class="label">Date of Birth</p>
+                            <p class="value">
+                                <%= dob_in_figures %>
+                            </p>
+                        </div>
+                        <div class="row span">
+                            <p class="value">
+                                <%= dob_in_words %>
+                            </p>
+                        </div>
+                        <div class="row span">
+                            <p class="label">Cast</p>
+                            <p class="value">
+                                <%= student_cast %>
+                            </p>
+                        </div>
+                        <div class="row span">
+                            <p class="label">Category</p>
+                            <p class="value">
+                                <%= student_category %>
+                            </p>
+                        </div>
+                        <div class="row span">
+                            <p class="label">Sex</p>
+                            <p class="value">
+                                <%= student_sex %>
+                            </p>
+                        </div>
+                        <div class="row span">
+                            <p class="label">Aadhar No.</p>
+                            <p class="value">
+                                <%= student_aadhar_no %>
+                            </p>
+                        </div>
+                        <div class="row">
+                            <p class="label">School Name</p>
+                            <p class="value">
+                                <%= school_name %>
+                            </p>
+                        </div>
+                        <div class="row">
+                            <p class="label">Exam Center Name</p>
+                            <p class="value">Kendriya Vidhayala Centeral School</p>
+                        </div>
+                        <div class="row span">
+                            <p class="label">Center Code</p>
+                            <p class="value">19392</p>
+                        </div>
+                        <div class="row span">
+                            <p class="label">Roll No.</p>
+                            <p class="value">322452</p>
+                        </div>
+                        <div class="row">
+                            <p class="label">Required Subject</p>
+                            <p class="value">
+                                <%= student_required_subject %>
+                            </p>
+                        </div>
+                        <div class="row">
+                            <p class="label">Additional Subject</p>
+                            <p class="value">
+                                <%= student_additional_subject %>
+                            </p>
+                        </div>
+                        <div class="row">
+                            <p class="label">Exam Date</p>
+                            <p class="value">29 August 2025 To 5 September 2025</p>
+                        </div>
+                    </div>
+                    <div class="ac_info_right_footer">
+                        <div class="ac_sign">
+                            <img src="/public/files/sign.png" alt="">
+                            <p>Assistant</p>
+                        </div>
+                        <div class="ac_sign">
+                            <img src="/public/files/sign.png" alt="">
+                            <p>Secretary</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="ac_info_left">
+                    <div class="student_profile">
+                        <img src="/public/files/pp.jpeg" alt="profile">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</body>
+
+</html>

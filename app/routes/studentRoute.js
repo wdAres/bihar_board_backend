@@ -16,6 +16,10 @@ router
     .route('/center/:id')
     .get(StudentController.getDocumentsByCenter)
 
+router
+    .route('/admit-card/:id')
+    .get(StudentController.getAdmitCardByStudentId)
+
 
 
 module.exports = router;
