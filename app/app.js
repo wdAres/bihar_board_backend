@@ -14,7 +14,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 app.use('/public', express.static(path.join(__dirname, 'public')));
-
+app.use('/uploads', express.static(path.join(__dirname, 'public', 'admit_cards')));
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
 

@@ -24,7 +24,7 @@ router.use('/support' , supportRouter)
 router.use('/student' , studentRouter)
 
 router.post('/generate-admit-card' , AdmitCardController.addDocument)
-
+router.post('/generate-admit-cards', AdmitCardController.generateAdmitCardsForAll);
 
 
 module.exports = router
