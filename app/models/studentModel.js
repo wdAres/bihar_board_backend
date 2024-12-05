@@ -202,7 +202,8 @@ const sequelize = require('../connection/db');
 const userModel = require('./userModel');
 const paginate = require('sequelize-paginate');
 const moment = require('moment');
-const {toWords} = require('number-to-words')
+const {toWords} = require('number-to-words');
+const admitCardModel = require('./admitCardModel');
 
 const studentModel = sequelize.define('Student', {
     id: {
@@ -439,7 +440,7 @@ const studentModel = sequelize.define('Student', {
             model: userModel,
             key: 'id',
         }
-    },
+    }
 }, {
     timestamps: true,
     hooks: {

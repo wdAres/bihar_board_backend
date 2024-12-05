@@ -1,0 +1,568 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+    <link rel="stylesheet" href="/public/css/print.css">
+    <link rel="stylesheet" href="/public/css/style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&display=swap"
+        rel="stylesheet">
+</head>
+
+<body>
+
+    <style>
+        @media print {
+            @page {
+                size: A4;
+                margin: 0;
+            }
+
+            * {
+                margin: 0;
+                padding: 0;
+                box-sizing: border-box;
+                font-family: "Lato", sans-serif;
+            }
+
+
+            .admit_card_section {
+                background: #fdf1d9;
+            }
+
+            .top {
+                border-bottom: 2px dashed #8f8f8f;
+            }
+
+            .admit_card_section>div {
+                padding: 10px 30px;
+            }
+
+            /* Admit Cart Section Header */
+
+            .ac_section_header {
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                margin-bottom: 10px;
+            }
+
+            .ac_section_header h6 {
+                font-weight: 600;
+                color: #565656;
+                font-size: 12px;
+            }
+
+            .ac_header_logo {
+                width: 60px;
+            }
+
+            .ac_header_div {
+                text-align: center;
+                row-gap: 5px;
+                display: flex;
+                flex-direction: column;
+            }
+
+            .ac_header_div h1 {
+                color: #3b77ea;
+                font-size: 20px;
+                font-weight: 600;
+            }
+
+            .ac_header_div h4 {
+                color: #b992d4;
+                font-weight: 600;
+            }
+
+            /* Admit Card Body */
+
+            .ac_information_div {
+                text-align: center;
+                display: flex;
+                justify-content: space-between;
+                row-gap: 20px;
+                margin-top: 30px;
+                align-items: flex-start;
+            }
+
+            .ac_info_right {
+                width: calc(100% - 107px);
+
+            }
+
+            .ac_info_left {
+                width: 100px;
+                display: flex;
+                align-items: center;
+                justify-content: end;
+                background: red;
+            }
+
+            .label {
+                width: 150px;
+                text-align: start;
+                color: #ff8790;
+                font-weight: 400;
+                position: relative;
+                font-size: 14px;
+                margin-right: 20px;
+            }
+
+            .label::after {
+                content: ':';
+                position: absolute;
+                right: 0;
+
+            }
+
+            .value {
+                color: #181818;
+                font-size: 14px;
+            }
+
+            .bold {
+                font-weight: 600;
+            }
+
+            .ac_info_right {}
+
+
+            .row_container {
+                display: grid;
+                grid-template-columns: repeat(2, 1fr);
+                row-gap: 20px;
+            }
+
+            .row {
+                display: flex;
+                align-items: center;
+                grid-column: span 2;
+            }
+
+            .row.span {
+                grid-column: span 1;
+            }
+
+            .student_profile {
+                width: 100px;
+                height: 100px;
+            }
+
+            .student_profile img {
+                height: 100%;
+                width: 100%;
+            }
+
+            .ac_sign {
+                position: relative;
+                display: flex;
+                flex-direction: column;
+                justify-content: end;
+                width: 100px;
+            }
+
+            .ac_sign img {
+                width: 100%;
+                position: absolute;
+                top: -43px;
+                transform: rotate(-11deg);
+            }
+
+            .ac_sign p {
+                font-weight: 600;
+                font-size: 13px;
+            }
+
+            .ac_info_right_footer {
+                margin-top: 80px;
+                margin-bottom: 22px;
+                display: flex;
+                column-gap: 100px;
+                justify-content: flex-start;
+            }
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: "Lato", sans-serif;
+        }
+
+
+        .admit_card_section {
+            background: #fdf1d9;
+        }
+
+        .top {
+            border-bottom: 2px dashed #8f8f8f;
+        }
+
+        .admit_card_section>div {
+            padding: 10px 30px;
+        }
+
+        /* Admit Cart Section Header */
+
+        .ac_section_header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 10px;
+        }
+
+        .ac_section_header h6 {
+            font-weight: 600;
+            color: #565656;
+            font-size: 12px;
+        }
+
+        .ac_header_logo {
+            width: 60px;
+        }
+
+        .ac_header_div {
+            text-align: center;
+            row-gap: 5px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .ac_header_div h1 {
+            color: #3b77ea;
+            font-size: 20px;
+            font-weight: 600;
+        }
+
+        .ac_header_div h4 {
+            color: #b992d4;
+            font-weight: 600;
+        }
+
+        /* Admit Card Body */
+
+        .ac_information_div {
+            text-align: center;
+            display: flex;
+            justify-content: space-between;
+            row-gap: 20px;
+            margin-top: 30px;
+            align-items: flex-start;
+        }
+
+        .ac_info_right {
+            width: calc(100% - 107px);
+
+        }
+
+        .ac_info_left {
+            width: 100px;
+            display: flex;
+            align-items: center;
+            justify-content: end;
+            background: red;
+        }
+
+        .label {
+            width: 150px;
+            text-align: start;
+            color: #ff8790;
+            font-weight: 400;
+            position: relative;
+            font-size: 14px;
+            margin-right: 20px;
+        }
+
+        .label::after {
+            content: ':';
+            position: absolute;
+            right: 0;
+
+        }
+
+        .value {
+            color: #181818;
+            font-size: 14px;
+        }
+
+        .bold {
+            font-weight: 600;
+        }
+
+        .ac_info_right {}
+
+
+        .row_container {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            row-gap: 20px;
+        }
+
+        .row {
+            display: flex;
+            align-items: center;
+            grid-column: span 2;
+        }
+
+        .row.span {
+            grid-column: span 1;
+        }
+
+        .student_profile {
+            width: 100px;
+            height: 100px;
+        }
+
+        .student_profile img {
+            height: 100%;
+            width: 100%;
+        }
+
+        .ac_sign {
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            justify-content: end;
+            width: 100px;
+        }
+
+        .ac_sign img {
+            width: 100%;
+            position: absolute;
+            top: -43px;
+            transform: rotate(-11deg);
+        }
+
+        .ac_sign p {
+            font-weight: 600;
+            font-size: 13px;
+        }
+
+        .ac_info_right_footer {
+            margin-top: 80px;
+            margin-bottom: 20px;
+            display: flex;
+            column-gap: 100px;
+            justify-content: flex-start;
+        }
+    </style>
+
+
+    <section class="admit_card_section">
+        <div class="top">
+            <div class="ac_section_header">
+                <img class="ac_header_logo" src="/public/files/newLogo.png" alt="logo">
+                <div class="ac_header_div">
+                    <h1>Bihar Sanskrit Education Board, Patna</h1>
+                    <h4>Secondary School Admit Card - 2025</h4>
+                </div>
+                <h6>SL No. 1224</h6>
+            </div>
+            <div class='ac_information_div'>
+                <div class="ac_info_right">
+                    <div class="row_container">
+                        <div class="row">
+                            <p class="label">Student Name</p>
+                            <p class="value bold">
+                                <%= student_name %>
+                            </p>
+                        </div>
+                        <div class="row">
+                            <p class="label">Student Father Name</p>
+                            <p class="value">
+                                <%= student_father_name %>
+                            </p>
+                        </div>
+                        <div class="row">
+                            <p class="label">Student Mother Name</p>
+                            <p class="value">
+                                <%= student_mother_name %>
+                            </p>
+                        </div>
+                        <div class="row span">
+                            <p class="label">Date of Birth</p>
+                            <p class="value">
+                                <%= dob_in_figures %>
+                            </p>
+                        </div>
+                        <div class="row span">
+                            <p class="value">
+                                <%= dob_in_words %>
+                            </p>
+                        </div>
+                        <div class="row span">
+                            <p class="label">Cast</p>
+                            <p class="value">
+                                <%= student_cast %>
+                            </p>
+                        </div>
+                        <div class="row span">
+                            <p class="label">Category</p>
+                            <p class="value">
+                                <%= student_category %>
+                            </p>
+                        </div>
+                        <div class="row span">
+                            <p class="label">Sex</p>
+                            <p class="value">
+                                <%= student_sex %>
+                            </p>
+                        </div>
+                        <div class="row span">
+                            <p class="label">Aadhar No.</p>
+                            <p class="value">
+                                <%= student_aadhar_no %>
+                            </p>
+                        </div>
+                        <div class="row">
+                            <p class="label">School Name</p>
+                            <p class="value">
+                                <%= school_name %>
+                            </p>
+                        </div>
+                    </div>
+                    <div class="ac_info_right_footer">
+                        <div class="ac_sign">
+                            <img src="<%= student_signature %>" alt="">
+                            <p>Assistant</p>
+                        </div>
+                        <div class="ac_sign">
+                            <img src="<%= student_signature %>" alt="">
+                            <p>Secretary</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="ac_info_left">
+                    <div class="student_profile">
+                        <img src="<%= student_photo %>" alt="">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div>
+            <div class="ac_section_header">
+                <img class="ac_header_logo" src="/public/files/newLogo.png" alt="logo">
+                <div class="ac_header_div">
+                    <h1>Bihar Sanskrit Education Board, Patna</h1>
+                    <h4>Secondary School Admit Card - 2025</h4>
+                </div>
+                <h6>SL No. 1224</h6>
+            </div>
+            <div class='ac_information_div'>
+                <div class="ac_info_right">
+                    <div class="row_container">
+                        <div class="row">
+                            <p class="label">Student Name</p>
+                            <p class="value bold">
+                                <%= student_name %>
+                            </p>
+                        </div>
+                        <div class="row">
+                            <p class="label">Student Father Name</p>
+                            <p class="value">
+                                <%= student_father_name %>
+                            </p>
+                        </div>
+                        <div class="row">
+                            <p class="label">Student Mother Name</p>
+                            <p class="value">
+                                <%= student_mother_name %>
+                            </p>
+                        </div>
+                        <div class="row span">
+                            <p class="label">Date of Birth</p>
+                            <p class="value">
+                                <%= dob_in_figures %>
+                            </p>
+                        </div>
+                        <div class="row span">
+                            <p class="value">
+                                <%= dob_in_words %>
+                            </p>
+                        </div>
+                        <div class="row span">
+                            <p class="label">Cast</p>
+                            <p class="value">
+                                <%= student_cast %>
+                            </p>
+                        </div>
+                        <div class="row span">
+                            <p class="label">Category</p>
+                            <p class="value">
+                                <%= student_category %>
+                            </p>
+                        </div>
+                        <div class="row span">
+                            <p class="label">Sex</p>
+                            <p class="value">
+                                <%= student_sex %>
+                            </p>
+                        </div>
+                        <div class="row span">
+                            <p class="label">Aadhar No.</p>
+                            <p class="value">
+                                <%= student_aadhar_no %>
+                            </p>
+                        </div>
+                        <div class="row">
+                            <p class="label">School Name</p>
+                            <p class="value">
+                                <%= school_name %>
+                            </p>
+                        </div>
+                        <div class="row">
+                            <p class="label">Exam Center Name</p>
+                            <p class="value">Kendriya Vidhayala Centeral School</p>
+                        </div>
+                        <div class="row span">
+                            <p class="label">Center Code</p>
+                            <p class="value">19392</p>
+                        </div>
+                        <div class="row span">
+                            <p class="label">Roll No.</p>
+                            <p class="value">322452</p>
+                        </div>
+                        <div class="row">
+                            <p class="label">Required Subject</p>
+                            <p class="value">
+                                <%= student_required_subject %>
+                            </p>
+                        </div>
+                        <div class="row">
+                            <p class="label">Additional Subject</p>
+                            <p class="value">
+                                <%= student_additional_subject %>
+                            </p>
+                        </div>
+                        <div class="row">
+                            <p class="label">Exam Date</p>
+                            <p class="value">29 August 2025 To 5 September 2025</p>
+                        </div>
+                    </div>
+                    <div class="ac_info_right_footer">
+                        <div class="ac_sign">
+                            <img src="<%= student_signature %>" alt="">
+                            <p>Assistant</p>
+                        </div>
+                        <div class="ac_sign">
+                            <img src="<%= student_signature %>" alt="">
+                            <p>Secretary</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="ac_info_left">
+                    <div class="student_profile">
+                        <img src="<%= student_photo %>" alt="">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</body>
+
+</html>
