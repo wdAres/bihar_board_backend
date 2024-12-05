@@ -6,6 +6,8 @@ const studentModel = require('../models/studentModel');
 const ErrorClass = require('../utils/ErrorClass');
 const UniversalController = require('./universalController');
 const handleAsync = require('../utils/handleAsync');
+const puppeteer = require('puppeteer');
+const ejs = require('ejs')
 
 const baseUrl = 'http://127.0.0.1:8001/uploads';
 const uploadDir = path.join(__dirname, '../uploads');
@@ -61,7 +63,7 @@ const fileSaveMiddleware = (req, res, next) => {
     }
 
     if (req.user.role === 'admin') {
-        return next(new ErrorClass('Admin dosnt have this authority',401))
+        return next(new ErrorClass('Admin dosnt have this authority', 401))
     }
 
     req.body.center_id = req.user.id
@@ -99,14 +101,14 @@ module.exports = class StudentController extends UniversalController {
     static addDocument = [uploadFields, fileSaveMiddleware, UniversalController.addDocument(studentModel)];
     static getDocuments = [handleAsync(async (req, res, next) => {
         const includeArr = [{ model: userModel, as: 'center', attributes: { exclude: ['password'] } }];
-        const searchParams = ['student_name','student_father_name','student_mother_name','student_email','student_mobile_number'];
-    
+        const searchParams = ['student_name', 'student_father_name', 'student_mother_name', 'student_email', 'student_mobile_number'];
+
         UniversalController.getDocuments(studentModel, {}, includeArr, searchParams)(req, res, next);
     })];
-    
+
     static getDocument = [handleAsync(async (req, res, next) => {
-        const includeArr = [{ model: userModel, as: 'center', attributes: { exclude: ['password'] } }]; 
-        await UniversalController.getDocument(studentModel,{}, includeArr)(req, res, next);
+        const includeArr = [{ model: userModel, as: 'center', attributes: { exclude: ['password'] } }];
+        await UniversalController.getDocument(studentModel, {}, includeArr)(req, res, next);
     })];
     static deleteDocument = UniversalController.deleteDocument(studentModel)
     static updateDocument = [uploadFields, fileupdateMiddleware, UniversalController.updateDocument(studentModel)]
@@ -114,40 +116,67 @@ module.exports = class StudentController extends UniversalController {
         handleAsync(async (req, res, next) => { await UniversalController.getDocuments(studentModel, { center_id: req.params.id })(req, res, next); })
     ]
     static getDocumentsByCenter = [handleAsync(async (req, res, next) => {
-        const searchParams = ['student_name','student_father_name','student_mother_name','student_email','student_mobile_number'];
-    
-        UniversalController.getDocuments(studentModel, {center_id:req.params.id}, [], searchParams)(req, res, next);
+        const searchParams = ['student_name', 'student_father_name', 'student_mother_name', 'student_email', 'student_mobile_number'];
+
+        UniversalController.getDocuments(studentModel, { center_id: req.params.id }, [], searchParams)(req, res, next);
     })];
 
     static getAdmitCardByStudentId = handleAsync(async (req, res, next) => {
 
-        console.log(req.params.id);
-    
-        const doc = await studentModel.findOne({
-            where: { id: parseInt(req.params.id) },
-            include: [{ model: userModel, as: 'center', attributes: { exclude: ['password'] } }]
-        });
-    
-        if (!doc) {
-            return next(new ErrorClass('No document found!', 404));
-        }
-    
-        res.render('admit_card', {
-            student_name: doc.student_name,
-            student_father_name: doc.student_father_name,
-            student_mother_name: doc.student_mother_name,
-            dob_in_figures: doc.dob_in_figures,
-            dob_in_words: doc.dob_in_words,
-            student_cast: doc.student_cast,
-            student_category: doc.student_category,
-            student_sex: doc.student_sex,
-            student_aadhar_no: doc.student_aadhar_no,
-            school_name: doc.school_name,
-            student_required_subject: doc.student_required_subject,
-            student_additional_subject: doc.student_additional_subject
-        });
+        // console.log(req.params.id);
+
+        // const doc = await studentModel.findOne({
+        //     where: { id: parseInt(req.params.id) },
+        //     include: [{ model: userModel, as: 'center', attributes: { exclude: ['password'] } }]
+        // });
+
+        // if (!doc) {
+        //     return next(new ErrorClass('No document found!', 404));
+        // }
+
+        // const studentData = {
+        //     student_name: doc.student_name,
+        //     student_father_name: doc.student_father_name,
+        //     student_mother_name: doc.student_mother_name,
+        //     dob_in_figures: doc.dob_in_figures,
+        //     dob_in_words: doc.dob_in_words,
+        //     student_cast: doc.student_cast,
+        //     student_category: doc.student_category,
+        //     student_sex: doc.student_sex,
+        //     student_aadhar_no: doc.student_aadhar_no,
+        //     school_name: doc.school_name,
+        //     student_required_subject: doc.student_required_subject,
+        //     student_additional_subject: doc.student_additional_subject
+        // }
+
+        const studentData = { student_name: "Puneet Shrivastav", student_father_name: "Puneet Shrivastav", student_mother_name: "Puneet Shrivastav", dob_in_figures: "13/08/2002", dob_in_words: "Thirteen August Two Thousand Two", student_cast: "Regular", student_category: "General", student_sex: "male", student_aadhar_no: "123412341234", school_name: "Kendriya Vidhayala Centeral School", student_required_subject: "Sanskrit", student_additional_subject: "Maithili" };
+
+        console.log(studentData)
+        const startTime = Date.now();
+
+        const html = await ejs.renderFile(path.join('app', 'views', 'admit_card.ejs'), studentData);
+        console.log('EJS Render Time:', Date.now() - startTime);
+        
+        const browser = await puppeteer.launch({ headless: true });
+        console.log('Browser Launch Time:', Date.now() - startTime);
+        
+        const page = await browser.newPage();
+        await page.setContent(html);
+        console.log('Page Set Content Time:', Date.now() - startTime);
+        
+        const pdfBuffer = await page.pdf({ format: 'A4' });
+        await browser.close();
+        console.log('PDF Generation Time:', Date.now() - startTime);
+        
+        
+        res.set({ 'Content-Type': 'application/pdf', 'Content-Disposition': 'attachment; filename=admit_card.pdf', });
+
+        console.log('we are in final')
+
+        res.status(200).send(pdfBuffer);
+
     });
-    
-    
+
+
 
 };

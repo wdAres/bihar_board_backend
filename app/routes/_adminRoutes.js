@@ -7,7 +7,9 @@ const linkRouter = require('./linkRoute')
 const supportRouter = require('./supportRoute')
 const studentRouter = require('./studentRoute')
 const { protectedRoute, authorizedRoute } = require('../utils/handleToken')
-const router = require('express').Router()
+const AdmitCardController = require('../controllers/admitCardController')
+const router = require('express').Router();
+
 
 router.use('/auth',authRouter)
 
@@ -20,6 +22,8 @@ router.use('/tender' , tenderRouter)
 router.use('/important-link' , linkRouter)
 router.use('/support' , supportRouter)
 router.use('/student' , studentRouter)
+
+router.post('/generate-admit-card' , AdmitCardController.addDocument)
 
 
 
