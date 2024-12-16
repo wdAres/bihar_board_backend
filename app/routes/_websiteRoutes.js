@@ -11,7 +11,7 @@ router.use('/notice' , noticeRouter)
 router.use('/tender' , tenderRouter)
 router.use('/important-link' , linkRouter)
 router.use('/total_students',StudentController.totalStudents)
-router.use('/total_teachers',CenterController.totalSchools)
+router.use('/total_schools',CenterController.totalSchools)
 
 
 module.exports = router
