@@ -21,5 +21,4 @@ router
     .get(StudentController.getAdmitCardByStudentId)
 
 
-
 module.exports = router;

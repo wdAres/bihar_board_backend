@@ -58,4 +58,10 @@ module.exports = class CenterController extends UniversalController {
 
         UniversalController.getDocuments(userModel, {}, [], searchParams)(req, res, next);
     })];
+
+    static totalSchools = handleAsync(async (req, res, next) => {
+        const totalSchools = await userModel.count();
+        return new ResponseClass('Total Schools' , 200 , {count:totalSchools}).send(res)
+});
+
 }
