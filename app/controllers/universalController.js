@@ -85,6 +85,7 @@ module.exports = class UniversalController {
 
         })
     }
+    
     static deleteDocument = function (Model) {
         return handleAsync(async (req, res, next) => {
 
