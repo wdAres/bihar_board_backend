@@ -20,5 +20,9 @@ module.exports = class employeeController extends UniversalController {
         const searchParams = ['status'];
         UniversalController.getDocuments(employeeModel, { center_id: req.params.id }, [], searchParams)(req, res, next);
     })];
+
+    static getEmployeeByCenter = [
+        handleAsync(async (req, res, next) => { await UniversalController.getDocuments(employeeModel, { center_id: req.params.id })(req, res, next); })
+    ]
     
 }

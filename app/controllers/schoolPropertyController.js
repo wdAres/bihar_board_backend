@@ -11,7 +11,8 @@ const keyMiddleware = (req, res, next) => {
 
 module.exports = class SchoolPropertyController extends UniversalController {
     static addDocument = [keyMiddleware,UniversalController.addDocument(SchoolPropertyModel)]
-    static getDocument = UniversalController.getDocument(SchoolPropertyModel)
+    // static getDocument = UniversalController.getDocument(SchoolPropertyModel)
+    static getDocuments = UniversalController.getDocuments(SchoolPropertyModel)
     static deleteDocument = UniversalController.deleteDocument(SchoolPropertyModel)
     static updateDocument =  UniversalController.updateDocument(SchoolPropertyModel)
     static getDocumentsByCenter = [handleAsync(async (req, res, next) => {
@@ -19,4 +20,8 @@ module.exports = class SchoolPropertyController extends UniversalController {
         const searchParams = ['status'];
         UniversalController.getDocuments(SchoolPropertyModel, { center_id: req.params.id }, [], searchParams)(req, res, next);
     })];
+
+    static getPropertyByCenter = [
+        handleAsync(async (req, res, next) => { await UniversalController.getDocuments(SchoolPropertyModel, { center_id: req.params.id })(req, res, next); })
+    ]
 }

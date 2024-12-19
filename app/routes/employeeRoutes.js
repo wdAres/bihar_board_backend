@@ -5,6 +5,7 @@ router
       .route('/')
       .post(employeeController.addDocument)
       .get(employeeController.getDocument)
+      
 
 router
     .route('/:id')
@@ -13,4 +14,10 @@ router
 router
     .route('/center/true')
     .get(employeeController.getDocumentsByCenter)
+
+
+router
+    .route('/center/:id')
+    .get(employeeController.getEmployeeByCenter)
+
 module.exports = router

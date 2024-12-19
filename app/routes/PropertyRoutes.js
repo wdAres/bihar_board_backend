@@ -4,6 +4,7 @@ const router = require('express').Router()
 router
       .route('/')
       .post(SchoolPropertyController.addDocument)
+      .get(SchoolPropertyController.getDocuments)
       
 
 router
@@ -15,5 +16,10 @@ router
 router
     .route('/center/true')
     .get(SchoolPropertyController.getDocumentsByCenter)
+
+
+router
+    .route('/center/:id')
+    .get(SchoolPropertyController.getPropertyByCenter)
     
 module.exports = router
