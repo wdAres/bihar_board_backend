@@ -25,6 +25,24 @@ app.get('/admit-card',(req,res,next)=>{
     res.render('admit_card',studentData)
 })
 
+app.get('/api/admit-card',(req,res,next)=>{
+    res.render('admit_card_2.ejs' , {
+        student_name: 'Puneet Shrivastav',
+            student_father_name: 'Rajender Shrivastav',
+            student_mother_name: 'Poonam Shrivastav',
+            dob_in_figures: '13/08/2002',
+            dob_in_words:'thirteen august two thousan two' ,
+            student_cast: 'general',
+            student_category: 'regular',
+            student_sex: 'male',
+            student_aadhar_no: '123412341234',
+            school_name: 'Sarvodhya Co-Ed School',
+            student_required_subject: 'sanskrit',
+            student_additional_subject: 'maths',
+            student_signature: 'http://127.0.0.1:8001/uploads/1733401340212-th (1).jpeg',
+            student_photo: 'http://127.0.0.1:8001/uploads/1733393106185-em.jpg',
+    })
+})
 app.use('/api/v1/admin', adminRouter)
 app.use('/api/v1/school', centerRouter)
 app.use('/api/v1/website', websiteRouter)
