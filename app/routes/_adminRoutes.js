@@ -6,6 +6,8 @@ const tenderRouter = require('./tenderRoute')
 const linkRouter = require('./linkRoute')
 const supportRouter = require('./supportRoute')
 const studentRouter = require('./studentRoute')
+const employeeRouter = require('./employeeRoutes')
+const SchoolProperty = require('./PropertyRoutes')
 const { protectedRoute, authorizedRoute } = require('../utils/handleToken')
 const AdmitCardController = require('../controllers/admitCardController')
 const router = require('express').Router();
@@ -22,7 +24,8 @@ router.use('/tender' , tenderRouter)
 router.use('/important-link' , linkRouter)
 router.use('/support' , supportRouter)
 router.use('/student' , studentRouter)
-
+router.use('/Employee', employeeRouter)
+router.use('/Property', SchoolProperty)
 router.post('/generate-admit-card' , AdmitCardController.addDocument)
 router.post('/generate-admit-cards', AdmitCardController.generateAdmitCardsForAll);
 
