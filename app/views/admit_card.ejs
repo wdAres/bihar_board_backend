@@ -22,6 +22,25 @@
                 margin: 0;
             }
 
+            .watermark_grid {
+            display: grid;
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            row-gap: 30px;
+            grid-template-columns: repeat(4, 1fr);
+            grid-template-rows: repeat(30, 1fr);
+        }
+
+        .watermark_grid>div {
+            opacity: 0.1;
+            color: black;
+            transform: rotate(-20deg);
+        }
+
+
             * {
                 margin: 0;
                 padding: 0;
@@ -32,6 +51,8 @@
 
             .admit_card_section {
                 background: #fdf1d9;
+                position: relative;
+                overflow: hidden;
             }
 
             .top {
@@ -96,12 +117,13 @@
             }
 
             .ac_info_left {
-                width: 100px;
-                display: flex;
-                align-items: center;
-                justify-content: end;
-                background: red;
-            }
+            width: 100px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            height: 100%;
+        }
+
 
             .label {
                 width: 150px;
@@ -129,13 +151,12 @@
                 font-weight: 600;
             }
 
-            .ac_info_right {}
 
 
             .row_container {
                 display: grid;
                 grid-template-columns: repeat(2, 1fr);
-                row-gap: 20px;
+                row-gap: 5px;
             }
 
             .row {
@@ -179,15 +200,28 @@
             }
 
             .ac_info_right_footer {
-                margin-top: 80px;
-                margin-bottom: 22px;
+                margin-top: 25px;
+                margin-bottom: 5px;
                 display: flex;
                 column-gap: 100px;
                 justify-content: flex-start;
             }
+            .qr_code {
+            width: 100px;
+            height: 100px;
+            background-color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .qr_code img{
+            width: 80px;
+            height: 80px;
+        }
         }
 
-        * {
+        
+        /* * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
@@ -197,7 +231,40 @@
 
         .admit_card_section {
             background: #fdf1d9;
+        } */
+
+        .watermark_grid {
+            display: grid;
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            row-gap: 30px;
+            grid-template-columns: repeat(4, 1fr);
+            grid-template-rows: repeat(30, 1fr);
         }
+
+        .watermark_grid>div {
+            opacity: 0.1;
+            color: black;
+            transform: rotate(-20deg);
+        }
+
+
+            * {
+                margin: 0;
+                padding: 0;
+                box-sizing: border-box;
+                font-family: "Lato", sans-serif;
+            }
+
+
+            .admit_card_section {
+                background: #fdf1d9;
+                position: relative;
+                overflow: hidden;
+            }
 
         .top {
             border-bottom: 2px dashed #8f8f8f;
@@ -263,9 +330,9 @@
         .ac_info_left {
             width: 100px;
             display: flex;
-            align-items: center;
-            justify-content: end;
-            background: red;
+            flex-direction: column;
+        justify-content: space-between;
+        height: 100%;
         }
 
         .label {
@@ -294,13 +361,18 @@
             font-weight: 600;
         }
 
-        .ac_info_right {}
+        .ac_info_left {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            height: 100%;
+        }
 
 
         .row_container {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
-            row-gap: 20px;
+            row-gap: 18px;
         }
 
         .row {
@@ -344,22 +416,345 @@
         }
 
         .ac_info_right_footer {
-            margin-top: 80px;
-            margin-bottom: 20px;
+            margin-top: 50px;
+            margin-bottom: 10px;
             display: flex;
             column-gap: 100px;
             justify-content: flex-start;
+        }
+
+
+        .qr_code {
+            margin-top: 150px;
+            width: 100px;
+            height: 100px;
+            background-color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .qr_code img{
+            width: 80px;
+            height: 80px;
         }
     </style>
 
 
     <section class="admit_card_section">
+        <div class="watermark_grid">
+            <div>Bihar Sanskrit Board</div>
+            <div>Bihar Sanskrit Board</div>
+            <div>Bihar Sanskrit Board</div>
+            <div>Bihar Sanskrit Board</div>
+            <div>Bihar Sanskrit Board</div>
+            <div>Bihar Sanskrit Board</div>
+            <div>Bihar Sanskrit Board</div>
+            <div>Bihar Sanskrit Board</div>
+            <div>Bihar Sanskrit Board</div>
+            <div>Bihar Sanskrit Board</div>
+            <div>Bihar Sanskrit Board</div>
+            <div>Bihar Sanskrit Board</div>
+            <div>Bihar Sanskrit Board</div>
+            <div>Bihar Sanskrit Board</div>
+            <div>Bihar Sanskrit Board</div>
+            <div>Bihar Sanskrit Board</div>
+            <div>Bihar Sanskrit Board</div>
+            <div>Bihar Sanskrit Board</div>
+            <div>Bihar Sanskrit Board</div>
+            <div>Bihar Sanskrit Board</div>
+            <div>Bihar Sanskrit Board</div>
+            <div>Bihar Sanskrit Board</div>
+            <div>Bihar Sanskrit Board</div>
+            <div>Bihar Sanskrit Board</div>
+            <div>Bihar Sanskrit Board</div>
+            <div>Bihar Sanskrit Board</div>
+            <div>Bihar Sanskrit Board</div>
+            <div>Bihar Sanskrit Board</div>
+            <div>Bihar Sanskrit Board</div>
+            <div>Bihar Sanskrit Board</div>
+            <div>Bihar Sanskrit Board</div>
+            <div>Bihar Sanskrit Board</div>
+            <div>Bihar Sanskrit Board</div>
+            <div>Bihar Sanskrit Board</div>
+            <div>Bihar Sanskrit Board</div>
+            <div>Bihar Sanskrit Board</div>
+            <div>Bihar Sanskrit Board</div>
+            <div>Bihar Sanskrit Board</div>
+            <div>Bihar Sanskrit Board</div>
+            <div>Bihar Sanskrit Board</div>
+            <div>Bihar Sanskrit Board</div>
+            <div>Bihar Sanskrit Board</div>
+            <div>Bihar Sanskrit Board</div>
+            <div>Bihar Sanskrit Board</div>
+            <div>Bihar Sanskrit Board</div>
+            <div>Bihar Sanskrit Board</div>
+            <div>Bihar Sanskrit Board</div>
+            <div>Bihar Sanskrit Board</div>
+            <div>Bihar Sanskrit Board</div>
+            <div>Bihar Sanskrit Board</div>
+            <div>Bihar Sanskrit Board</div>
+            <div>Bihar Sanskrit Board</div>
+            <div>Bihar Sanskrit Board</div>
+            <div>Bihar Sanskrit Board</div>
+            <div>Bihar Sanskrit Board</div>
+            <div>Bihar Sanskrit Board</div>
+            <div>Bihar Sanskrit Board</div>
+            <div>Bihar Sanskrit Board</div>
+            <div>Bihar Sanskrit Board</div>
+            <div>Bihar Sanskrit Board</div>
+            <div>Bihar Sanskrit Board</div>
+            <div>Bihar Sanskrit Board</div>
+            <div>Bihar Sanskrit Board</div>
+            <div>Bihar Sanskrit Board</div>
+            <div>Bihar Sanskrit Board</div>
+            <div>Bihar Sanskrit Board</div>
+            <div>Bihar Sanskrit Board</div>
+            <div>Bihar Sanskrit Board</div>
+            <div>Bihar Sanskrit Board</div>
+            <div>Bihar Sanskrit Board</div>
+            <div>Bihar Sanskrit Board</div>
+            <div>Bihar Sanskrit Board</div>
+            <div>Bihar Sanskrit Board</div>
+            <div>Bihar Sanskrit Board</div>
+            <div>Bihar Sanskrit Board</div>
+            <div>Bihar Sanskrit Board</div>
+            <div>Bihar Sanskrit Board</div>
+            <div>Bihar Sanskrit Board</div>
+            <div>Bihar Sanskrit Board</div>
+            <div>Bihar Sanskrit Board</div>
+            <div>Bihar Sanskrit Board</div>
+            <div>Bihar Sanskrit Board</div>
+            <div>Bihar Sanskrit Board</div>
+            <div>Bihar Sanskrit Board</div>
+            <div>Bihar Sanskrit Board</div>
+            <div>Bihar Sanskrit Board</div>
+            <div>Bihar Sanskrit Board</div>
+            <div>Bihar Sanskrit Board</div>
+            <div>Bihar Sanskrit Board</div>
+            <div>Bihar Sanskrit Board</div>
+            <div>Bihar Sanskrit Board</div>
+            <div>Bihar Sanskrit Board</div>
+            <div>Bihar Sanskrit Board</div>
+            <div>Bihar Sanskrit Board</div>
+            <div>Bihar Sanskrit Board</div>
+            <div>Bihar Sanskrit Board</div>
+            <div>Bihar Sanskrit Board</div>
+            <div>Bihar Sanskrit Board</div>
+            <div>Bihar Sanskrit Board</div>
+            <div>Bihar Sanskrit Board</div>
+            <div>Bihar Sanskrit Board</div>
+            <div>Bihar Sanskrit Board</div>
+            <div>Bihar Sanskrit Board</div>
+            <div>Bihar Sanskrit Board</div>
+            <div>Bihar Sanskrit Board</div>
+            <div>Bihar Sanskrit Board</div>
+            <div>Bihar Sanskrit Board</div>
+            <div>Bihar Sanskrit Board</div>
+            <div>Bihar Sanskrit Board</div>
+            <div>Bihar Sanskrit Board</div>
+            <div>Bihar Sanskrit Board</div>
+            <div>Bihar Sanskrit Board</div>
+            <div>Bihar Sanskrit Board</div>
+            <div>Bihar Sanskrit Board</div>
+            <div>Bihar Sanskrit Board</div>
+            <div>Bihar Sanskrit Board</div>
+            <div>Bihar Sanskrit Board</div>
+            <div>Bihar Sanskrit Board</div>
+            <div>Bihar Sanskrit Board</div>
+            <div>Bihar Sanskrit Board</div>
+            <div>Bihar Sanskrit Board</div>
+            <div>Bihar Sanskrit Board</div>
+            <div>Bihar Sanskrit Board</div>
+            <div>Bihar Sanskrit Board</div>
+            <div>Bihar Sanskrit Board</div>
+            <div>Bihar Sanskrit Board</div>
+            <div>Bihar Sanskrit Board</div>
+            <div>Bihar Sanskrit Board</div>
+            <div>Bihar Sanskrit Board</div>
+            <div>Bihar Sanskrit Board</div>
+            <div>Bihar Sanskrit Board</div>
+            <div>Bihar Sanskrit Board</div>
+            <div>Bihar Sanskrit Board</div>
+            <div>Bihar Sanskrit Board</div>
+            <div>Bihar Sanskrit Board</div>
+            <div>Bihar Sanskrit Board</div>
+            <div>Bihar Sanskrit Board</div>
+            <div>Bihar Sanskrit Board</div>
+            <div>Bihar Sanskrit Board</div>
+            <div>Bihar Sanskrit Board</div>
+            <div>Bihar Sanskrit Board</div>
+            <div>Bihar Sanskrit Board</div>
+            <div>Bihar Sanskrit Board</div>
+            <div>Bihar Sanskrit Board</div>
+            <div>Bihar Sanskrit Board</div>
+            <div>Bihar Sanskrit Board</div>
+            <div>Bihar Sanskrit Board</div>
+            <div>Bihar Sanskrit Board</div>
+            <div>Bihar Sanskrit Board</div>
+            <div>Bihar Sanskrit Board</div>
+            <div>Bihar Sanskrit Board</div>
+            <div>Bihar Sanskrit Board</div>
+            <div>Bihar Sanskrit Board</div>
+            <div>Bihar Sanskrit Board</div>
+            <div>Bihar Sanskrit Board</div>
+            <div>Bihar Sanskrit Board</div>
+            <div>Bihar Sanskrit Board</div>
+            <div>Bihar Sanskrit Board</div>
+            <div>Bihar Sanskrit Board</div>
+            <div>Bihar Sanskrit Board</div>
+            <div>Bihar Sanskrit Board</div>
+            <div>Bihar Sanskrit Board</div>
+            <div>Bihar Sanskrit Board</div>
+            <div>Bihar Sanskrit Board</div>
+            <div>Bihar Sanskrit Board</div>
+            <div>Bihar Sanskrit Board</div>
+            <div>Bihar Sanskrit Board</div>
+            <div>Bihar Sanskrit Board</div>
+            <div>Bihar Sanskrit Board</div>
+            <div>Bihar Sanskrit Board</div>
+            <div>Bihar Sanskrit Board</div>
+            <div>Bihar Sanskrit Board</div>
+            <div>Bihar Sanskrit Board</div>
+            <div>Bihar Sanskrit Board</div>
+            <div>Bihar Sanskrit Board</div>
+            <div>Bihar Sanskrit Board</div>
+            <div>Bihar Sanskrit Board</div>
+            <div>Bihar Sanskrit Board</div>
+            <div>Bihar Sanskrit Board</div>
+            <div>Bihar Sanskrit Board</div>
+            <div>Bihar Sanskrit Board</div>
+            <div>Bihar Sanskrit Board</div>
+            <div>Bihar Sanskrit Board</div>
+            <div>Bihar Sanskrit Board</div>
+            <div>Bihar Sanskrit Board</div>
+            <div>Bihar Sanskrit Board</div>
+            <div>Bihar Sanskrit Board</div>
+            <div>Bihar Sanskrit Board</div>
+            <div>Bihar Sanskrit Board</div>
+            <div>Bihar Sanskrit Board</div>
+            <div>Bihar Sanskrit Board</div>
+            <div>Bihar Sanskrit Board</div>
+            <div>Bihar Sanskrit Board</div>
+            <div>Bihar Sanskrit Board</div>
+            <div>Bihar Sanskrit Board</div>
+            <div>Bihar Sanskrit Board</div>
+            <div>Bihar Sanskrit Board</div>
+            <div>Bihar Sanskrit Board</div>
+            <div>Bihar Sanskrit Board</div>
+            <div>Bihar Sanskrit Board</div>
+            <div>Bihar Sanskrit Board</div>
+            <div>Bihar Sanskrit Board</div>
+            <div>Bihar Sanskrit Board</div>
+            <div>Bihar Sanskrit Board</div>
+            <div>Bihar Sanskrit Board</div>
+            <div>Bihar Sanskrit Board</div>
+            <div>Bihar Sanskrit Board</div>
+            <div>Bihar Sanskrit Board</div>
+            <div>Bihar Sanskrit Board</div>
+            <div>Bihar Sanskrit Board</div>
+            <div>Bihar Sanskrit Board</div>
+            <div>Bihar Sanskrit Board</div>
+            <div>Bihar Sanskrit Board</div>
+            <div>Bihar Sanskrit Board</div>
+            <div>Bihar Sanskrit Board</div>
+            <div>Bihar Sanskrit Board</div>
+            <div>Bihar Sanskrit Board</div>
+            <div>Bihar Sanskrit Board</div>
+            <div>Bihar Sanskrit Board</div>
+            <div>Bihar Sanskrit Board</div>
+            <div>Bihar Sanskrit Board</div>
+            <div>Bihar Sanskrit Board</div>
+            <div>Bihar Sanskrit Board</div>
+            <div>Bihar Sanskrit Board</div>
+            <div>Bihar Sanskrit Board</div>
+            <div>Bihar Sanskrit Board</div>
+            <div>Bihar Sanskrit Board</div>
+            <div>Bihar Sanskrit Board</div>
+            <div>Bihar Sanskrit Board</div>
+            <div>Bihar Sanskrit Board</div>
+            <div>Bihar Sanskrit Board</div>
+            <div>Bihar Sanskrit Board</div>
+            <div>Bihar Sanskrit Board</div>
+            <div>Bihar Sanskrit Board</div>
+            <div>Bihar Sanskrit Board</div>
+            <div>Bihar Sanskrit Board</div>
+            <div>Bihar Sanskrit Board</div>
+            <div>Bihar Sanskrit Board</div>
+            <div>Bihar Sanskrit Board</div>
+            <div>Bihar Sanskrit Board</div>
+            <div>Bihar Sanskrit Board</div>
+            <div>Bihar Sanskrit Board</div>
+            <div>Bihar Sanskrit Board</div>
+            <div>Bihar Sanskrit Board</div>
+            <div>Bihar Sanskrit Board</div>
+            <div>Bihar Sanskrit Board</div>
+            <div>Bihar Sanskrit Board</div>
+            <div>Bihar Sanskrit Board</div>
+            <div>Bihar Sanskrit Board</div>
+            <div>Bihar Sanskrit Board</div>
+            <div>Bihar Sanskrit Board</div>
+            <div>Bihar Sanskrit Board</div>
+            <div>Bihar Sanskrit Board</div>
+            <div>Bihar Sanskrit Board</div>
+            <div>Bihar Sanskrit Board</div>
+            <div>Bihar Sanskrit Board</div>
+            <div>Bihar Sanskrit Board</div>
+            <div>Bihar Sanskrit Board</div>
+            <div>Bihar Sanskrit Board</div>
+            <div>Bihar Sanskrit Board</div>
+            <div>Bihar Sanskrit Board</div>
+            <div>Bihar Sanskrit Board</div>
+            <div>Bihar Sanskrit Board</div>
+            <div>Bihar Sanskrit Board</div>
+            <div>Bihar Sanskrit Board</div>
+            <div>Bihar Sanskrit Board</div>
+            <div>Bihar Sanskrit Board</div>
+            <div>Bihar Sanskrit Board</div>
+            <div>Bihar Sanskrit Board</div>
+            <div>Bihar Sanskrit Board</div>
+            <div>Bihar Sanskrit Board</div>
+            <div>Bihar Sanskrit Board</div>
+            <div>Bihar Sanskrit Board</div>
+            <div>Bihar Sanskrit Board</div>
+            <div>Bihar Sanskrit Board</div>
+            <div>Bihar Sanskrit Board</div>
+            <div>Bihar Sanskrit Board</div>
+            <div>Bihar Sanskrit Board</div>
+            <div>Bihar Sanskrit Board</div>
+            <div>Bihar Sanskrit Board</div>
+            <div>Bihar Sanskrit Board</div>
+            <div>Bihar Sanskrit Board</div>
+            <div>Bihar Sanskrit Board</div>
+            <div>Bihar Sanskrit Board</div>
+            <div>Bihar Sanskrit Board</div>
+            <div>Bihar Sanskrit Board</div>
+            <div>Bihar Sanskrit Board</div>
+            <div>Bihar Sanskrit Board</div>
+            <div>Bihar Sanskrit Board</div>
+            <div>Bihar Sanskrit Board</div>
+            <div>Bihar Sanskrit Board</div>
+            <div>Bihar Sanskrit Board</div>
+            <div>Bihar Sanskrit Board</div>
+            <div>Bihar Sanskrit Board</div>
+            <div>Bihar Sanskrit Board</div>
+            <div>Bihar Sanskrit Board</div>
+            <div>Bihar Sanskrit Board</div>
+            <div>Bihar Sanskrit Board</div>
+            <div>Bihar Sanskrit Board</div>
+            <div>Bihar Sanskrit Board</div>
+            <div>Bihar Sanskrit Board</div>
+            <div>Bihar Sanskrit Board</div>
+            <div>Bihar Sanskrit Board</div>
+            <div>Bihar Sanskrit Board</div>
+        </div>
         <div class="top">
             <div class="ac_section_header">
-                <img class="ac_header_logo" src="/public/files/newLogo.png" alt="logo">
+                <img class="ac_header_logo" src="<%= board_logo %>" alt="logo">
+                <!-- <img class="ac_header_logo" src="/public/files/newLogo.png" alt="logo"> -->
                 <div class="ac_header_div">
-                    <h1>Bihar Sanskrit Education Board, Patna</h1>
-                    <h4>Secondary School Admit Card - 2025</h4>
+                    <h1>बिहार संस्कृत शिक्षा बोर्ड, पटना
+                    </h1>
+                    <h4>मध्यमा परीक्षावेद्कस्य कृते पन्जियनपत्रम्  - 2025</h4>
                 </div>
                 <h6>SL No. 1224</h6>
             </div>
@@ -367,60 +762,76 @@
                 <div class="ac_info_right">
                     <div class="row_container">
                         <div class="row">
-                            <p class="label">Student Name</p>
+                            <p class="label">परिक्षार्थी नामः</p>
                             <p class="value bold">
                                 <%= student_name %>
                             </p>
                         </div>
                         <div class="row">
-                            <p class="label">Student Father Name</p>
+                            <p class="label">पितृ नामः</p>
                             <p class="value">
                                 <%= student_father_name %>
                             </p>
                         </div>
                         <div class="row">
-                            <p class="label">Student Mother Name</p>
+                            <p class="label">मातृ नामः</p>
                             <p class="value">
                                 <%= student_mother_name %>
                             </p>
                         </div>
-                        <div class="row span">
-                            <p class="label">Date of Birth</p>
+                        <div class="row ">
+                            <p class="label">जन्म तिथिः</p>
                             <p class="value">
                                 <%= dob_in_figures %>
+                                (<%= dob_in_words %>)
                             </p>
                         </div>
-                        <div class="row span">
+                        <!-- <div class="row span">
                             <p class="value">
                                 <%= dob_in_words %>
                             </p>
+                        </div> -->
+                        <div class="row span">
+                            <p class="label">अनुमति सं•
+                            </p>
+                            <p class="value">
+                                
+                            </p>
                         </div>
                         <div class="row span">
-                            <p class="label">Cast</p>
+                            <p class="label">पन्जियन संख्याः 
+                            </p>
+                            <p class="value">
+                               
+                            </p>
+                        </div>
+                        <div class="row span">
+                            <p class="label">जातिः</p>
                             <p class="value">
                                 <%= student_cast %>
                             </p>
                         </div>
                         <div class="row span">
-                            <p class="label">Category</p>
+                                <p class="label">कोटिः</p>
+                            
                             <p class="value">
                                 <%= student_category %>
                             </p>
                         </div>
                         <div class="row span">
-                            <p class="label">Sex</p>
+                            <p class="label">लिङ्गमः</p>
                             <p class="value">
                                 <%= student_sex %>
                             </p>
                         </div>
                         <div class="row span">
-                            <p class="label">Aadhar No.</p>
+                            <p class="label">आधार संख्याः</p>
                             <p class="value">
                                 <%= student_aadhar_no %>
                             </p>
                         </div>
                         <div class="row">
-                            <p class="label">School Name</p>
+                            <p class="label">विद्यालस्यः नामः</p>
                             <p class="value">
                                 <%= school_name %>
                             </p>
@@ -429,27 +840,35 @@
                     <div class="ac_info_right_footer">
                         <div class="ac_sign">
                             <img src="<%= student_signature %>" alt="">
-                            <p>Assistant</p>
+                            <p>सहायक</p>
                         </div>
                         <div class="ac_sign">
                             <img src="<%= student_signature %>" alt="">
-                            <p>Secretary</p>
+                            <p>परीक्षा नियंत्रक  </p>
+                        </div>
+                        <div class="ac_sign">
+                            <img src="<%= student_signature %>" alt="">
+                            <p>सचिव </p>
                         </div>
                     </div>
                 </div>
                 <div class="ac_info_left">
                     <div class="student_profile">
                         <img src="<%= student_photo %>" alt="">
+                    </div>
+                    <div class="qr_code">
+                        <img src="<%= qr_code %>" alt="">
                     </div>
                 </div>
             </div>
         </div>
         <div>
             <div class="ac_section_header">
-                <img class="ac_header_logo" src="/public/files/newLogo.png" alt="logo">
+                <img class="ac_header_logo" src="<%= board_logo %>" alt="logo">
                 <div class="ac_header_div">
-                    <h1>Bihar Sanskrit Education Board, Patna</h1>
-                    <h4>Secondary School Admit Card - 2025</h4>
+                    <!-- <h1>Bihar Sanskrit Education Board, Patna</h1> -->
+                    <h1>बिहार संस्कृत शिक्षा बोर्ड, पटना</h1>
+                    <h4>मध्यमा परीक्षावेद्कस्य कृते प्रवेशपत्रम् - 2025</h4>
                 </div>
                 <h6>SL No. 1224</h6>
             </div>
@@ -457,107 +876,128 @@
                 <div class="ac_info_right">
                     <div class="row_container">
                         <div class="row">
-                            <p class="label">Student Name</p>
+                            <p class="label">परिक्षार्थी नामः</p>
                             <p class="value bold">
                                 <%= student_name %>
                             </p>
                         </div>
                         <div class="row">
-                            <p class="label">Student Father Name</p>
+                            <p class="label">पितृ नामः</p>
                             <p class="value">
                                 <%= student_father_name %>
                             </p>
                         </div>
                         <div class="row">
-                            <p class="label">Student Mother Name</p>
+                            <p class="label">मातृ नामः</p>
                             <p class="value">
                                 <%= student_mother_name %>
                             </p>
                         </div>
-                        <div class="row span">
-                            <p class="label">Date of Birth</p>
+                        <div class="row ">
+                            <p class="label">जन्म तिथिः</p>
                             <p class="value">
                                 <%= dob_in_figures %>
+                                (<%= dob_in_words %>)
                             </p>
                         </div>
-                        <div class="row span">
+                        <!-- <div class="row span">
                             <p class="value">
                                 <%= dob_in_words %>
                             </p>
-                        </div>
+                        </div> -->
                         <div class="row span">
-                            <p class="label">Cast</p>
+                            <p class="label">जातिः</p>
                             <p class="value">
                                 <%= student_cast %>
                             </p>
                         </div>
                         <div class="row span">
-                            <p class="label">Category</p>
+                            <p class="label">कोटिः </p>
                             <p class="value">
                                 <%= student_category %>
                             </p>
                         </div>
                         <div class="row span">
-                            <p class="label">Sex</p>
+                            <p class="label">लिङ्गमः</p>
                             <p class="value">
                                 <%= student_sex %>
                             </p>
                         </div>
                         <div class="row span">
-                            <p class="label">Aadhar No.</p>
+                            <p class="label">आधार संख्याः</p>
                             <p class="value">
                                 <%= student_aadhar_no %>
                             </p>
                         </div>
                         <div class="row">
-                            <p class="label">School Name</p>
+                            <p class="label">विद्यालस्यः नामः</p>
                             <p class="value">
                                 <%= school_name %>
                             </p>
                         </div>
                         <div class="row">
-                            <p class="label">Exam Center Name</p>
-                            <p class="value">Kendriya Vidhayala Centeral School</p>
+                            <p class="label">अग्रसारक विद्यालस्यः नामः
+                            </p>
+                            <p class="value">
+                               
+                            </p>
+                        </div>
+                        <div class="row">
+                            <p class="label">परीक्षा केन्द्रस्य नामः</p>
+                            <p class="value">Plus Two Academy Furbish Gang Araria</p>
                         </div>
                         <div class="row span">
-                            <p class="label">Center Code</p>
-                            <p class="value">19392</p>
+                            <p class="label">केन्द्रक्रमान्कः</p>
+                            <p class="value">62002</p>
                         </div>
                         <div class="row span">
-                            <p class="label">Roll No.</p>
+                            <p class="label">क्रमान्कः</p>
                             <p class="value">322452</p>
                         </div>
                         <div class="row">
-                            <p class="label">Required Subject</p>
+                            <p class="label">अनिवार्य विषयः</p>
                             <p class="value">
-                                <%= student_required_subject %>
+                                sanskrit viyakaran , hindi , english 
+                                <!-- <%= student_required_subject %> -->
+                                <!-- viy÷akran , sahitya , samanya , hindi , english , samanya vigyaan , samajaik siksha -->
                             </p>
                         </div>
                         <div class="row">
-                            <p class="label">Additional Subject</p>
+                            <p class="label">अतिरिक्त विषयः</p>
                             <p class="value">
-                                <%= student_additional_subject %>
+                                <%= additional_subject %>
                             </p>
                         </div>
                         <div class="row">
-                            <p class="label">Exam Date</p>
-                            <p class="value">29 August 2025 To 5 September 2025</p>
+                            <p class="label">परीक्षा तिथिः</p>
+                            <p class="value">27-JANUARY-2025 TO 30-JANUARY-2025</p>
                         </div>
                     </div>
                     <div class="ac_info_right_footer">
                         <div class="ac_sign">
                             <img src="<%= student_signature %>" alt="">
-                            <p>Assistant</p>
+                            <p>सहायक </p>
                         </div>
                         <div class="ac_sign">
                             <img src="<%= student_signature %>" alt="">
-                            <p>Secretary</p>
+                            <p>परीक्षा नियंत्रक  </p>
+                        </div>
+                        <div class="ac_sign">
+                            <img src="<%= student_signature %>" alt="">
+                            <p>सचिव</p>
                         </div>
                     </div>
                 </div>
                 <div class="ac_info_left">
                     <div class="student_profile">
                         <img src="<%= student_photo %>" alt="">
+                        <div class="ac_sign">
+                            <img src="<%= student_signature %>" alt="">
+                            <p>(प्रधानध्यापक्स्यः हस्ताक्षरमः  मुहरमः च अनिवार्यम्)</p>
+                        </div>
+                    </div>
+                    <div class="qr_code">
+                        <img src="<%= qr_code %>" alt="">
                     </div>
                 </div>
             </div>

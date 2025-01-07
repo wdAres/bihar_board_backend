@@ -84,15 +84,19 @@ module.exports = class AdmitCardController {
             student_mother_name: student.student_mother_name,
             dob_in_figures: moment(student.dob_in_figures).format('DD-MM-YYYY'),
             dob_in_words: student.dob_in_words,
-            student_cast: student.caste_category,
-            student_category: student.student_category,
-            student_sex: student.gender,
+            student_cast: (student.caste_category).toUpperCase(),
+            student_category: (student.student_category).toUpperCase(),
+            student_sex: (student.gender).toUpperCase(),
             student_aadhar_no: student.student_aadhar_number,
             school_name: student?.center?.school_name,
             student_required_subject: student.student_required_subject,
-            student_additional_subject: student.student_additional_subject,
+            // additional_subject: student.additional_subject,
+            additional_subject: "MATH",
             student_signature: student?.student_signature,
             student_photo: student?.student_photo,
+            board_logo:"http://127.0.0.1:8001/public/files/newLogo.png",
+            qr_code:"http://127.0.0.1:8001/public/files/qr.jpeg",
+            school_name:req.user.school_name
         };
         const ejsPath = path.join(__dirname, '..', 'views', 'admit_card.ejs');
     
@@ -151,6 +155,7 @@ module.exports = class AdmitCardController {
                 student_sex: student.gender,
                 student_aadhar_no: student.student_aadhar_number,
                 school_name: student?.center?.school_name,
+               
                 student_required_subject: student.student_required_subject,
                 student_additional_subject: student.student_additional_subject,
                 student_signature: student?.student_signature,
