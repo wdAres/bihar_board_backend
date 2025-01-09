@@ -190,10 +190,17 @@
             .ac_sign img {
                 width: 100%;
                 position: absolute;
-                top: -43px;
+                /* top: -43px; */
+                top: -70px;
                 transform: rotate(-11deg);
             }
 
+            .a img  {
+            width: 100%;
+            position: absolute;
+            top: -70px;
+            transform: rotate(-11deg);
+        }
             .ac_sign p {
                 font-weight: 600;
                 font-size: 13px;
@@ -393,6 +400,7 @@
         .student_profile img {
             height: 100%;
             width: 100%;
+            background-color: white;
         }
 
         .ac_sign {
@@ -406,7 +414,14 @@
         .ac_sign img {
             width: 100%;
             position: absolute;
-            top: -43px;
+            /* top: -43px; */
+            top: -70px;
+            transform: rotate(-11deg);
+        }
+        .a img  {
+            width: 100%;
+            position: absolute;
+            top: -70px;
             transform: rotate(-11deg);
         }
 
@@ -849,16 +864,16 @@
                         </div>
                     </div>
                     <div class="ac_info_right_footer">
-                        <div class="ac_sign">
-                            <img src="<%= student_signature %>" alt="">
+                        <div class="ac_sign ">
+                            <img src="<%= shayak %>" alt="">
                             <p>सहायक</p>
                         </div>
-                        <div class="ac_sign">
-                            <img src="<%= student_signature %>" alt="">
+                        <div class="ac_sign ">
+                            <img src="<%= controller %>" alt="">
                             <p>परीक्षा नियंत्रक  </p>
                         </div>
-                        <div class="ac_sign">
-                            <img src="<%= student_signature %>" alt="">
+                        <div class="ac_sign ">
+                            <img src="<%= sachiv %>" alt="">
                             <p>सचिव </p>
                         </div>
                     </div>
@@ -986,15 +1001,15 @@
                     </div>
                     <div class="ac_info_right_footer">
                         <div class="ac_sign">
-                            <img src="<%= student_signature %>" alt="">
+                            <img src="<%= shayak %>" alt="">
                             <p>सहायक </p>
                         </div>
                         <div class="ac_sign">
-                            <img src="<%= student_signature %>" alt="">
+                            <img src="<%= controller %>" alt="">
                             <p>परीक्षा नियंत्रक  </p>
                         </div>
                         <div class="ac_sign">
-                            <img src="<%= student_signature %>" alt="">
+                            <img src="<%= sachiv %>" alt="">
                             <p>सचिव</p>
                         </div>
                     </div>
@@ -1003,7 +1018,7 @@
                     <div class="student_profile">
                         <img src="<%= student_photo %>" alt="">
                         <div class="ac_sign">
-                            <img src="<%= student_signature %>" alt="">
+                            <!-- <img src="<%= student_signature %>" alt=""> -->
                             <p>(प्रधानध्यापक्स्यः हस्ताक्षरमः  मुहरमः च अनिवार्यम्)</p>
                         </div>
                     </div>

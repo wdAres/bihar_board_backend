@@ -81,10 +81,31 @@ module.exports = class AdmitCardController {
         }
     
 
-        const date =  moment(student.dob_in_figures , "DDMMYYYY").format('DD-MM-YYYY'); // 12th December 2024
+        // const date =  moment(student.dob_in_figures , "DDMMYYYY").format('DD-MM-YYYY'); // 12th December 2024
 
-        const convertDateToWords = (dateString) => { const date = moment(dateString, "DDMMYYYY"); const day = numberToWords.toWords(date.date()); const month = numberToWords.toWords(date.month() + 1); // Months are zero-indexed in moment 
-        const year = date.year().toString().split('').map(Number).map(numberToWords.toWords).join(' '); return `${day} ${month} ${year}`; };
+        // const convertDateToWords = (dateString) => { const date = moment(dateString, "DDMMYYYY"); const day = numberToWords.toWords(date.date()); const month = numberToWords.toWords(date.month() + 1); // Months are zero-indexed in moment 
+        // const year = date.year().toString().split('').map(Number).map(numberToWords.toWords).join(' '); return `${day} ${month} ${year}`; };
+
+        const date = moment(
+            student.dob_in_figures.length == 7 
+                ? '0' + student.dob_in_figures 
+                : student.dob_in_figures, 
+            "DDMMYYYY"
+        ).format('DD-MM-YYYY'); 
+        
+        const convertDateToWords = (dateString) => {
+            const formattedDateString = dateString.length == 7 ? '0' + dateString : dateString;
+            const date = moment(formattedDateString, "DDMMYYYY");
+            const day = numberToWords.toWords(date.date());
+            const month = numberToWords.toWords(date.month() + 1); 
+            const year = date.year()
+                .toString()
+                .split('')
+                .map(Number)
+                .map(numberToWords.toWords)
+                .join(' ');
+            return `${day} ${month} ${year}`;
+        };
 
         const studentData = {
             student_id : student.id,
@@ -102,7 +123,7 @@ module.exports = class AdmitCardController {
             student_required_subject: student.student_required_subject,
             additional_subject: student.additional_subject,
             student_signature: student?.student_signature,
-            student_photo: 'http://127.0.0.1:8001/public/files/img1.jpeg',
+            student_photo: 'http://127.0.0.1:8001/public/files/sahil-kumar.png',
             centre_name:student?.centre_name,
             centre_code:student?.centre_code,
             roll_no:student?.roll_no,
@@ -110,6 +131,9 @@ module.exports = class AdmitCardController {
             permission_no:'',
             board_logo:"http://127.0.0.1:8001/public/files/newLogo.png",
             qr_code:"http://127.0.0.1:8001/public/files/qr.jpeg",
+            sachiv:"http://127.0.0.1:8001/public/files/sachiv.png",
+            shayak:"http://127.0.0.1:8001/public/files/sahayk.png",
+            controller:"http://127.0.0.1:8001/public/files/controller.png",
             student_signature:'http://127.0.0.1:8001/public/files/sign.png'
             
         };
