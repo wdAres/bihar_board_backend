@@ -437,6 +437,17 @@
             width: 80px;
             height: 80px;
         }
+
+        .special_value{
+            font-size: 10px !important;
+            text-align: left !important;
+        }
+
+        .li{
+            margin-bottom: 40px;
+            font-size: 13px;
+            color: rgb(45, 45, 45);
+        }
     </style>
 
 
@@ -795,14 +806,14 @@
                             <p class="label">अनुमति सं•
                             </p>
                             <p class="value">
-                                
+                                <%= permission_no %>
                             </p>
                         </div>
                         <div class="row span">
                             <p class="label">पन्जियन संख्याः 
                             </p>
                             <p class="value">
-                               
+                                <%= registration_no %>
                             </p>
                         </div>
                         <div class="row span">
@@ -832,7 +843,7 @@
                         </div>
                         <div class="row">
                             <p class="label">विद्यालस्यः नामः</p>
-                            <p class="value">
+                            <p class="value special_value">
                                 <%= school_name %>
                             </p>
                         </div>
@@ -931,35 +942,35 @@
                         </div>
                         <div class="row">
                             <p class="label">विद्यालस्यः नामः</p>
-                            <p class="value">
+                            <p class="value special_value">
                                 <%= school_name %>
                             </p>
                         </div>
                         <div class="row">
                             <p class="label">अग्रसारक विद्यालस्यः नामः
                             </p>
-                            <p class="value">
-                               
+                            <p class="value special_value">
+                                <%= school_name_2 %> 
                             </p>
                         </div>
                         <div class="row">
                             <p class="label">परीक्षा केन्द्रस्य नामः</p>
-                            <p class="value">Plus Two Academy Furbish Gang Araria</p>
+                            <p class="value"> <%= centre_name %></p>
                         </div>
                         <div class="row span">
                             <p class="label">केन्द्रक्रमान्कः</p>
-                            <p class="value">62002</p>
+                            <p class="value"><%= centre_code %></p>
                         </div>
                         <div class="row span">
                             <p class="label">क्रमान्कः</p>
-                            <p class="value">322452</p>
+                            <p class="value">
+                                <%= roll_no %>
+                            </p>
                         </div>
                         <div class="row">
                             <p class="label">अनिवार्य विषयः</p>
-                            <p class="value">
-                                sanskrit viyakaran , hindi , english 
-                                <!-- <%= student_required_subject %> -->
-                                <!-- viy÷akran , sahitya , samanya , hindi , english , samanya vigyaan , samajaik siksha -->
+                            <p class="value special_value">
+                                संस्कृत व्याकरण, संस्कृत साहित्य, संस्कृत सामान्य, हिंदी, सामाजिक शिक्षा, अंग्रेजी, सामान्य विज्ञान 
                             </p>
                         </div>
                         <div class="row">
@@ -1001,6 +1012,23 @@
                     </div>
                 </div>
             </div>
+        </div>
+        <div style="min-height: 100vh;">
+            <h1 style="margin-top: 30px;">परीक्षार्थिनां कृते परीक्षाभवनेवलम्बनीयोः नियमः</h1>
+
+            <ol style="margin-top: 50px;">
+                <li class="li">परीक्षाभवने मौनम् अवलम्बनीयम् परीक्षार्थीभिः।</li>
+                <li class="li">प्रश्नपत्रवितरणकालेन पलञ्चकं पूर्वमेव स्वक्रमांकड़िकते आसने उपदेशनियम्।</li>
+                <li class="li">परीक्षाप्रकोष्ठे-विक्षकानुमतिः बिना परीक्षासमाप्तिप्रयत्नम् परीक्षार्थिन: निजस्थानविहातुं  न शुक्रवन्तु।</li>
+                <li class="li">लेखनीस्वमेव आनेतव्याः ।</li>
+                <li class="li">प्रश्नपत्रे किमपि न लेखनीयम।</li>
+                <li class="li">परीक्षाभवने किमपि पुस्तकम्, स्मार्कपत्रम्, च मोबाइल वा न अनितव्यम्।</li>
+                <li class="li">कदाचारमुक्तपरीक्षाः अवलम्बनीया:।</li>
+                <li class="li">उत्तरपुस्तिकभ्यंतरे निजनामादिकम् न  लेखनीयम् ।</li>
+                <li class="li">परीक्षनियमविरुद्ध किमपिचारणीयम्। नो चेत परीक्षाफलम् न प्राप्तुयात दण्डभागी च भवते।</li>
+                <li class="li">कस्यापि छात्रस्य लिखो नानुकरणीय:।</li>
+                <li class="li">परीक्षाधिकारीवर्गानाम् अनुशासनम् पालनीयम् सदा।</li>
+            </ol>            
         </div>
     </section>
 </body>

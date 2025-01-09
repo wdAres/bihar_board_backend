@@ -10,6 +10,8 @@ const puppeteer = require('puppeteer');
 const studentModel = require('../models/studentModel');
 const moment = require('moment')
 const archiver = require('archiver');
+const previousDataModel = require('../models/previousModel');
+const numberToWords = require('number-to-words')
 module.exports = class AdmitCardController {
     // static addDocument = handleAsync(async (req, res, next) => {
 
@@ -72,32 +74,66 @@ module.exports = class AdmitCardController {
 
     static addDocument = handleAsync(async (req, res, next) => {
 
-        const student = await studentModel.findByPk(req.body.student_id);
+        const student = await previousDataModel.findByPk(req.body.student_id);
     
         if (!student) {
             return next(new ErrorClass('No student found!', 400));
         }
     
+
+        const date =  moment(student.dob_in_figures , "DDMMYYYY").format('DD-MM-YYYY'); // 12th December 2024
+
+        const convertDateToWords = (dateString) => { const date = moment(dateString, "DDMMYYYY"); const day = numberToWords.toWords(date.date()); const month = numberToWords.toWords(date.month() + 1); // Months are zero-indexed in moment 
+        const year = date.year().toString().split('').map(Number).map(numberToWords.toWords).join(' '); return `${day} ${month} ${year}`; };
+
         const studentData = {
+            student_id : student.id,
             student_name: student.student_name,
             student_father_name: student.student_father_name,
             student_mother_name: student.student_mother_name,
-            dob_in_figures: moment(student.dob_in_figures).format('DD-MM-YYYY'),
-            dob_in_words: student.dob_in_words,
-            student_cast: (student.caste_category).toUpperCase(),
-            student_category: (student.student_category).toUpperCase(),
-            student_sex: (student.gender).toUpperCase(),
+            dob_in_figures:date,
+            dob_in_words: convertDateToWords(student?.dob_in_figures)?.toUpperCase(),
+            student_category: "",
+            student_cast: student.student_category,
+            student_sex: student.gender,
             student_aadhar_no: student.student_aadhar_number,
-            school_name: student?.center?.school_name,
+            school_name: student?.school_name,
+            school_name_2:student.school_name_2,
             student_required_subject: student.student_required_subject,
-            // additional_subject: student.additional_subject,
-            additional_subject: "MATH",
+            additional_subject: student.additional_subject,
             student_signature: student?.student_signature,
-            student_photo: student?.student_photo,
+            student_photo: 'http://127.0.0.1:8001/public/files/img1.jpeg',
+            centre_name:student?.centre_name,
+            centre_code:student?.centre_code,
+            roll_no:student?.roll_no,
+            registration_no:student?.registration_no,
+            permission_no:'',
             board_logo:"http://127.0.0.1:8001/public/files/newLogo.png",
             qr_code:"http://127.0.0.1:8001/public/files/qr.jpeg",
-            school_name:req.user.school_name
+            student_signature:'http://127.0.0.1:8001/public/files/sign.png'
+            
         };
+
+        // const studentData = {
+        //     student_name: student.student_name,
+        //     student_father_name: student.student_father_name,
+        //     student_mother_name: student.student_mother_name,
+        //     dob_in_figures: moment(student.dob_in_figures).format('DD-MM-YYYY'),
+        //     dob_in_words: student.dob_in_words,
+        //     student_cast: (student.caste_category).toUpperCase(),
+        //     student_category: (student.student_category).toUpperCase(),
+        //     student_sex: (student.gender).toUpperCase(),
+        //     student_aadhar_no: student.student_aadhar_number,
+        //     school_name: student?.center?.school_name,
+        //     student_required_subject: student.student_required_subject,
+        //     // additional_subject: student.additional_subject,
+        //     additional_subject: "MATH",
+        //     student_signature: student?.student_signature,
+        //     student_photo: student?.student_photo,
+        //     board_logo:"http://127.0.0.1:8001/public/files/newLogo.png",
+        //     qr_code:"http://127.0.0.1:8001/public/files/qr.jpeg",
+        //     school_name:req.user.school_name
+        // };
         const ejsPath = path.join(__dirname, '..', 'views', 'admit_card.ejs');
     
         const html = await ejs.renderFile(ejsPath, studentData);
@@ -115,14 +151,16 @@ module.exports = class AdmitCardController {
         const admitCardUrl = `http://127.0.0.1:8001/uploads/${admitCardFileName}`;
     
         req.body.admit_card = admitCardUrl;
+
+
     
-        const doc = await admitCardModel.create(req.body);
+        // const doc = await admitCardModel.create(req.body);
     
-        if (!doc) {
-            return next(new ErrorClass('Something went wrong!', 400));
-        }
+        // if (!doc) {
+        //     return next(new ErrorClass('Something went wrong!', 400));
+        // }
     
-        return new ResponseClass('Admit Card Generated Successfully.', 200, doc).send(res);
+        return new ResponseClass('Admit Card Generated Successfully.', 200, {admit_card : admitCardUrl}).send(res);
     });
     
     
@@ -230,11 +268,17 @@ module.exports = class AdmitCardController {
                 student_category: student.student_category,
                 student_sex: student.gender,
                 student_aadhar_no: student.student_aadhar_number,
-                school_name: student?.center?.school_name,
+                school_name: student?.school_name,
+                school_name_2:student.school_name_2,
                 student_required_subject: student.student_required_subject,
                 student_additional_subject: student.student_additional_subject,
                 student_signature: student?.student_signature,
                 student_photo: student?.student_photo,
+                centre_name:student?.centre_name,
+                centre_code:student?.centre_code,
+                roll_no:student?.roll_no,
+            registration_no:student?.registration_no,
+            permission_no:''
             };
     
             const html = await ejs.renderFile(ejsPath, studentData);

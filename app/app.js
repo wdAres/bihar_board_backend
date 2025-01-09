@@ -5,7 +5,8 @@ const ErrorController = require('./controllers/errorController');
 const adminRouter = require('./routes/_adminRoutes')
 const centerRouter = require('./routes/_centerRoutes')
 const websiteRouter = require('./routes/_websiteRoutes')
-
+const csvUploadRouter = require('./routes/predataRouter');
+const admitCardRouter = require('./routes/predataRouter');
 const path = require('path')
 
 const cors = require('cors')
@@ -46,7 +47,8 @@ app.get('/api/admit-card',(req,res,next)=>{
 app.use('/api/v1/admin', adminRouter)
 app.use('/api/v1/school', centerRouter)
 app.use('/api/v1/website', websiteRouter)
-
+app.use('/api/v1/upload', csvUploadRouter);
+app.use('/api/v1/admit-card', admitCardRouter);
 sequelize.sync().then(() => { console.log('Database & tables created!'); });
 
 app.use(ErrorController.showError)
